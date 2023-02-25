@@ -134,12 +134,6 @@ export default defineComponent({
     }.bind(this),2000);
   },
   methods: {
-    onSwiper(swiper) {
-      console.log(swiper);
-    },
-    onSlideChange() {
-      console.log('slide change');
-    },
     goNews(){
       this.$router.push({ name: 'news' })
     },

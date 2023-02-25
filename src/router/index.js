@@ -14,7 +14,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/home',
+      redirect: '/me',
     },
     ...login,
     ...home,
@@ -36,8 +36,10 @@ router.beforeEach(async (to) => {
   const publicPages = ['/login'];
   const authRequired = !publicPages.includes(to.path);
   const auth = useAuthStore();
-  if (authRequired && !auth.user) {
-    console.log(to);
+  if(auth.user==null&&auth.token){
+    auth.fetchUser();
+  }
+  if (authRequired && !auth.token) {
       auth.returnUrl = to.name;
       return '/login';
   }

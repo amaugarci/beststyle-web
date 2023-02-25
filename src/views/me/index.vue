@@ -10,14 +10,15 @@
       <div class="w-full bg-[#000000] h-[12rem] opacity-[.4]">
         <canvas width="1920" height="192"></canvas>
       </div>
+      <!-- profile -->
       <div class="absolute top-[3rem] w-full flex">
         <div src="/img/logo.jpg"
           class="ml-[2rem] bg-[#ffffff] h-[4.2rem] w-[4.2rem] text-center mt-[4.2] rounded-[10px] bg-logo bg-center bg-cover bg-no-repeat	">
         </div>
-        <div class="flex-1 pl-[2rem] flex-col">
-          <p>用户名：<span id="UserAccount">matsui</span></p>
-          <p>UID：<span id="UserUid">606108</span></p>
-          <p> <span class="user-money">余额： 0.00</span> </p>
+        <div v-if="getUser" class="flex-1 pl-[2rem] flex-col">
+          <p>用户名：<span id="UserAccount">{{getUser['name'] }}</span></p>
+          <p>UID：<span id="UserUid">{{getUser['UID'] }}</span></p>
+          <p> <span class="user-money">余额： {{getUser['cash_amount'] }}</span> </p>
           <div class="flex flex-row text-[#ffeba7]">
             <img src="/img/cz.svg">
             <p class="ml-[5px]">充值 |</p>
@@ -69,6 +70,8 @@ import {
   BIconPencilSquare,
   BIconPower,
 } from 'bootstrap-icons-vue';
+import {useAuthStore} from '@/pinia/modules/useAuthStore';
+import { mapState,mapActions  } from 'pinia'
 
 export default defineComponent({
   name: 'me',
@@ -89,7 +92,11 @@ export default defineComponent({
     visible:true
 
   }),
+  computed:{
+    ...mapState(useAuthStore, ['getUser']),
+  },
   methods: {
+    ...mapActions(useAuthStore, ['logout']),
     recharge(){
       this.$router.push({ name: 'recharge' })
     },
@@ -110,8 +117,9 @@ export default defineComponent({
         btnAlign: 'c',
         closeBtn: 0,
         shadeClose:1,
-        success :()=>{
-          console.log('logout');
+        btn2 :()=>{
+          console.log('aaa');this.logout();
+          this.$router.push({ name: 'login' })
         }
       });
     },

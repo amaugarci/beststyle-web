@@ -12,6 +12,6 @@ export default defineComponent({
     return {
       lang,
     }
-  },
+  }
 })
 </script>

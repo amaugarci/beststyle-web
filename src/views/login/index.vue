@@ -15,38 +15,38 @@
             <div class="card-3d-wrapper" :class="{ mrotate180:checked }">
                 <div class="card-front">
                     <div class="px-8 pt-[10px] text-left flex flex-col items-center">
-                        <h3 class="text-2xl font-bold text-center text-[#c4c3ca]">Sign Up</h3>
+                        <h3 class="text-2xl font-bold text-center text-[#c4c3ca]">sign Up</h3>
                         <div class="relative text-gray-600 w-full mt-[10px]">
                             <span class="absolute inset-y-0 left-0 flex items-center pl-2">
                                 <BIconPersonCircle class="text-[#ffeba7] text-[18px]"/>
                             </span>
-                            <input type="text" name="q" class=" w-full py-3 text-[#c4c3ca] text-[14px] bg-[#1f2029] rounded-md pl-10 focus:outline-none" placeholder="帐号 [6-16位英文开头和数字]" autocomplete="off">
+                            <input type="text" v-model="signUp.accountnumber" class=" w-full py-3 text-[#c4c3ca] text-[14px] bg-[#1f2029] rounded-md pl-10 focus:outline-none" placeholder="帐号 [6-16位英文开头和数字]" autocomplete="off">
                         </div>
                         <div class="relative text-gray-600 w-full mt-[10px]">
                             <span class="absolute inset-y-0 left-0 flex items-center pl-2">
                                 <BIconLock class="text-[#ffeba7] text-[18px]"/>
                             </span>
-                            <input type="password" name="q" class=" w-full py-3 text-[#c4c3ca] text-[14px] bg-[#1f2029] rounded-md pl-10 focus:outline-none" placeholder="登陆密码 [6~16位]" autocomplete="off">
+                            <input type="password" v-model="signUp.password" class=" w-full py-3 text-[#c4c3ca] text-[14px] bg-[#1f2029] rounded-md pl-10 focus:outline-none" placeholder="登陆密码 [6~16位]" autocomplete="off">
                         </div>
                         <div class="relative text-gray-600 w-full mt-[10px]">
                             <span class="absolute inset-y-0 left-0 flex items-center pl-2">
                                 <BIconLockFill class="text-[#ffeba7] text-[18px]"/>
                             </span>
-                            <input type="password" name="q" class=" w-full py-3 text-[#c4c3ca] text-[14px] bg-[#1f2029] rounded-md pl-10 focus:outline-none" placeholder="再次输入密码" autocomplete="off">
+                            <input type="password" v-model="signUp.resetPassword" class=" w-full py-3 text-[#c4c3ca] text-[14px] bg-[#1f2029] rounded-md pl-10 focus:outline-none" placeholder="再次输入密码" autocomplete="off">
                         </div>
                         <div class="relative text-gray-600 w-full mt-[10px]">
                             <span class="absolute inset-y-0 left-0 flex items-center pl-2">
                                 <BIconShieldCheck class="text-[#ffeba7] text-[18px]"/>
                             </span>
-                            <input type="number" name="q" class=" w-full py-3 text-[#c4c3ca] text-[14px] bg-[#1f2029] rounded-md pl-10 focus:outline-none" placeholder="安全密码 [6位数字]" autocomplete="off">
+                            <input type="number" v-model="signUp.securitynumber" class=" w-full py-3 text-[#c4c3ca] text-[14px] bg-[#1f2029] rounded-md pl-10 focus:outline-none" placeholder="安全密码 [6位数字]" autocomplete="off">
                         </div>
                         <div class="relative text-gray-600 w-full mt-[10px]">
                             <span class="absolute inset-y-0 left-0 flex items-center pl-2">
                                 <BIconBrush class="text-[#ffeba7] text-[18px]"/>
                             </span>
-                            <input type="text" name="q" class=" w-full py-3 text-[#c4c3ca] text-[14px] bg-[#1f2029] rounded-md pl-10 focus:outline-none" placeholder="真实姓名" autocomplete="off">
+                            <input type="text" v-model="signUp.name" class=" w-full py-3 text-[#c4c3ca] text-[14px] bg-[#1f2029] rounded-md pl-10 focus:outline-none" placeholder="真实姓名" autocomplete="off">
                         </div>
-                        <button class=" px-[30px] py-[10px] bg-[#ffeba7] mt-[10px] rounded-md text-[14px] text-[#102770] font-bold" id="LoginSubmit">登陆</button>
+                        <button @click="creatAccount" class=" px-[30px] py-[10px] bg-[#ffeba7] mt-[10px] rounded-md text-[14px] text-[#102770] font-bold" id="LoginSubmit">登陆</button>
                     </div>
                 </div>
                 <div class="card-back rotate180 ">
@@ -92,7 +92,9 @@ import { BIconPersonCircle,BIconLock,BIconLockFill,BIconShieldCheck,BIconBrush,B
 import {useAuthStore} from '@/pinia/modules/useAuthStore';
 import { mapState,mapActions  } from 'pinia'
 import axios from 'axios'
-
+layer.config({
+  skin: 'demo-class'
+})
 export default defineComponent({
   name: 'login',
   components: {
@@ -105,8 +107,15 @@ export default defineComponent({
   },
   data:()=>({
     checked:true,
-    username:'',
-    password:'',
+    username:'player',
+    password:'player',
+    signUp:{
+        accountnumber:'',
+        password:'',
+        resetPassword:'',
+        securitynumber:'',
+        name:''
+    }
   }),
   computed:{
     ...mapState(useAuthStore, ['getUser','getReturnUrl']),
@@ -115,20 +124,79 @@ export default defineComponent({
     changeChecked () {
        this.checked=!this.checked;
     },
-    ...mapActions(useAuthStore, ['setUser']),
-    login(){
-        axios.post('/login', {
-           usermane:this.username,
-           password:this.password
-        })
-        .then(function (response) {
-            console.log(response);
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
-        this.setUser({name:'Ares'});
-        this.$router.push({ name: this.getReturnUrl })
+    ...mapActions(useAuthStore, ['setUser','setToken','fetchUser']),
+    async login(){
+        if(this.validation()){
+            try{
+                const response=await axios.post('/login', {
+                    name:this.username,
+                    password:this.password
+                });
+                if(response.data){
+                    console.log(response.data.token);
+                    this.setToken(response.data.token);
+                    await this.fetchUser();
+                    this.$router.push({ name: this.getReturnUrl })
+                }else{
+                    this.showDialog();
+                }
+            }
+            catch(error) {
+                this.showDialog();
+            };
+        }
+        else{
+            this.showDialog();
+        }
+    },
+    async creatAccount(){
+        if(this.signUpvalidation()){
+            try{
+                const response=await axios.post('/register', {
+                   ...this.signUp
+                });
+                if(response.data.status==1){
+                    layer.open({
+                        type:1,
+                        offset:'b',
+                        title:false,
+                        content: 'success',
+                        closeBtn: 0,
+                        shadeClose:1,
+                    });
+                }else{
+                    this.showDialog();
+                }
+            }
+            catch(error) {
+                this.showDialog();
+            };
+        }
+        else{
+            this.showDialog();
+        }
+    },
+    showDialog(){
+        layer.open({
+                type:1,
+                offset:'b',
+                title:false,
+                content: '帐号或密码错误',
+                closeBtn: 0,
+                shadeClose:1,
+            });
+    },
+    validation(){
+        if(this.username==''||this.password==''||this.password.length<6){
+            return false;
+        }
+        return true;
+    },
+    signUpvalidation(){
+        if(this.signUp.accountnumber.length<6||this.signUp.accountnumber.length>16||this.signUp.password.length<6||this.signUp.password.length>16||this.signUp.password!=this.signUp.resetPassword||this.signUp.name==""){
+            return false;
+        }
+        return true;
     }
   }
 })
@@ -185,4 +253,7 @@ export default defineComponent({
         perspective: 800px;
         margin-top: 30px;
     }
+    body .demo-class{ border-radius: 5px; width: 100%;margin: 0px;}
+    body .demo-class .layui-layer-content{ color:#000; width: 100%; text-align: center;padding: 20px 30px}
+    body .demo-class .layui-layer-btn{ padding: 0px;height:50px;display:flex; align-items: center;}
 </style>
