@@ -21,7 +21,7 @@
 
 <script>
 layer.config({
-  skin: 'demo-class'
+  skin: 'news-class'
 })
 import { defineComponent } from 'vue'
 import { BIconPersonCircle } from 'bootstrap-icons-vue';
@@ -71,10 +71,10 @@ body {
   max-height: unset;
   -webkit-line-clamp: unset;
 }
-body .demo-class{ border-radius: 5px; width: 90%; max-width: 640px; }
-body .demo-class .layui-layer-content{ color:#000}
-body .demo-class .layui-layer-btn{ padding: 0px;height:50px}
-body .demo-class .layui-layer-btn .layui-layer-btn0{display: flex; align-items: center; justify-content: center;  background-color: #F2F2F2;border:none;margin:0px; border-top: 1px solid #D0D0D0; color: #40AFFE; width: 100%; height: 100%;}
+body .news-class{ border-radius: 5px; width: 90%; max-width: 640px; }
+body .news-class .layui-layer-content{ color:#000}
+body .news-class .layui-layer-btn{ padding: 0px;height:50px}
+body .news-class .layui-layer-btn .layui-layer-btn0{display: flex; align-items: center; justify-content: center;  background-color: #F2F2F2;border:none;margin:0px; border-top: 1px solid #D0D0D0; color: #40AFFE; width: 100%; height: 100%;}
 * {
   box-sizing: border-box;
 }</style>

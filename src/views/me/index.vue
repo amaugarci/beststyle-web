@@ -55,7 +55,7 @@
 
 <script>
 layer.config({
-  skin: 'demo-class'
+  skin: 'me-class'
 })
 import { defineComponent } from 'vue'
 import {
@@ -131,11 +131,11 @@ body {
   background-color: #2b2f3e;
   color: #eee;
 }
-body .demo-class{ border-radius: 5px; width: 90%; max-width: 640px; }
-body .demo-class .layui-layer-content{ color:#000; width: 100%; text-align: center;padding: 50px 30px}
-body .demo-class .layui-layer-btn{ padding: 0px;height:50px;display:flex; align-items: center;}
-body .demo-class .layui-layer-btn a{display:flex; align-items: center; justify-content: center;  background-color: #F2F2F2;border:none;margin:0px; border-right: 1px solid #D0D0D0; color: #000; width: 50%; height: 100%;}
-body .demo-class .layui-layer-btn .layui-layer-btn1{ color: #40AFFE;}
+body .me-class{ border-radius: 5px; width: 90%; max-width: 640px; }
+body .me-class .layui-layer-content{ color:#000; width: 100%; text-align: center;padding: 50px 30px}
+body .me-class .layui-layer-btn{ padding: 0px;height:50px;display:flex; align-items: center;}
+body .me-class .layui-layer-btn a{display:flex; align-items: center; justify-content: center;  background-color: #F2F2F2;border:none;margin:0px; border-right: 1px solid #D0D0D0; color: #000; width: 50%; height: 100%;}
+body .me-class .layui-layer-btn .layui-layer-btn1{ color: #40AFFE;}
 *{
   box-sizing: border-box;
 }

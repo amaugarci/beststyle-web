@@ -93,7 +93,7 @@ import {useAuthStore} from '@/pinia/modules/useAuthStore';
 import { mapState,mapActions  } from 'pinia'
 import axios from 'axios'
 layer.config({
-  skin: 'demo-class'
+  skin: 'login-class'
 })
 export default defineComponent({
   name: 'login',
@@ -132,7 +132,8 @@ export default defineComponent({
                     name:this.username,
                     password:this.password
                 });
-                if(response.data){
+                console.log(response);
+                if(response.data&&response.data.token){
                     console.log(response.data.token);
                     this.setToken(response.data.token);
                     await this.fetchUser();
@@ -253,7 +254,7 @@ export default defineComponent({
         perspective: 800px;
         margin-top: 30px;
     }
-    body .demo-class{ border-radius: 5px; width: 100%;margin: 0px;}
-    body .demo-class .layui-layer-content{ color:#000; width: 100%; text-align: center;padding: 20px 30px}
-    body .demo-class .layui-layer-btn{ padding: 0px;height:50px;display:flex; align-items: center;}
+    body .login-class{ border-radius: 5px; width: 100%;margin: 0px;}
+    body .login-class .layui-layer-content{ color:#000; width: 100%; text-align: center;padding: 20px 30px}
+    body .login-class .layui-layer-btn{ padding: 0px;height:50px;display:flex; align-items: center;}
 </style>
