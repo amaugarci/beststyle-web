@@ -56,13 +56,13 @@
                             <span class="absolute inset-y-0 left-0 flex items-center pl-2">
                                 <BIconPersonCircle class="text-[#ffeba7] text-[18px]"/>
                             </span>
-                            <input type="text" name="q" class=" w-full py-3 text-[#c4c3ca] text-[14px] bg-[#1f2029] rounded-md pl-10 focus:outline-none" placeholder="您的帐号" autocomplete="off">
+                            <input type="text" v-model="username" class=" w-full py-3 text-[#c4c3ca] text-[14px] bg-[#1f2029] rounded-md pl-10 focus:outline-none" placeholder="您的帐号" autocomplete="off">
                         </div>
                         <div class="relative text-gray-600 w-full mt-[40px]">
                             <span class="absolute inset-y-0 left-0 flex items-center pl-2">
                                 <BIconLock class="text-[#ffeba7] text-[18px]"/>
                             </span>
-                            <input type="password" name="q" class=" w-full py-3 text-[#c4c3ca] text-[14px] bg-[#1f2029] rounded-md pl-10 focus:outline-none" placeholder="登陆密码" autocomplete="off">
+                            <input type="password" v-model="password"  class=" w-full py-3 text-[#c4c3ca] text-[14px] bg-[#1f2029] rounded-md pl-10 focus:outline-none" placeholder="登陆密码" autocomplete="off">
                         </div>
                         <button @click="login" class=" px-[30px] py-[10px] bg-[#ffeba7] mt-[30px] rounded-md text-[14px] text-[#102770] font-bold" id="LoginSubmit">登陆</button>
                         <button class="mt-[30px] text-[#c4c3ca] rounded-md text-[14px] font-bold" id="LoginSubmit">忘记密码？</button>
@@ -89,7 +89,9 @@
 
 import { defineComponent } from 'vue'
 import { BIconPersonCircle,BIconLock,BIconLockFill,BIconShieldCheck,BIconBrush,BIconArrowUpLeft } from 'bootstrap-icons-vue';
-
+import {useAuthStore} from '@/pinia/modules/useAuthStore';
+import { mapState,mapActions  } from 'pinia'
+import axios from 'axios'
 
 export default defineComponent({
   name: 'login',
@@ -102,16 +104,31 @@ export default defineComponent({
     BIconArrowUpLeft
   },
   data:()=>({
-        checked:true,
-        
-    }),
+    checked:true,
+    username:'',
+    password:'',
+  }),
+  computed:{
+    ...mapState(useAuthStore, ['getUser','getReturnUrl']),
+  },
   methods:{
     changeChecked () {
        this.checked=!this.checked;
-       console.log('sss');
     },
+    ...mapActions(useAuthStore, ['setUser']),
     login(){
-        this.$router.push({ name: 'me' })
+        axios.post('/login', {
+           usermane:this.username,
+           password:this.password
+        })
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+        this.setUser({name:'Ares'});
+        this.$router.push({ name: this.getReturnUrl })
     }
   }
 })

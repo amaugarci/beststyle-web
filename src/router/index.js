@@ -7,7 +7,8 @@ import position from './modules/position'
 import service from './modules/service'
 import information from './modules/information'
 import me from './modules/me'
-
+import profile from './modules/profile'
+import {useAuthStore} from '@/pinia/modules/useAuthStore';
 const router = createRouter({
   history: createWebHashHistory(),
   routes: [
@@ -20,7 +21,8 @@ const router = createRouter({
     ...position,
     ...service,
     ...information,
-    ...me
+    ...me,
+    ...profile
   ],
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
@@ -30,5 +32,14 @@ const router = createRouter({
     }
   },
 })
-
+router.beforeEach(async (to) => {
+  const publicPages = ['/login'];
+  const authRequired = !publicPages.includes(to.path);
+  const auth = useAuthStore();
+  if (authRequired && !auth.user) {
+    console.log(to);
+      auth.returnUrl = to.name;
+      return '/login';
+  }
+});
 export default router

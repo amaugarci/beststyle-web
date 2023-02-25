@@ -30,21 +30,21 @@
     <!-- list -->
     <div class="overflow-y-auto overflow-x-hidden	h-full bg-[#2b2f3e] w-full">
       <ul class="rounded-0 cursor-pointer ">
-        <li class="border-b-[1px] bg-[#1f2029] border-gray-700	 text-[#ddd] px-[1.25rem] py-[0.75rem]">
-          <BIconLifePreserver class="text-[#ffeba7] inline-block text-[1rem] mr-[0.3rem]"/>
+        <li @click="recharge" class="border-b-[1px] bg-[#1f2029] border-gray-700	 text-[#ddd] px-[1.25rem] py-[0.75rem]">
+          <BIconLifePreserver  class="text-[#ffeba7] inline-block text-[1rem] mr-[0.3rem]"/>
           充值记录
         </li>
-        <li class="border-b-[1px] bg-[#1f2029] border-gray-700 text-[#ddd] px-[1.25rem] py-[0.75rem]">
+        <li @click="withdrawal" class="border-b-[1px] bg-[#1f2029] border-gray-700 text-[#ddd] px-[1.25rem] py-[0.75rem]">
           <BIconCreditCard2Back class="text-[#ffeba7] inline-block text-[1rem]  mr-[0.3rem]"/>
           提现记录
         </li>
-        <li class="border-b-[1px] bg-[#1f2029] border-gray-700 text-[#ddd] px-[1.25rem] py-[0.75rem]">
+        <li @click="news" class="border-b-[1px] bg-[#1f2029] border-gray-700 text-[#ddd] px-[1.25rem] py-[0.75rem]">
           <BIconNewspaper class="text-[#ffeba7] inline-block text-[1rem]  mr-[0.3rem]"/>
           新闻公告</li>
-        <li class="border-b-[1px] bg-[#1f2029] border-gray-700 text-[#ddd] px-[1.25rem] py-[0.75rem]">
+        <li @click="changepassword" class="border-b-[1px] bg-[#1f2029] border-gray-700 text-[#ddd] px-[1.25rem] py-[0.75rem]">
           <BIconPencilSquare class="text-[#ffeba7] inline-block text-[1rem]  mr-[0.3rem]"/>
           修改密码</li>
-        <li class="border-b-[1px] bg-[#1f2029] border-gray-700 text-[#ddd] px-[1.25rem] py-[0.75rem]">
+        <li  @click="signOut"  class="border-b-[1px] bg-[#1f2029] border-gray-700 text-[#ddd] px-[1.25rem] py-[0.75rem]">
           <BIconPower class="text-[#ffeba7] inline-block text-[1rem]  mr-[0.3rem]"/>
           退出登陆</li>
       </ul>
@@ -53,7 +53,9 @@
 </template>
 
 <script>
-
+layer.config({
+  skin: 'demo-class'
+})
 import { defineComponent } from 'vue'
 import {
   BIconHouseFill,
@@ -84,9 +86,35 @@ export default defineComponent({
   },
   data: () => ({
     checked: true,
+    visible:true
 
   }),
   methods: {
+    recharge(){
+      this.$router.push({ name: 'recharge' })
+    },
+    withdrawal(){
+      this.$router.push({ name: 'withdrawal' })
+    },
+    news(){
+      this.$router.push({ name: 'news' })
+    },
+    changepassword(){
+      this.$router.push({ name: 'changepassword' })
+    },
+    signOut(){
+      layer.open({
+        title:false,
+        content: '立即退出？',
+        btn:['取消','确定'],
+        btnAlign: 'c',
+        closeBtn: 0,
+        shadeClose:1,
+        success :()=>{
+          console.log('logout');
+        }
+      });
+    },
   }
 })
 </script>
@@ -95,6 +123,11 @@ body {
   background-color: #2b2f3e;
   color: #eee;
 }
+body .demo-class{ border-radius: 5px; width: 90%; max-width: 640px; }
+body .demo-class .layui-layer-content{ color:#000; width: 100%; text-align: center;padding: 50px 30px}
+body .demo-class .layui-layer-btn{ padding: 0px;height:50px;display:flex; align-items: center;}
+body .demo-class .layui-layer-btn a{display:flex; align-items: center; justify-content: center;  background-color: #F2F2F2;border:none;margin:0px; border-right: 1px solid #D0D0D0; color: #000; width: 50%; height: 100%;}
+body .demo-class .layui-layer-btn .layui-layer-btn1{ color: #40AFFE;}
 *{
   box-sizing: border-box;
 }
