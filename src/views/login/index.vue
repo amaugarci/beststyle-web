@@ -11,7 +11,7 @@
                 <BIconArrowUpLeft class="font-black text-[#ffeba7] text-[16px] mx-auto "/>
             </div>
         </div>
-        <div class="card-3d-wrap xm:w-[400px] xm:mx-auto mx-[400px]" >
+        <div class="card-3d-wrap xm:w-[400px] xm:mx-auto mx-[10%]" >
             <div class="card-3d-wrapper" :class="{ mrotate180:checked }">
                 <div class="card-front">
                     <div class="px-8 pt-[10px] text-left flex flex-col items-center">
