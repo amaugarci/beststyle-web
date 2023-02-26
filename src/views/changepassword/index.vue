@@ -1,0 +1,121 @@
+<template>
+  <div class="absolute top-0 left-0 bottom-0 right-0 flex flex-col">
+    <!-- header -->
+    <div class="h-[2.5rem] w-full text-center bg-[#1f2029] pl-[10px] py-[8px]">
+      <div class="float-left">
+        <BIconPersonCircle @click="back" class="text-[1.3rem] cursor-pointer mt-[3px]" />
+      </div>
+      <div>修改密码</div>
+    </div>
+    <!-- body -->
+    <div class="overflow-x-hidden overflow-y-auto h-full p-3">
+      <p class="mt-[0.3rem] text-[1rem] pb-[1rem]">登陆密码</p>
+      <div>
+        <input type="password" class="form-control form-control-sm mb-3"
+          name="password" placeholder="原密码" required="">
+        <input type="password" class="form-control form-control-sm mb-3"
+          name="newpassword" placeholder="登陆密码 [6~16位]" required="">
+        <input type="password" class="form-control form-control-sm mb-3" name="repassword" placeholder="再次输入密码" required="">
+        <button
+          class="btn btn-success btn-block btn-sm">确定</button></div>
+      <hr>
+      <p class="mt-[0.3rem] text-[1rem] pb-[1rem]">安全密码</p>
+      <div>
+        <input type="password"
+          class="form-control form-control-sm mb-3 " name="safepawd" placeholder="原密码" required="">
+        <input type="password"
+          class="form-control form-control-sm mb-3 " name="newsafepawd" placeholder="安全密码 [6位数字]" required="">
+        <input
+          type="password" class="form-control form-control-sm mb-3 " name="resafepawd" placeholder="再次输入密码"
+          required=""><button class="btn btn-info btn-block btn-sm">确定</button>
+       </div>
+    </div>
+  </div>
+</template>
+
+
+<script>
+
+import { defineComponent } from 'vue'
+import { BIconPersonCircle } from 'bootstrap-icons-vue';
+export default defineComponent({
+  name: 'changepassword',
+  components: {
+    BIconPersonCircle
+  },
+  data: () => ({
+  }),
+  methods: {
+    back() {
+      this.$router.push({ name: 'me' });
+    },
+  }
+})
+</script>
+<style>
+body {
+  background-color: #2b2f3e;
+  color: #eee;
+  line-height: 1.5;
+}
+
+.scrolldown {
+  max-height: 5.5rem;
+  -webkit-line-clamp: 5;
+}
+
+.scrollup {
+  max-height: unset;
+  -webkit-line-clamp: unset;
+}
+form-control-sm {
+    height: calc(1.5em + 0.5rem + 2px);
+    padding: 0.25rem 0.5rem;
+    font-size: .875rem;
+    line-height: 1.5;
+    border-radius: 0.2rem;
+}
+.form-control {
+    display: block;
+    width: 100%;
+    height: calc(1.5em + 0.75rem + 2px);
+    padding: 0.375rem 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+.btn-block {
+    display: block;
+    width: 100%;
+}
+.btn-group-sm>.btn, .btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: .875rem;
+    line-height: 1.5;
+    border-radius: 0.2rem;
+}
+.btn-success {
+    color: #fff;
+    background-color: #28a745;
+    border-color: #28a745;
+}
+.btn-info {
+    color: #fff;
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+hr {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: 0;
+    border-top: 1px solid rgba(0,0,0,.1);
+}
+*{
+  box-sizing: border-box;
+}</style>
