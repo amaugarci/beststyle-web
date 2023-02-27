@@ -41,7 +41,7 @@
         <div><small>最新</small></div>
       </div>
     </div>
-    <div class="block" v-for="(item,index) in tokens" :key="item.id">
+    <div class="block" v-for="(item,index) in symbols" :key="item.id">
       <div data-rands="0.1" class="flex p-[0.5rem] items-center relative border-b-[1px] border-[#333] bg-[#qf2029]">
         <div class="pr-[0.5rem]">
         </div>
@@ -49,12 +49,12 @@
           <div class="font-bold">{{item.name}}
           </div>
           <div class="text-[.75rem] text-[#7e7e8a]">
-            {{item.description}}
+            {{item.productName}}
           </div>
         </div>
         <div class="text-right pr-[0.5rem]">
           <div class="font-normal text-[0.75rem] text-[#999]">
-            {{item.id}}
+            {{item.uid}}
           </div>
           <div class="text-[.75rem] text-[#7e7e8a]">
             H：
@@ -68,7 +68,7 @@
           </div>
         </div>
         <div class="h-full">
-          <span class="inline-block h-[2rem] w-[6rem] text-center leading-8" :class="{sellBg:item.isRise,buyBg:!item.isRise}">
+          <span class="inline-block h-[2rem] w-[6rem] text-center leading-8" :class="{sellBg:item.status,buyBg:!item.status}">
             {{ item.price }}
           </span>
         </div>
@@ -82,6 +82,7 @@
 import { defineComponent } from 'vue'
 import { BIconChevronRight } from 'bootstrap-icons-vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
+import axios from 'axios'
 import 'swiper/css';
 import SwiperCore, {
   Autoplay,Pagination,Navigation
@@ -97,38 +98,12 @@ export default defineComponent({
   },
   data: () => ({
     news: 'Assure联合40多家项目方80家KOL共同推出了“Gas Free NFT"，持有NFT，即可免链上Gas，诚意满满，掷地有声，在整个区块链行业引起了不小的震动。',
-    tokens:[
-      {
-        id:'74697',
-        name:'ETH',
-        description:'央行数字货币',
-        H:'24126.36',
-        L:'23733.93',
-        price:'23879.32',
-        isRise:true,
-      },
-      {
-        id:'42646',
-        name:'DCEP',
-        description:'央行数字货币',
-        H:'1664.47',
-        L:'1609.22',
-        price:'1636.56',
-        isRise:false,
-      },
-      {
-        id:'74697',
-        name:'Web3.0',
-        description:'Web3.0',
-        H:'24126.36',
-        L:'23733.93',
-        price:'23879.32',
-        isRise:true,
-      },
-    ],
-    timer : 0
+    symbols:[],
+    connection:[],
+    timer : 0,
   }),
   mounted(){
+    this.getSymbols();
     setInterval(function(){
         this.timer++;
     }.bind(this),2000);
@@ -137,6 +112,37 @@ export default defineComponent({
     goNews(){
       this.$router.push({ name: 'news' })
     },
+    async getSymbols(){
+      try{
+          const response=await axios.get('/symbols');
+          this.symbols=response.data.symbols;
+          this.createSocket();
+      }
+      catch(error) {
+        console.log(error);
+      };
+    },
+    listenSocket(i, name){
+      console.log(`wss://stream.binance.com:443/ws/${name.toLowerCase()}@aggTrade`);
+      let connection = new WebSocket(`wss://stream.binance.com:443/ws/${name.toLowerCase()}@aggTrade`);
+      connection.onmessage = (event)=>{
+        let price=JSON.parse(event.data)['p'];
+        if(this.symbols[i]['price']>Number(price)){
+          this.symbols[i]['status']=false;
+        }else{
+          this.symbols[i]['status']=true;
+        }
+        this.symbols[i]['price']=JSON.parse(event.data)['p'].slice(0,8);
+        console.log(JSON.parse(event.data)['p']);
+      }
+      return connection;
+    },
+    createSocket(){
+      for(let i=0;i<this.symbols.length;i++){
+        console.log(i);
+        this.connection.push(this.listenSocket(i, this.symbols[i]['symbol']))
+      }
+    }
   }
 })
 </script>
