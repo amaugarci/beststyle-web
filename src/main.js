@@ -8,8 +8,7 @@ import { layer } from 'vue3-layer';
 import 'vue3-layer/dist/s3Layer.css';
 import axios from 'axios';
 import '@/plugins';
-
-axios.defaults.baseURL = 'http://localhost:8000/api/player/';
+axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 const app = createApp(App)
 app.use(router)

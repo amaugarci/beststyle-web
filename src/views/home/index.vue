@@ -122,9 +122,10 @@ export default defineComponent({
         console.log(error);
       };
     },
+    
     listenSocket(i, name){
-      console.log(`wss://stream.binance.com:443/ws/${name.toLowerCase()}@aggTrade`);
-      let connection = new WebSocket(`wss://stream.binance.com:443/ws/${name.toLowerCase()}@aggTrade`);
+      // console.log(import.meta.env.VITE_BINANCE_SOCKET);
+      let connection = new WebSocket(`${import.meta.env.VITE_BINANCE_SOCKET+name.toLowerCase()}@aggTrade`);
       connection.onmessage = (event)=>{
         let price=JSON.parse(event.data)['p'];
         if(this.symbols[i]['price']>Number(price)){
@@ -132,14 +133,13 @@ export default defineComponent({
         }else{
           this.symbols[i]['status']=true;
         }
-        this.symbols[i]['price']=JSON.parse(event.data)['p'].slice(0,8);
-        console.log(JSON.parse(event.data)['p']);
+        this.symbols[i]['price']=price.slice(0,8);
       }
       return connection;
     },
     createSocket(){
       for(let i=0;i<this.symbols.length;i++){
-        console.log(i);
+        // console.log(i);
         this.connection.push(this.listenSocket(i, this.symbols[i]['symbol']))
       }
     }
