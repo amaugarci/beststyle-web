@@ -42,7 +42,7 @@
       </div>
     </div>
     <div class="block" v-for="(item,index) in symbols" :key="item.id">
-      <div data-rands="0.1" class="flex p-[0.5rem] items-center relative border-b-[1px] border-[#333] bg-[#qf2029]">
+      <div @click="tradeDetail(item.id)" data-rands="0.1" class="flex p-[0.5rem] items-center relative border-b-[1px] border-[#333] bg-[#qf2029]">
         <div class="pr-[0.5rem]">
         </div>
         <div class="flex-1 items-center">
@@ -142,6 +142,9 @@ export default defineComponent({
         // console.log(i);
         this.connection.push(this.listenSocket(i, this.symbols[i]['symbol']))
       }
+    },
+    tradeDetail(id){
+      this.$router.push({ name: 'symbol', params: { id:id, }});
     }
   }
 })
