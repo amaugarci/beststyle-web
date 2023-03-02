@@ -1,5 +1,6 @@
 const Home = () => import('@/views/home/index.vue')
 const Layout = () => import('@/layout/index.vue')
+const Symbol = () => import('@/views/symbol/index.vue')
 
 export default [
   {
@@ -17,5 +18,10 @@ export default [
         },
       },
     ],
+  },
+  {
+    path: '/symbol/:id',
+    component: Symbol,
+    name: 'symbol',
   },
 ]

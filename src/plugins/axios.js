@@ -18,7 +18,10 @@ axios.interceptors.request.use(request => {
 })
 axios.interceptors.response.use(response =>response, error=>{
     const { status, data } = error.response;
-    const auth = useAuthStore();
-    auth.logout();
-    router.push({ name: 'login' })
+    console.log(data);
+    if(status==404&&data.error=='unauthenticated.'){
+      const auth = useAuthStore();
+      auth.logout();
+      router.push({ name: 'login' })
+    }
 })
