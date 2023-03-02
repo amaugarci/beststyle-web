@@ -49,7 +49,6 @@ export default defineComponent({
         btnAlign: 'c',
         closeBtn: 0,
         shadeClose:1,
-
       });
     }
   }

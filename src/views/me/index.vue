@@ -1,5 +1,5 @@
 <template>
-  <div class="absolute top-0 left-0 right-0 flex flex-col min-h-screen">
+  <div class="bg-[#1f2029] absolute top-0 left-0 right-0 flex flex-col min-h-screen">
     <div class="bg-[#1f2029] relative">
       <div class="absolute top-0 w-full text-right p-[0.5rem]">
         <p class="inline-block text-[0.75rem] color-[#ddd]">Dead: <span class="dead">18639</span></p>
@@ -8,7 +8,7 @@
         <p class="inline-block text-[0.75rem] color-[#ddd] ml-[0.5rem]"><span class="fps">1111</span> FPS</p>
       </div>
       <div class="w-full bg-[#000000] h-[12rem] opacity-[.4]">
-        <canvas width="1920" height="192"></canvas>
+        <!-- <canvas width="1920" height="192"></canvas> -->
       </div>
       <!-- profile -->
       <div class="absolute top-[3rem] w-full flex">
@@ -110,6 +110,9 @@ export default defineComponent({
       this.$router.push({ name: 'changepassword' })
     },
     signOut(){
+      layer.config({
+        skin: 'me-class'
+      })
       layer.open({
         title:false,
         content: '立即退出？',

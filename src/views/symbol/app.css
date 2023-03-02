@@ -117,4 +117,214 @@ body {
     margin: 0px;
     border-width: 0px;
     cursor: default;
-  }
+}
+.my-kendtrend article {
+    border-radius: .7rem;
+    margin-top: .15rem;
+    height: 2rem;
+    line-height: 2rem;
+    padding: 0 .2rem;
+    background-color: #2b2f3e;
+}
+.order-setbox-lay {
+    position: absolute;
+    background: -webkit-linear-gradient(left top, rgba(255, 177, 0, 0.49), rgba(0, 161, 255, 0.76));
+    background: -moz-linear-gradient(left top, rgba(255, 177, 0, 0.49), rgba(0, 161, 255, 0.76));
+    background: linear-gradient(to left top, rgba(255, 177, 0, 0.49), rgba(0, 161, 255, 0.76));
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: none;
+}
+.block{
+    display:block !important;
+}
+.order-setbox {
+  display: none;
+  position: absolute;
+  top: 50%;
+  width: 90%;
+  height: 20.5rem;
+  margin-top: -10rem;
+  background-color: rgba(0,0,0,0.9);
+  left: 5%;
+  z-index: 888;
+  border-radius: 1rem;
+}
+.order-setbox header {
+    text-align: center;
+    padding: .5rem 0;
+    margin: 0 .5rem;
+}
+.order-setbox-close {
+    position: absolute;
+    top: .2rem;
+    right: .5rem;
+    height: 1.8rem;
+    line-height: 1.8rem;
+    width: 1.8rem;
+    z-index: 999999;
+}
+.order-setbox header::after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    height: 1.8rem;
+    border-bottom: 1px solid #666;
+}
+.order-setbox-body {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0 1rem;
+}
+.order-setbox-title {
+    margin: .5rem 0;
+    font-size: .75rem;
+    color: #ddd;
+}
+.order-setbox-settime {
+    width: 100%;
+    display: flex;
+    padding-right: .5rem;
+}
+.order-setbox-settime div.active {
+    border: 1px solid #fdbe19;
+    background-image: url(../img/sele.png);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+.order-setbox-settime div .a {
+    font-size: 1.3rem;
+    margin-top: .3rem;
+    margin-bottom: 0rem;
+    font-weight: 800;
+    color: #fdbe19;
+}
+
+.order-setbox-settime div {
+    flex: 1;
+    margin-left: .5rem;
+    height: 4rem;
+    background-color: rgba(255,255,255,.2);
+    border-radius: 10px;
+    text-align: center;
+    box-sizing: border-box;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+.order-setbox-settime div .b {
+    margin: 0;
+    color: red;
+}
+.order-setbox-title {
+    margin: .5rem 0;
+    font-size: .75rem;
+    color: #ddd;
+}
+.order-setbox-setmoney {
+    width: 100%;
+    display: flex;
+    padding-right: .2rem;
+}
+.order-setbox-setmoney div {
+    border-radius: .3rem;
+    background-color: #333;
+    margin-left: .2rem;
+    text-align: center;
+    font-size: .7rem;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    box-sizing: border-box;
+    flex: 1;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+.order-setbox-setmoney div.active {
+    color:white;
+    border: 1px solid #fdbe19;
+    background-color: #666;
+    background-image: url(../img/selection.png);
+    background-repeat: no-repeat;
+    background-size: 1rem;
+    background-position: top right;
+}
+.order-setbox-info {
+    font-size: .75rem;
+    width: 100%;
+    padding: .5rem 0;
+    display: flex;
+}
+.order-user-money {
+    color: #e91c41;
+}
+.order-setbox-info {
+    font-size: .75rem;
+}
+.order-table {
+    width: 100%;
+    border-top: 1px solid #ddd;
+    margin-bottom: .5rem;
+}
+.text-center {
+    text-align: center !important;
+}
+.order-table td {
+    text-align: center;
+    font-size: .75rem;
+}
+.order-setbox-money {
+    color: #fdbe19;
+}
+.number-keyboard {
+    display: none;
+    position: fixed;
+    bottom: 1px;
+    left: 0;
+    right: 0;
+    background-color: rgba(0,0,0,0.9);
+    z-index: 99999999;
+    border-top: 1px solid #333;
+}
+.number-money {
+    color: #FFF;
+}
+b, strong {
+    font-weight: bolder;
+}     
+.number-keyboard-table {
+    width: 100%;
+    table-layout: fixed;
+    text-align: center;
+    color: #FFF;
+}
+table {
+    border-collapse: collapse;
+}
+.number-keyboard-table td {
+    border: 1px solid #666;
+    height: 2.5rem;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+.btn-success {
+    color: #fff;
+    background-color: #28a745;
+    border-color: #28a745;
+}
+.btn:not(:disabled):not(.disabled) {
+    cursor: pointer;
+}
+.btn-block {
+    display: block;
+    width: 100%;
+}
+.btn-group-sm > .btn, .btn-sm {
+    padding: .25rem .5rem;
+    font-size: .875rem;
+    line-height: 1.5;
+    border-radius: .2rem;
+    text-align: center;
+}
