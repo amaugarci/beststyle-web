@@ -151,6 +151,7 @@ export default defineComponent({
         }
     },
     async creatAccount(){
+       
         if(this.signUpvalidation()){
             try{
                 const response=await axios.post('/register', {
@@ -170,10 +171,13 @@ export default defineComponent({
                 }
             }
             catch(error) {
+                console.log(2);
+                console.log(error);
                 this.showDialog();
             };
         }
         else{
+            console.log(1);
             this.showDialog();
         }
     },
