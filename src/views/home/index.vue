@@ -46,16 +46,16 @@
         <div class="pr-[0.5rem]">
         </div>
         <div class="flex-1 items-center">
-          <div class="font-bold">{{item.name}}
+          <div class="font-bold">{{item.displayName}}
           </div>
           <div class="text-[.75rem] text-[#7e7e8a]">
             {{item.productName}}
           </div>
         </div>
         <div class="text-right pr-[0.5rem]">
-          <div class="font-normal text-[0.75rem] text-[#999]">
+          <!-- <div class="font-normal text-[0.75rem] text-[#999]">
             {{item.uid}}
-          </div>
+          </div> -->
           <div class="text-[.75rem] text-[#7e7e8a]">
             H：
             <span class="text-[.75rem] text-[#7e7e8a]">

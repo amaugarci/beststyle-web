@@ -1,11 +1,11 @@
 <template>
-  <div class="absolute top-0 left-0 bottom-0 right-0 flex flex-col">
+  <div v-if="this.symbol" class="absolute top-0 left-0 bottom-0 right-0 flex flex-col">
     <!-- header -->
     <div class="h-[2.5rem] w-full text-center bg-[#1f2029] pl-[10px] py-[8px]">
       <div class="float-left">
         <BIconChevronLeft @click="back" class="text-[1.3rem] cursor-pointer mt-[3px]" />
       </div>
-      <div v-if="symbol">{{ symbol.name + ' / ' + symbol.productName }}</div>
+      <div v-if="symbol">{{ symbol.displayName + ' / ' + symbol.productName }}</div>
     </div>
     <div v-if="symbol">
       <div class="order-price-ex">
@@ -61,18 +61,21 @@
       </header>
       <div class="order-setbox-body">
         <p class="order-setbox-title">结算时间</p>
-        <div class="order-setbox-settime">
-          <div :class="{active:form.time==180}" @click="()=>{form.time=180; form.benefit=2}" data-setime="180" id="GoodsOrderOne">
+        <div v-if="form.profit" class="order-setbox-settime">
+          <div :class="{active:form.time==180}" @click="()=>{form.time=180; form.benefit=0}" data-setime="180" id="GoodsOrderOne">
             <p class="a"><span class="aa">180</span><span class="tiny">秒</span></p>
-            <p class="b">盈亏<span class="bb">2</span>%</p>
+            <p v-if="form.dir" class="b">盈亏<span class="bb">{{ form.profit[0] }}</span>%</p>
+            <p v-else class="b">盈亏<span class="bb">{{ form.loss[0] }}</span>%</p>
           </div>
-          <div :class="{active:form.time==300}" @click="()=>{form.time=300;form.benefit=4}" data-setime="300" id="GoodsOrderToo">
+          <div :class="{active:form.time==300}" @click="()=>{form.time=300;form.benefit=1}" data-setime="300" id="GoodsOrderToo">
             <p class="a"><span class="aa">300</span><span class="tiny">秒</span></p>
-            <p class="b">盈亏<span class="bb">4</span>%</p>
+            <p v-if="form.dir" class="b">盈亏<span class="bb">{{ form.profit[1] }}</span>%</p>
+            <p v-else class="b">盈亏<span class="bb">{{ form.loss[1] }}</span>%</p>
           </div>
-          <div :class="{active:form.time==600}" @click="()=>{form.time=600;form.benefit=6}" data-setime="600" id="GoodsOrderThree">
+          <div :class="{active:form.time==600}" @click="()=>{form.time=600;form.benefit=2}" data-setime="600" id="GoodsOrderThree">
             <p class="a"><span class="aa">600</span><span class="tiny">秒</span></p>
-            <p class="b">盈亏<span class="bb">6</span>%</p>
+            <p v-if="form.dir" class="b">盈亏<span class="bb">{{ form.profit[2] }}</span>%</p>
+            <p v-else class="b">盈亏<span class="bb">{{ form.loss[2] }}</span>%</p>
           </div>
         </div>
         <p class="order-setbox-title">投资金额</p>
@@ -80,12 +83,19 @@
           <div :class="{active:form.money==1000}" @click="changeMoney(1000)">1000</div>
           <div :class="{active:form.money==5000}" @click="changeMoney(5000)">5000</div>
           <div :class="{active:form.money==10000}" @click="changeMoney(10000)">10000</div>
-          <div :class="{active:form.money==-1}" class="all-in" @click="changeMoney(-1)">全部</div>
+          <div :class="{active:form.all}" class="all-in" @click="changeMoney(-1)">全部</div>
           <div :class="{active:form.custom}" class="other" @click="changeMoney(-2)">其它</div>
         </div>
         <div class="order-setbox-info">
           <div>余额：<span class="order-user-money">{{ form.money }}</span></div>
-          <div style="flex: 1;text-align: center;"> 手续费：<span class="buy-color order-fee">{{ form.benefit }}</span> % </div>
+          <div style="flex: 1;text-align: center;"> 手续费：
+            <span v-if="form.dir" class="buy-color order-fee">
+              {{ form.profit[form.benefit] }}
+            </span>
+            <span v-else class="buy-color order-fee">
+              {{ form.profit[form.benefit] }}
+            </span>
+            % </div>
           <div>实际支付： <span class="buy-color order-truemoney">{{ form.money }}</span> </div>
         </div>
         <table class="order-table">
@@ -148,8 +158,10 @@ layer.config({
 })
 import { defineComponent, getCurrentInstance } from 'vue'
 import { BIconChevronLeft } from 'bootstrap-icons-vue';
+import {useAuthStore} from '@/pinia/modules/useAuthStore';
 import { VueEcharts } from "vue3-echarts";
 import * as echarts from 'echarts';
+import { mapState,mapActions  } from 'pinia'
 import axios from 'axios'
 import moment from 'moment'
 import "echarts/lib/chart/candlestick";
@@ -168,25 +180,21 @@ export default defineComponent({
         dir:true,
         title:'订单确认',
         time:180,
-        benefit:2,
+        benefit:0,
         money:1000,
         keyboard:false,
         custom:false,
+        all:false,
         keyValue:'',
+        profit:null,
+        loss:null,
       },
       socketClose:true,
       showDialog:false,
       connection: null,
       type: 1,
       period: '1m',
-      symbol: {
-        status: true,
-        price: 0,
-        DIFF: 0,
-        H: 0,
-        L: 0,
-        V: 0
-      },
+      symbol: null,
       dates: [],
       data: [],
       volumes: [],
@@ -197,6 +205,9 @@ export default defineComponent({
         price: 0
       }
     };
+  },
+  computed:{
+    ...mapState(useAuthStore, ['getUser']),
   },
   mounted() {
     this.getCurrentChart(this.$route.params.id);
@@ -329,6 +340,8 @@ export default defineComponent({
       try {
         const response = await axios.get(`/chart/${id}?period=${this.period}`);
         this.symbol = response.data.symbol;
+        this.form.profit=[...this.symbol.profitRatio.split(',')];
+        this.form.loss=[...this.symbol.lossRatio.split(',')];
         let charts = response.data.charts;
         charts.forEach(element => {
           this.dates.push(moment.utc(new Date(element[0])).local().format('hh:mm'));
@@ -518,7 +531,6 @@ export default defineComponent({
       this.socketClose=false;
       this.connection.onmessage = (event) => {
         let price = JSON.parse(event.data)['k']['c'];
-        
         this.symbol['DIFF'] = (this.symbol['price'] - Number(price));
         if (this.symbol['price'] == 0) {
           this.symbol['DIFF'] = 0.2;
@@ -532,7 +544,7 @@ export default defineComponent({
         let value = JSON.parse(event.data)['k'];
         let date = moment.utc(new Date(value['t'])).local().format('hh:mm');
         this.current.price = Number(price);
-        this.current.time = value['t'];
+        this.current.time = JSON.parse(event.data)['E'];
         if (this.type != 2) {
           this.option.series[1].markLine.data[0].yAxis = Number(price);
         }
@@ -566,11 +578,11 @@ export default defineComponent({
     },
     changeMoney(value){
       switch(value){
-        case 1000:this.form.money=1000; this.form.keyboard=false; this.form.custom=false; break;
-        case 5000:this.form.money=5000; this.form.keyboard=false; this.form.custom=false; break;
-        case 10000:this.form.money=10000; this.form.keyboard=false; this.form.custom=false; break;
-        case -1:this.form.money=-1; this.form.keyboard=false; this.form.custom=false; break;
-        default :this.form.money=0; this.form.custom=true; this.form.keyboard=true; break;
+        case 1000:this.form.money=1000; this.form.keyboard=false; this.form.custom=false; this.form.all=false; break;
+        case 5000:this.form.money=5000; this.form.keyboard=false; this.form.custom=false; this.form.all=false; break;
+        case 10000:this.form.money=10000; this.form.keyboard=false; this.form.custom=false; this.form.all=false; break;
+        case -1:this.form.money=this.getUser.cash_amount; this.form.keyboard=false; this.form.custom=false; this.form.all=true; break;
+        default :this.form.money=0; this.form.custom=true; this.form.keyboard=true; this.form.all=false; break;
       }
     },
     keyPress(val){
@@ -594,32 +606,47 @@ export default defineComponent({
         btnAlign: 'c',
         closeBtn: 0,
         shadeClose:1,
-        btn1 :()=>{
-          console.log('aaa');
-          return false;
+        yes :(index, layero)=>{
+          layer.close(index);
+          this.showDialog=false;
+          this.orderApi();
         }
       });
     },
+    errorDialog(){
+      layer.config({
+        skin: 'login-class'
+      })
+      layer.open({
+          type:1,
+          offset:'b',
+          title:false,
+          content: 'Invalid money',
+          closeBtn: 0,
+          shadeClose:1,
+      });
+    },
+    ...mapActions(useAuthStore, ['changeBalance']),
     async orderApi(){
+      if(this.form.money>this.getUser.cash_amount){
+        this.errorDialog();
+      }
       try{
           const response=await axios.post('/order', {
-              userId:this.$route.params.id,
-              tokenId:this.$route.params.id,
-              time:this.$route.params.id,
-              tokenId:this.$route.params.id,
+              symbolid:this.$route.params.id,
+              time:this.current.time,
+              price:this.current.price,
+              dir:this.form.dir,
+              during:this.form.time,
+              money:this.form.money,
           });
-          console.log(response);
-          if(response.data&&response.data.token){
-              console.log(response.data.token);
-              this.setToken(response.data.token);
-              await this.fetchUser();
-              this.$router.push({ name: this.getReturnUrl })
-          }else{
-              this.showDialog();
+          if(response.data.status==1){
+            console.log(response);
+            this.changeBalance(this.form.money);
           }
       }
       catch(error) {
-          this.showDialog();
+          // this.showDialog();
       };
     },
   }

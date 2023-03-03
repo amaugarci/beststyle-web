@@ -5,7 +5,6 @@ const Changepassword = () => import('@/views/changepassword/index.vue')
 export default [
   {
     path: '/recharge',
-    name: 'recharge',
     component: Recharge,
   },
   {

@@ -6,7 +6,6 @@ export default [
   {
     path: '/home',
     component: Layout,
-    name: 'Home',
     children: [
       {
         path: '',

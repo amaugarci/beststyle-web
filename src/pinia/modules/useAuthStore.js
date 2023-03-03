@@ -22,6 +22,10 @@ export const useAuthStore = defineStore('useAuthStore', {
     setReturnUrl(value) {
       this.returnUrl=value;
     },
+    changeBalance(value) {
+      console.log(value);
+      this.user.cash_amount-=value;
+    },
     async fetchUser () {
       try {
         const { data } = await axios.get('/user');

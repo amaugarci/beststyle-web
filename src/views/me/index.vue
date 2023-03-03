@@ -17,7 +17,7 @@
         </div>
         <div v-if="getUser" class="flex-1 pl-[2rem] flex-col">
           <p>用户名：<span id="UserAccount">{{getUser['name'] }}</span></p>
-          <p>UID：<span id="UserUid">{{getUser['UID'] }}</span></p>
+          <!-- <p>UID：<span id="UserUid">{{getUser['UID'] }}</span></p> -->
           <p> <span class="user-money">余额： {{getUser['cash_amount'] }}</span> </p>
           <div class="flex flex-row text-[#ffeba7]">
             <img src="/img/cz.svg">

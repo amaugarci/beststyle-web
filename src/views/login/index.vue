@@ -134,7 +134,7 @@ export default defineComponent({
                 });
                 console.log(response);
                 if(response.data&&response.data.token){
-                    console.log(response.data.token);
+                    console.log(response.data);
                     this.setToken(response.data.token);
                     await this.fetchUser();
                     this.$router.push({ name: this.getReturnUrl })

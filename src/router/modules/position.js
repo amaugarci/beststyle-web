@@ -5,7 +5,6 @@ export default [
   {
     path: '/position',
     component: Layout,
-    name: 'Position',
     children: [
       {
         path: '',
