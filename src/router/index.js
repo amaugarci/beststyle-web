@@ -4,6 +4,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import login from './modules/login'
 import home from './modules/home'
 import position from './modules/position'
+import payment from './modules/payment'
 import service from './modules/service'
 import information from './modules/information'
 import me from './modules/me'
@@ -22,7 +23,8 @@ const router = createRouter({
     ...service,
     ...information,
     ...me,
-    ...profile
+    ...profile,
+    ...payment,
   ],
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {

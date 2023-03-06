@@ -232,6 +232,7 @@ export default defineComponent({
       this.$router.push({ name: 'home' });
     },
     changePeriod(during) {
+      this.changeType(1);
       this.period = during;
       this.connection.close();
       this.socketClose=true;

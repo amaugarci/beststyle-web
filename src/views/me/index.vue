@@ -1,12 +1,12 @@
 <template>
   <div class="bg-[#1f2029] absolute top-0 left-0 right-0 flex flex-col min-h-screen">
     <div class="bg-[#1f2029] relative">
-      <div class="absolute top-0 w-full text-right p-[0.5rem]">
+      <!-- <div class="absolute top-0 w-full text-right p-[0.5rem]">
         <p class="inline-block text-[0.75rem] color-[#ddd]">Dead: <span class="dead">18639</span></p>
         <p class="inline-block text-[0.75rem] color-[#ddd] ml-[0.5rem]">Alive: <span class="alive">297</span></p>
         <p class="inline-block text-[0.75rem] color-[#ddd] ml-[0.5rem]">Drawn: <span class="drawn">296</span></p>
         <p class="inline-block text-[0.75rem] color-[#ddd] ml-[0.5rem]"><span class="fps">1111</span> FPS</p>
-      </div>
+      </div> -->
       <div class="w-full bg-[#000000] h-[12rem] opacity-[.4]">
         <!-- <canvas width="1920" height="192"></canvas> -->
       </div>
@@ -21,9 +21,9 @@
           <p> <span class="user-money">余额： {{getUser['cash_amount'] }}</span> </p>
           <div class="flex flex-row text-[#ffeba7]">
             <img src="/img/cz.svg">
-            <p class="ml-[5px]">充值 |</p>
+            <p class="ml-[5px]" @click="()=>{$router.push({ name: 'recharge' })}">充值 |</p>
             <img class="ml-[5px]" src="/img/tx.svg">
-            <p class="ml-[5px]"> 提现</p>
+            <p class="ml-[5px]" @click="()=>{$router.push({ name: 'withdrawal' })}"> 提现</p>
           </div>
         </div>
       </div>
@@ -39,9 +39,9 @@
           <BIconCreditCard2Back class="text-[#ffeba7] inline-block text-[1rem]  mr-[0.3rem]"/>
           提现记录
         </li>
-        <li @click="news" class="border-b-[1px] bg-[#1f2029] border-gray-700 text-[#ddd] px-[1.25rem] py-[0.75rem]">
+        <!-- <li @click="news" class="border-b-[1px] bg-[#1f2029] border-gray-700 text-[#ddd] px-[1.25rem] py-[0.75rem]">
           <BIconNewspaper class="text-[#ffeba7] inline-block text-[1rem]  mr-[0.3rem]"/>
-          新闻公告</li>
+          新闻公告</li> -->
         <li @click="changepassword" class="border-b-[1px] bg-[#1f2029] border-gray-700 text-[#ddd] px-[1.25rem] py-[0.75rem]">
           <BIconPencilSquare class="text-[#ffeba7] inline-block text-[1rem]  mr-[0.3rem]"/>
           修改密码</li>
@@ -98,10 +98,10 @@ export default defineComponent({
   methods: {
     ...mapActions(useAuthStore, ['logout']),
     recharge(){
-      this.$router.push({ name: 'recharge' })
+      this.$router.push({ name: 'rechargehistory' })
     },
     withdrawal(){
-      this.$router.push({ name: 'withdrawal' })
+      this.$router.push({ name: 'withdrawalhistory' })
     },
     news(){
       this.$router.push({ name: 'news' })

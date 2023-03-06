@@ -11,23 +11,24 @@
     <div class="overflow-x-hidden overflow-y-auto h-full p-3">
       <p class="mt-[0.3rem] text-[1rem] pb-[1rem]">登陆密码</p>
       <div>
-        <input type="password" class="form-control form-control-sm mb-3"
+        <input type="password" class="form-control form-control-sm mb-3" v-model="password.old"
           name="password" placeholder="原密码" required="">
-        <input type="password" class="form-control form-control-sm mb-3"
+        <input type="password" class="form-control form-control-sm mb-3"  v-model="password.new"
           name="newpassword" placeholder="登陆密码 [6~16位]" required="">
-        <input type="password" class="form-control form-control-sm mb-3" name="repassword" placeholder="再次输入密码" required="">
+        <input type="password" class="form-control form-control-sm mb-3"  v-model="password.double" name="repassword" placeholder="再次输入密码" required="">
         <button
-          class="btn btn-success btn-block btn-sm">确定</button></div>
+          class="btn btn-success btn-block btn-sm" @click="sendPassword">确定</button>
+      </div>
       <hr>
       <p class="mt-[0.3rem] text-[1rem] pb-[1rem]">安全密码</p>
       <div>
         <input type="password"
-          class="form-control form-control-sm mb-3 " name="safepawd" placeholder="原密码" required="">
+          class="form-control form-control-sm mb-3 " name="safepawd"  v-model="securitynumber.old" placeholder="原密码" required="">
         <input type="password"
-          class="form-control form-control-sm mb-3 " name="newsafepawd" placeholder="安全密码 [6位数字]" required="">
+          class="form-control form-control-sm mb-3 " name="newsafepawd"  v-model="securitynumber.new" placeholder="安全密码 [6位数字]" required="">
         <input
-          type="password" class="form-control form-control-sm mb-3 " name="resafepawd" placeholder="再次输入密码"
-          required=""><button class="btn btn-info btn-block btn-sm">确定</button>
+          type="password" class="form-control form-control-sm mb-3 "  v-model="securitynumber.double" name="resafepawd" placeholder="再次输入密码"
+          required=""><button class="btn btn-info btn-block btn-sm" @click="sendSecurity">确定</button>
        </div>
     </div>
   </div>
@@ -38,16 +39,96 @@
 
 import { defineComponent } from 'vue'
 import { BIconPersonCircle } from 'bootstrap-icons-vue';
+import axios from 'axios'
+layer.config({
+  skin: 'error-class'
+})
 export default defineComponent({
   name: 'changepassword',
   components: {
     BIconPersonCircle
   },
   data: () => ({
+    password:{
+      old:'',
+      new:'',
+      double:''
+    },
+    securitynumber:{
+      old:'',
+      new:'',
+      double:''
+    }
   }),
   methods: {
     back() {
       this.$router.push({ name: 'me' });
+    },
+    showDialog(){
+      layer.open({
+          type:1,
+          offset:'b',
+          title:false,
+          content: '信息不正确',
+          closeBtn: 0,
+          shadeClose:1,
+      });
+    },
+    async sendPassword(){
+      if(this.validation(this.password)){
+          try{
+              const response=await axios.post('/changepassword', this.password);
+              if(response.data.status==1){
+                  layer.open({
+                      type:1,
+                      offset:'b',
+                      title:false,
+                      content: 'success',
+                      closeBtn: 0,
+                      shadeClose:1,
+                  });
+              }else{
+                  this.showDialog();
+              }
+          }
+          catch(error) {
+              this.showDialog();
+          };
+        }
+        else{
+            this.showDialog();
+        }
+    },
+    async sendSecurity(){
+      if(this.validation(this.securitynumber)){
+          try{
+              const response=await axios.post('/changesecurity', this.securitynumber);
+              if(response.data.status==1){
+                  layer.open({
+                      type:1,
+                      offset:'b',
+                      title:false,
+                      content: 'success',
+                      closeBtn: 0,
+                      shadeClose:1,
+                  });
+              }else{
+                  this.showDialog();
+              }
+          }
+          catch(error) {
+              this.showDialog();
+          };
+        }
+        else{
+            this.showDialog();
+        }
+    },
+    validation(value){
+        if(value.old==null||value.new==null||value.new<6||value.old<6||value.double!=value.new){
+            return false;
+        }
+        return true;
     },
   }
 })
@@ -118,4 +199,9 @@ hr {
 }
 *{
   box-sizing: border-box;
-}</style>
+  
+}
+body .error-class{ border-radius: 5px; width: 100%;margin: 0px;}
+body .error-class .layui-layer-content{ color:#000; width: 100%; text-align: center;padding: 20px 30px}
+body .error-class .layui-layer-btn{ padding: 0px;height:50px;display:flex; align-items: center;}
+</style>
