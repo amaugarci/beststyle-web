@@ -52,7 +52,6 @@ export default defineComponent({
   }),
   mounted(){
     this.getNews();
-    console.log('aaa');
   },
   methods: {
     moment: function () {

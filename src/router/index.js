@@ -45,5 +45,13 @@ router.beforeEach(async (to) => {
       auth.returnUrl = to.name;
       return '/login';
   }
+  const rechager = ['/recharge','/withdrawal'];
+  const bankrequired = rechager.includes(to.path);
+  if(bankrequired&&(auth.user==null)){
+    return '/me';
+  }else if(bankrequired&&(auth.user.bank==null)){
+    auth.returnUrl = to.name;
+    return '/bank';
+  }
 });
 export default router

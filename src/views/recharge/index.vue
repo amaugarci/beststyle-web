@@ -7,23 +7,34 @@
       </div>
       <div>充值</div>
     </div>
+    <!-- card -->
+    <div class="m-3 bg-[#DC3545] p-4 flex flex-row">
+      <div class="rounded-full w-[48px] h-[48px] text-center justify-center flex items-center bg-[#FF8792] mr-[10px]">
+        <p>{{ getUser.bank.name.slice(0,1) }}</p>
+      </div>
+      <div class="flex flex-col justify-evenly">
+        <p>{{getUser.bank.name}}</p>
+        <p>{{`${getUser.bank.cardnumber.toString().slice(0,3)} **** **** **** **** ${getUser.bank.cardnumber.toString().slice(0,3)}`}}</p>
+      </div>
+    </div>
+    <p class="px-3">
+      余额：{{ getUser.cash_amount }} 
+    </p>
     <!-- body -->
-    <div class="overflow-x-hidden overflow-y-auto h-full p-3">
+    <div class="overflow-x-hidden p-3">
       <div>
-        <input type="number" v-model="form.amount" class="form-control form-control-sm mb-3" placeholder="充值金额"  required="">
-        <input type="text" v-model="form.accountid"  class="form-control form-control-sm mb-3"  placeholder="帐户ID" required="">
-        <input type="number" v-model="form.password" style="-webkit-text-security: disc;" class="form-control form-control-sm mb-3" placeholder="安全密码 [6位数字]" required="">
-        <div class="relative w-full min-w-[200px]">
-          <textarea v-model="form.detail"
-            class="text-black  peer h-full min-h-[100px] w-full resize-none rounded-[7px] border border-blue-gray-500 bg-white px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-gray-500 focus:border-t-transparent focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50"
-            placeholder=" "
-          ></textarea>
-          <label class="text-black  before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-grey-500 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:border-gray-500 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:border-gray-500 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
-            细节
-          </label>
-        </div>
+        <ul class="mt-2 list-group-item list-group-flush">
+          <li class="list-group-item flex items-center px-[20px] py-[15px]">
+            <BIconLifePreserver class="bi-life-preserver"/>
+            <input type="number" name="money" placeholder="提现金额" v-model="form.amount" class="input-transparent p-1 text-[16px]" id="CashMoney">
+          </li> 
+          <li class="list-group-item flex items-center px-[20px] py-[15px]">
+            <BIconShieldExclamation class="bi-shield-exclamation" />
+            <input type="password" name="money" placeholder="安全密码" v-model="form.security" class="input-transparent p-1 text-[16px]" id="CashSafePawd">
+          </li> 
+        </ul>
         <button
-          class="btn btn-success btn-block btn-sm" @click="sendRequest">确定</button>
+          class="my-2 btn btn-success btn-block btn-sm " style="padding:0.75rem" @click="sendRequest">确定</button>
       </div>
     </div>
   </div>
@@ -33,7 +44,9 @@
 <script>
 
 import { defineComponent } from 'vue'
-import { BIconPersonCircle } from 'bootstrap-icons-vue';
+import { BIconPersonCircle,BIconLifePreserver,BIconShieldExclamation } from 'bootstrap-icons-vue';
+import {useAuthStore} from '@/pinia/modules/useAuthStore';
+import { mapState,mapActions  } from 'pinia'
 import axios from 'axios'
 layer.config({
   skin: 'error-class'
@@ -41,16 +54,20 @@ layer.config({
 export default defineComponent({
   name: 'recharge',
   components: {
-    BIconPersonCircle
+    BIconPersonCircle,
+    BIconLifePreserver,
+    BIconShieldExclamation 
   },
   data: () => ({
     form:{
-      password:null,
+      bank_id:null,
       amount:null,
-      accountid:null,
-      detail:''
+      security:null,
     }
   }),
+  computed:{
+    ...mapState(useAuthStore, ['getUser','getReturnUrl']),
+  },
   methods: {
     back() {
       this.$router.push({ name: 'me' });
@@ -66,10 +83,13 @@ export default defineComponent({
       });
     },
     async sendRequest(){
+      this.form.bank_id=this.getUser.bank.id;
       if(this.validation()){
             try{
                 const response=await axios.post('/recharge', this.form);
                 if(response.data.status==1){
+                  this.form.amount=null;
+                  this.form.security=null;
                     layer.open({
                         type:1,
                         offset:'b',
@@ -91,7 +111,7 @@ export default defineComponent({
         }
     },
     validation(){
-        if(this.form.accountid==null||this.form.amount==null||this.form.password<6){
+        if(this.form.amount==null||this.form.security==null||this.form.security<6){
             return false;
         }
         return true;
@@ -100,73 +120,4 @@ export default defineComponent({
 })
 </script>
 <style>
-body {
-  background-color: #2b2f3e;
-  color: #eee;
-  line-height: 1.5;
-}
-
-.scrolldown {
-  max-height: 5.5rem;
-  -webkit-line-clamp: 5;
-}
-
-.scrollup {
-  max-height: unset;
-  -webkit-line-clamp: unset;
-}
-form-control-sm {
-    height: calc(1.5em + 0.5rem + 2px);
-    padding: 0.25rem 0.5rem;
-    font-size: .875rem;
-    line-height: 1.5;
-    border-radius: 0.2rem;
-}
-.form-control {
-    display: block;
-    width: 100%;
-    height: calc(1.5em + 0.75rem + 2px);
-    padding: 0.375rem 0.75rem;
-    font-size: 0.85rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #495057;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: 0.25rem;
-    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-}
-.btn-block {
-    display: block;
-    width: 100%;
-}
-.btn-group-sm>.btn, .btn-sm {
-    padding: 0.25rem 0.5rem;
-    font-size: .875rem;
-    line-height: 1.5;
-    border-radius: 0.2rem;
-}
-.btn-success {
-    color: #fff;
-    background-color: #28a745;
-    border-color: #28a745;
-}
-.btn-info {
-    color: #fff;
-    background-color: #17a2b8;
-    border-color: #17a2b8;
-}
-hr {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    border: 0;
-    border-top: 1px solid rgba(0,0,0,.1);
-}
-*{
-  box-sizing: border-box;
-}
-body .error-class{ border-radius: 5px; width: 100%;margin: 0px;}
-body .error-class .layui-layer-content{ color:#000; width: 100%; text-align: center;padding: 20px 30px}
-body .error-class .layui-layer-btn{ padding: 0px;height:50px;display:flex; align-items: center;}
 </style>

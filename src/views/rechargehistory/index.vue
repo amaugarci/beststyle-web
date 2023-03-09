@@ -15,20 +15,18 @@
             <th>帐户ID</th>
             <th>金额</th>
             <th>充值后余额</th>
-            <th>细节</th>
             <th>时间</th>
             <th>状态</th>
           </tr>
         </thead>
         <tbody id="GoodsList">
           <tr class="text-[10px] md:text-[14px]" v-for="(item,index) in recharges" :key="item.id">
-            <th>{{item.accountid}}</th>
+            <th>{{item.player.bank.name}}</th>
             <th>{{item.amount}}</th>
-            <th>{{Number(item.player.cash_amount)+Number(item.amount)}}</th>
-            <th>{{item.detail}}</th>
+            <th>{{Number(item.lastprice)+Number(item.amount)}}</th>
             <th>{{moment().utc(new Date(item.created_at)).local().format("MM-DD hh:mm") }}</th>
             <th v-if="item.status==1"  class="textDanger">拒绝</th>
-            <th v-else-if="item.status==2"  class="textSuccess">已通过</th>
+            <th v-else-if="item.status==2&&item.status==4"  class="textSuccess">已通过</th>
             <th v-else class="">待办的</th>
           </tr>
         </tbody>

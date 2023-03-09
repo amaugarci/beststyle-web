@@ -9,24 +9,36 @@
         <div>客服</div>
       </div>
       <!-- body -->
-      <iframe src="https://im.8713987.top/im.html#137_cpTO7uZHYzk9W8GR" class="w-full h-full"></iframe>
+      <iframe v-if="url" src="https://im.8713987.top/im.html#137_cpTO7uZHYzk9W8GR" class="w-full h-full"></iframe>
     </div>
 </template>
 <script>
 
 import { defineComponent } from 'vue'
 import { BIconPersonCircle} from 'bootstrap-icons-vue';
-
+import axios from 'axios'
 export default defineComponent({
   name: 'service',
   components: {
     BIconPersonCircle
   },
   data:()=>({
-        checked:true,
-        
-    }),
+    checked:true,
+    url:null
+  }),
+  mounted(){
+    this.getUrl();
+  },
   methods:{
+    async getUrl() {
+      try {
+        const response = await axios.get('/url');
+        this.url = response.data.url
+      }
+      catch (error) {
+        console.log(error);
+      };
+    },
     back() {
       this.$router.push({ name: 'me' });
     },
