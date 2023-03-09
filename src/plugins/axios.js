@@ -5,7 +5,6 @@ import router from '@/router'
 axios.interceptors.request.use(request => {
   const auth = useAuthStore();
   const token = auth.token;
-  console.log(request.headers);
   if (token) {
     try{
       request.headers['Authorization'] = `Bearer ${token}`;
@@ -18,7 +17,6 @@ axios.interceptors.request.use(request => {
 })
 axios.interceptors.response.use(response =>response, error=>{
     const { status, data } = error.response;
-    console.log(data);
     if(status==404&&data.error=='unauthenticated.'){
       const auth = useAuthStore();
       auth.logout();

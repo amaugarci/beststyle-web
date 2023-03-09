@@ -9,9 +9,9 @@
     </div>
     <!-- body -->
     <div class="overflow-y-auto overflow-x-hidden h-full">
-      <ul v-for="(item,index) in news" :key="index" class="rounded-0 flex flex-col pl-0 mb-0 mt-4">
+      <ul v-for="(item,index) in announcement" :key="index" class="rounded-0 flex flex-col pl-0 mb-0 mt-4">
         <li @click="showdialog(index)" class="bg-[#1f2029] cursor-pointer text-[#ddd] border-[1px] border-[#1f2029] p-[0.75rem]" >
-          {{item}}
+          {{item.title}}
         </li>
       </ul>
     </div>
@@ -25,26 +25,36 @@ layer.config({
 })
 import { defineComponent } from 'vue'
 import { BIconPersonCircle } from 'bootstrap-icons-vue';
+import axios from 'axios'
+import moment from 'moment'
 export default defineComponent({
   name: 'news',
   components: {
     BIconPersonCircle
   },
   data: () => ({
-    news:[
-      'Assure联合40多家项目方80家KOL共同推出了“Gas Free NFT"，持有NFT，即可免链上Gas，诚意满满，掷地有声，在整个区块链行业引起了不小的震动。',
-      'Assure联合40多家项目方80家KOL共同推出了“Gas Free NFT"，持有NFT，即可免链上Gas，诚意满满，掷地有声，在整个区块链行业引起了不小的震动。',
-      'Assure联合40多家项目方80家KOL共同推出了“Gas Free NFT"，持有NFT，即可免链上Gas，诚意满满，掷地有声，在整个区块链行业引起了不小的震动。'
-    ]
+    announcement:null,
   }),
+  mounted(){
+    this.getAnnouncement();
+  },
   methods: {
     back() {
       this.$router.push({ name: 'me' });
     },
+    async getAnnouncement() {
+      try {
+        const response = await axios.get('/announcement');
+        this.announcement = response.data.announcement;
+      }
+      catch (error) {
+        console.log(error);
+      };
+    },
     showdialog(index){
       layer.open({
         title:false,
-        content: this.news[index],
+        content: this.announcement[index].description,
         btn:'确定',
         btnAlign: 'c',
         closeBtn: 0,

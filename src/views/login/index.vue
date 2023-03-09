@@ -132,9 +132,7 @@ export default defineComponent({
                     name:this.username,
                     password:this.password
                 });
-                console.log(response);
                 if(response.data&&response.data.token){
-                    console.log(response.data);
                     this.setToken(response.data.token);
                     await this.fetchUser();
                     this.$router.push({ name: this.getReturnUrl })
@@ -171,13 +169,11 @@ export default defineComponent({
                 }
             }
             catch(error) {
-                console.log(2);
                 console.log(error);
                 this.showDialog();
             };
         }
         else{
-            console.log(1);
             this.showDialog();
         }
     },

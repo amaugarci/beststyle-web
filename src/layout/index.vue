@@ -41,11 +41,14 @@
 import { defineComponent } from 'vue'
 import {BIconAlarm, BIconHouseFill,BIconClockHistory,BIconChatSquareDots,BIconCalendar4Range,BIconPersonCircle } from 'bootstrap-icons-vue';
 import Content from './components/Content/index.vue';
-import { mapState } from 'pinia'
-// import { useLayoutsettings } from '@/pinia/modules/layoutSettings'
+import {useAuthStore} from '@/pinia/modules/useAuthStore';
+import { mapState,mapActions  } from 'pinia'
 
 export default defineComponent({
   name: 'layout',
+  metaInfo: {
+    title: 'My New Site Title'
+  },
   components: {
     BIconHouseFill,
     BIconAlarm,
@@ -57,11 +60,10 @@ export default defineComponent({
   },
   data:()=>({
   }),
-  // computed: {
-  //   ...mapState(useLayoutsettings, ['getIndex']),
-  // },
+  computed: {
+    ...mapState(useAuthStore, ['getSystem']),
+  },
   methods:{
-    
   }
 });
 </script>

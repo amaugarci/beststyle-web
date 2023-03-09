@@ -17,7 +17,7 @@
         </div>
         <div v-if="getUser" class="flex-1 pl-[2rem] flex-col">
           <p>用户名：<span id="UserAccount">{{getUser['name'] }}</span></p>
-          <!-- <p>UID：<span id="UserUid">{{getUser['UID'] }}</span></p> -->
+          <p>UID：<span id="UserUid">{{getUser['id'] }}</span></p>
           <p> <span class="user-money">余额： {{getUser['cash_amount'] }}</span> </p>
           <div class="flex flex-row text-[#ffeba7]">
             <img src="/img/cz.svg">
@@ -39,9 +39,9 @@
           <BIconCreditCard2Back class="text-[#ffeba7] inline-block text-[1rem]  mr-[0.3rem]"/>
           提现记录
         </li>
-        <!-- <li @click="news" class="border-b-[1px] bg-[#1f2029] border-gray-700 text-[#ddd] px-[1.25rem] py-[0.75rem]">
+        <li @click="news" class="border-b-[1px] bg-[#1f2029] border-gray-700 text-[#ddd] px-[1.25rem] py-[0.75rem]">
           <BIconNewspaper class="text-[#ffeba7] inline-block text-[1rem]  mr-[0.3rem]"/>
-          新闻公告</li> -->
+          新闻公告</li>
         <li @click="changepassword" class="border-b-[1px] bg-[#1f2029] border-gray-700 text-[#ddd] px-[1.25rem] py-[0.75rem]">
           <BIconPencilSquare class="text-[#ffeba7] inline-block text-[1rem]  mr-[0.3rem]"/>
           修改密码</li>
@@ -121,7 +121,7 @@ export default defineComponent({
         closeBtn: 0,
         shadeClose:1,
         btn2 :()=>{
-          console.log('aaa');this.logout();
+          this.logout();
           this.$router.push({ name: 'login' })
         }
       });
@@ -130,16 +130,5 @@ export default defineComponent({
 })
 </script>
 <style>
-body {
-  background-color: #2b2f3e;
-  color: #eee;
-}
-body .me-class{ border-radius: 5px; width: 90%; max-width: 640px; }
-body .me-class .layui-layer-content{ color:#000; width: 100%; text-align: center;padding: 50px 30px}
-body .me-class .layui-layer-btn{ padding: 0px;height:50px;display:flex; align-items: center;}
-body .me-class .layui-layer-btn a{display:flex; align-items: center; justify-content: center;  background-color: #F2F2F2;border:none;margin:0px; border-right: 1px solid #D0D0D0; color: #000; width: 50%; height: 100%;}
-body .me-class .layui-layer-btn .layui-layer-btn1{ color: #40AFFE;}
-*{
-  box-sizing: border-box;
-}
+
 </style>

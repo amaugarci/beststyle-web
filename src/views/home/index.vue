@@ -53,9 +53,9 @@
           </div>
         </div>
         <div class="text-right pr-[0.5rem]">
-          <!-- <div class="font-normal text-[0.75rem] text-[#999]">
-            {{item.uid}}
-          </div> -->
+          <div class="font-normal text-[0.75rem] text-[#999]">
+            {{item.UID}}
+          </div>
           <div class="text-[.75rem] text-[#7e7e8a]">
             H：
             <span class="text-[.75rem] text-[#7e7e8a]">

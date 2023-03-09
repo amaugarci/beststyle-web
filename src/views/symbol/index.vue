@@ -11,12 +11,12 @@
       <div class="order-price-ex">
         <div class="order-price-now">
           <h3 id="charts-now" :class="{ sellColor: !symbol.status, buyColor: symbol.status  }">{{ symbol.price }}</h3>
-          <p id="charts-margin" :class="{ sellColor: !symbol.status, buyColor: symbol.status }">DIFF：{{ symbol.DIFF.toString().slice(0, 6) }}</p>
+          <p id="charts-margin" :class="{ sellColor: !symbol.status, buyColor: symbol.status }">DIFF：{{ symbol.DIFF.toFixed(2) }}</p>
         </div>
         <div class="order-price-hls">
-          <p>H：<span id="charts-highest" class="charts-price">{{ symbol.H }}</span></p>
-          <p>L：<span id="charts-lowest" class="charts-price">{{ symbol.L }}</span></p>
-          <p>V：<span id="charts-sales" class="charts-price">{{ symbol.V }}</span></p>
+          <p>H：<span id="charts-highest" class="charts-price">{{ (Number(symbol.H).toFixed(2) )}}</span></p>
+          <p>L：<span id="charts-lowest" class="charts-price">{{ Number(symbol.L ).toFixed(2)}}</span></p>
+          <p>V：<span id="charts-sales" class="charts-price">{{ Number(symbol.V).toFixed(2) }}</span></p>
         </div>
         <div style="padding-left: 1rem" class="order-price-btn"> 
           <button @click="riseDialog" class="buy-bg order-upbtn" style="margin-bottom: .3rem">买涨</button> 
@@ -53,7 +53,14 @@
         1D
       </span>
     </div>
-    <VueEcharts v-if="option" :option="option" :key="reRender" class="tradingView"></VueEcharts>
+    <div class="m-2">
+      <span class="m-[5px] text-[13px]">{{timer}}</span> 
+      <span class="m-[5px] text-[#e91c41] text-[13px]">{{ Number(openValue).toFixed(2) }}</span>
+      <span class="m-[5px] text-[#3b82f6] text-[13px]">{{ Number(closeValue).toFixed(2) }}</span>
+      <span class="m-[5px] text-[#40d090] text-[13px]">{{ Number(lowValue).toFixed(2) }}</span>
+      <span class="m-[5px] text-[#fde047] text-[13px]">{{ Number(highValue).toFixed(2) }}</span>
+    </div>
+    <VueEcharts ref="charts" v-if="option" :option="option" :key="reRender" class="tradingView"></VueEcharts>
     <!-- dialog -->
     <div :class="{block:showDialog}" class="order-setbox-lay" @click="()=>showDialog=false"></div>
     <div  class="order-setbox" :class="{block:showDialog}">
@@ -89,11 +96,8 @@
         <div class="order-setbox-info">
           <div>余额：<span class="order-user-money">{{ form.money }}</span></div>
           <div style="flex: 1;text-align: center;"> 手续费：
-            <span v-if="form.dir" class="buy-color order-fee">
-              {{ form.profit[form.benefit] }}
-            </span>
-            <span v-else class="buy-color order-fee">
-              {{ form.profit[form.benefit] }}
+            <span v-if="getSystem" class="buy-color order-fee">
+              {{ getSystem.bettingPercent }}
             </span>
             % </div>
           <div>实际支付： <span class="buy-color order-truemoney">{{ form.money }}</span> </div>
@@ -197,22 +201,40 @@ export default defineComponent({
       symbol: null,
       dates: [],
       data: [],
+      QMA:null,
+      QMABar:null,
       volumes: [],
+      volumn:null,
       option: null,
       reRender: false,
       current: {
         time: null,
         price: 0
-      }
+      },
+      timer:null,
+      openValue:0,
+      closeValue:0,
+      highValue:null,
+      lowValue:null,
+      firstbar:null,
+      macd:0,
+      single:0,
+      diff:0,
     };
   },
   computed:{
-    ...mapState(useAuthStore, ['getUser']),
+    ...mapState(useAuthStore, ['getUser','getSystem']),
   },
   mounted() {
     this.getCurrentChart(this.$route.params.id);
+    setInterval(function(){
+        this.timer=moment.utc().local().format('hh:mm:ss');
+    }.bind(this),1000);
   },
   methods: {
+    moment(){
+      return moment;
+    },
     calculateMA(dayCount, data) {
       var result = [];
       for (var i = 0, len = data.length; i < len; i++) {
@@ -227,6 +249,126 @@ export default defineComponent({
         result.push(sum / dayCount);
       }
       return result;
+    },
+    calculateDEA(){
+      let length=this.QMABar.ma_5.length;
+      this.diff=`DIFF: ${(this.QMABar.ma_5[length-1]-this.QMABar.ma_5[length-2]).toFixed(2)}`;
+      const prices = this.data.map(d => parseFloat(this.data[1]));
+      // Calculate 12-period EMA
+      let ema12 = 0;
+      const multiplier12 = 2 / (12 + 1);
+      for (let i = 0; i < 12; i++) {
+        ema12 += prices[i];
+      }
+      ema12 /= 12;
+      for (let i = 12; i < prices.length; i++) {
+        ema12 = (prices[i] - ema12) * multiplier12 + ema12;
+      }
+
+      // Calculate 26-period EMA
+      let ema26 = 0;
+      const multiplier26 = 2 / (26 + 1);
+      for (let i = 0; i < 26; i++) {
+        ema26 += prices[i];
+      }
+      ema26 /= 26;
+      for (let i = 26; i < prices.length; i++) {
+        ema26 = (prices[i] - ema26) * multiplier26 + ema26;
+      }
+
+      // Calculate MACD line
+      const macd = ema12 - ema26;
+
+      // Calculate signal line (9-period EMA of MACD line)
+      let signal = macd;
+      const multiplier9 = 2 / (9 + 1);
+      for (let i = 1; i < 9; i++) {
+        signal += macd;
+      }
+      signal /= 9;
+      for (let i = 9; i < prices.length; i++) {
+        signal = (macd - signal) * multiplier9 + signal;
+      }
+      this.macd=`MACD: ${macd.toFixed(4)}`;
+      this.single=`DEA: ${signal.toFixed(4)}`;
+      if(this.$refs.charts)
+      {
+        console.log(this.$refs.charts);
+        const chart = this.$refs.charts.chart;
+        chart.setOption({
+            graphic: [
+              {
+                type: 'text',
+                left: 10,
+                top: 530,
+                style: {
+                  text: this.diff, 
+                  textAlign: 'center',
+                  fontSize: 11,
+                  fill: '#FFF'
+                }
+              },
+              {
+                type: 'text',
+                left:100,
+                top: 530,
+                style: {
+                    text: this.single,
+                    textAlign: 'center',
+                    fontSize: 11,
+                    fill: '#e91c41'
+                }
+              },
+              {
+                type: 'text',
+                left:190,
+                top: 530,
+                style: {
+                    text: this.macd,
+                    textAlign: 'center',
+                    fontSize: 11,
+                    fill: '#40d090'
+                }
+              }
+            ],
+        });
+      }
+    },
+    calculateMALast(dayCount, data) {
+      let result = [];
+      let sum=0;
+      for (var i = data.length-2; i >=data.length-dayCount-1; i--) {
+        sum += +data[i][1];
+      }
+      return sum/dayCount;
+    },
+    calculateMABar(dayCount, data) {
+      var result = [];
+      for (var i = 0, len = data.length; i < len; i++) {
+        if (i < dayCount) {
+          result.push(0);
+          continue;
+        }
+        var sum = 0;
+        for (var j = 0; j < dayCount; j++) {
+          sum += +data[i - j][1];
+        }
+        if (i == dayCount) {
+          this.firstbar=sum / dayCount;
+          result.push(0);
+        }else{
+          result.push(sum / dayCount-this.firstbar);
+        }
+      }
+      return result;
+    },
+    calculateMABarLast(dayCount, data) {
+      let result = [];
+      let sum=0;
+      for (var i = data.length-2; i >=data.length-dayCount-1; i--) {
+        sum += +data[i][1];
+      }
+      return sum/dayCount-this.firstbar;
     },
     back() {
       this.$router.push({ name: 'home' });
@@ -246,10 +388,35 @@ export default defineComponent({
               type: 'bar',
               xAxisIndex: 1,
               yAxisIndex: 1,
+              barWidth:'90%',
               itemStyle: {
                 color: '#7fbe9e'
               },
-              data: this.volumes
+              data: this.QMABar.ma_5
+            },
+            {
+              name: 'MA5',
+              type: 'line',
+              xAxisIndex: 1,
+              yAxisIndex: 1,
+              data: this.QMABar.ma_10,
+              smooth: true,
+              showSymbol: false,
+              lineStyle: {
+                width: 1
+              }
+            },
+            {
+              name: 'MA10',
+              type: 'line',
+              xAxisIndex: 1,
+              yAxisIndex: 1,
+              data: this.QMABar.ma_15,
+              smooth: true,
+              showSymbol: false,
+              lineStyle: {
+                width: 1
+              }
             },
             {
               type: 'candlestick',
@@ -284,7 +451,7 @@ export default defineComponent({
             {
               name: 'MA5',
               type: 'line',
-              data: this.calculateMA(5, this.data),
+              data: this.QMA.ma_5,
               smooth: true,
               showSymbol: false,
               lineStyle: {
@@ -294,7 +461,7 @@ export default defineComponent({
             {
               name: 'MA10',
               type: 'line',
-              data: this.calculateMA(10, this.data),
+              data: this.QMA.ma_10,
               smooth: true,
               showSymbol: false,
               lineStyle: {
@@ -304,7 +471,7 @@ export default defineComponent({
             {
               name: 'MA20',
               type: 'line',
-              data: this.calculateMA(20, this.data),
+              data: this.QMA.ma_15,
               smooth: true,
               showSymbol: false,
               lineStyle: {
@@ -314,7 +481,7 @@ export default defineComponent({
             {
               name: 'MA30',
               type: 'line',
-              data: this.calculateMA(30, this.data),
+              data: this.QMA.ma_20,
               smooth: true,
               showSymbol: false,
               lineStyle: {
@@ -325,6 +492,41 @@ export default defineComponent({
       }else{
         this.option.series = [
         {
+          name: 'Volume',
+          type: 'bar',
+          xAxisIndex: 1,
+          yAxisIndex: 1,
+          barWidth:'90%',
+          itemStyle: {
+            color: '#7fbe9e'
+          },
+          data: this.QMABar.ma_5
+        },
+        {
+          name: 'MA5',
+          type: 'line',
+          xAxisIndex: 1,
+          yAxisIndex: 1,
+          data: this.QMABar.ma_10,
+          smooth: true,
+          showSymbol: false,
+          lineStyle: {
+            width: 1
+          }
+        },
+        {
+          name: 'MA10',
+          type: 'line',
+          xAxisIndex: 1,
+          yAxisIndex: 1,
+          data: this.QMABar.ma_15,
+          smooth: true,
+          showSymbol: false,
+          lineStyle: {
+            width: 1
+          }
+        },
+        {
           data: [...this.data.map(item => item[0])],
           type: 'line',
           lineStyle: { color: 'yellow' },
@@ -332,7 +534,7 @@ export default defineComponent({
           areaStyle: {
             color: '#2B2B2B'
           }
-        }
+        },
       ]
       }
       this.reRender = !this.reRender;
@@ -341,19 +543,33 @@ export default defineComponent({
       try {
         const response = await axios.get(`/chart/${id}?period=${this.period}`);
         this.symbol = response.data.symbol;
+        this.highValue=this.symbol.H;
+        this.lowValue=this.symbol.L;
         this.form.profit=[...this.symbol.profitRatio.split(',')];
         this.form.loss=[...this.symbol.lossRatio.split(',')];
         let charts = response.data.charts;
+        this.volumn=Number(charts[0][5]);
         charts.forEach(element => {
           this.dates.push(moment.utc(new Date(element[0])).local().format('hh:mm'));
           this.data.push([Number(element[1]), Number(element[4]), Number(element[3]), Number(element[2]), Number(element[5])]);
-          this.volumes.push(Number(element[5]));
+          this.volumes.push(Number(element[5])-(Number(element[4])));
         });
+        this.QMA={
+           ma_5: this.calculateMA(5, this.data),
+           ma_10: this.calculateMA(10, this.data),
+           ma_15: this.calculateMA(15, this.data),
+           ma_20: this.calculateMA(20, this.data)
+        }
+        this.QMABar={
+          ma_5: this.calculateMABar(5, this.data),
+          ma_10: this.calculateMABar(10, this.data),
+          ma_15: this.calculateMABar(15, this.data),
+        }
+        this.calculateDEA();
         this.option = {
           animation: false,
           color: colorList,
           barMinWidth: '30%',
-          barMaxWidth: '60%',
           xAxis: [
             {
               type: 'category',
@@ -399,10 +615,11 @@ export default defineComponent({
               }
             },
             {
+              position: 'right',
               scale: true,
               gridIndex: 1,
-              splitNumber: 2,
-              axisLabel: { show: false },
+              splitNumber: 1,
+              axisLabel: { show: true },
               axisLine: { show: false },
               axisTick: { show: false },
               splitLine: { show: false }
@@ -413,15 +630,50 @@ export default defineComponent({
               left: 20,
               right: 60,
               top: 0,
-              height: 600
+              height:500
             },
             {
               left: 20,
               right: 60,
-              height: 40,
-              top: 630
+              height:50,
+              top: 550
             }
           ],
+          graphic: [
+            {
+                type: 'text',
+                left:10,
+                top: 530,
+                style: {
+                    text: this.diff,
+                    textAlign: 'center',
+                    fontSize: 11,
+                    fill: '#FFF'
+                }
+            },
+            {
+                type: 'text',
+                left:100,
+                top: 530,
+                style: {
+                    text: this.single,
+                    textAlign: 'center',
+                    fontSize: 11,
+                    fill: '#e91c41'
+                }
+            },
+            {
+                type: 'text',
+                left:190,
+                top: 530,
+                style: {
+                    text: this.macd,
+                    textAlign: 'center',
+                    fontSize: 11,
+                    fill: '#40d090'
+                }
+            }
+        ],
           // dataZoom: [
           //   {
           //     type: 'inside',
@@ -444,10 +696,35 @@ export default defineComponent({
               type: 'bar',
               xAxisIndex: 1,
               yAxisIndex: 1,
+              barWidth:'90%',
               itemStyle: {
                 color: '#7fbe9e'
               },
-              data: this.volumes
+              data: this.QMABar.ma_5
+            },
+            {
+              name: 'MA5',
+              type: 'line',
+              xAxisIndex: 1,
+              yAxisIndex: 1,
+              data: this.QMABar.ma_10,
+              smooth: true,
+              showSymbol: false,
+              lineStyle: {
+                width: 1
+              }
+            },
+            {
+              name: 'MA10',
+              type: 'line',
+              xAxisIndex: 1,
+              yAxisIndex: 1,
+              data: this.QMABar.ma_15,
+              smooth: true,
+              showSymbol: false,
+              lineStyle: {
+                width: 1
+              }
             },
             {
               type: 'candlestick',
@@ -482,7 +759,7 @@ export default defineComponent({
             {
               name: 'MA5',
               type: 'line',
-              data: this.calculateMA(5, this.data),
+              data: this.QMA.ma_5,
               smooth: true,
               showSymbol: false,
               lineStyle: {
@@ -492,7 +769,7 @@ export default defineComponent({
             {
               name: 'MA10',
               type: 'line',
-              data: this.calculateMA(10, this.data),
+              data: this.QMA.ma_10,
               smooth: true,
               showSymbol: false,
               lineStyle: {
@@ -502,7 +779,7 @@ export default defineComponent({
             {
               name: 'MA20',
               type: 'line',
-              data: this.calculateMA(20, this.data),
+              data: this.QMA.ma_15,
               smooth: true,
               showSymbol: false,
               lineStyle: {
@@ -512,7 +789,7 @@ export default defineComponent({
             {
               name: 'MA30',
               type: 'line',
-              data: this.calculateMA(30, this.data),
+              data: this.QMA.ma_20,
               smooth: true,
               showSymbol: false,
               lineStyle: {
@@ -541,23 +818,35 @@ export default defineComponent({
         } else {
           this.symbol['status'] = true;
         }
-        this.symbol['price'] = price.slice(0, 8);
+        this.symbol['price'] = Number(price).toFixed(2);
         let value = JSON.parse(event.data)['k'];
+        this.highValue=value['h'];
+        this.lowValue=value['l'];
+        this.openValue=value['o'];
+        this.closeValue=value['c'];
         let date = moment.utc(new Date(value['t'])).local().format('hh:mm');
         this.current.price = Number(price);
         this.current.time = JSON.parse(event.data)['E'];
         if (this.type != 2) {
-          this.option.series[1].markLine.data[0].yAxis = Number(price);
+          this.option.series[3].markLine.data[0].yAxis = Number(price);
         }
         if (date == this.dates.slice(-1)) {
           let len = this.dates.length;
           this.dates[len - 1] = date;
           this.data[len - 1] = ([Number(value['o']), Number(value['c']), Number(value['l']), Number(value['h']), Number(value['v'])]);
-          this.volumes[len - 1] = (Number(value['v']));
+          this.volumes[len - 1] = (Number(Number(value['o'])-Number(value['c'])));
         } else {
           this.dates.push(date);
           this.data.push([Number(value['o']), Number(value['c']), Number(value['l']), Number(value['h']), Number(value['v'])]);
-          this.volumes.push(Number(value['v']));
+          this.QMA.ma_5.push(this.calculateMALast(5,this.data));
+          this.QMA.ma_10.push(this.calculateMALast(10,this.data));
+          this.QMA.ma_15.push(this.calculateMALast(15,this.data));
+          this.QMA.ma_20.push(this.calculateMALast(20,this.data));
+          this.QMABar.ma_5.push(this.calculateMABarLast(5,this.data));
+          this.QMABar.ma_10.push(this.calculateMABarLast(10,this.data));
+          this.QMABar.ma_15.push(this.calculateMABarLast(15,this.data));
+          this.volumes.push((Number(Number(value['o'])-Number(value['c']))));
+          this.calculateDEA();
         }
         this.reRender = !this.reRender;
       }
@@ -588,12 +877,12 @@ export default defineComponent({
     },
     keyPress(val){
       switch(val){
-        case -1: this.form.money=Number(this.form.keyValue); this.form.keyboard=false; break;
+        case -1: this.form.money=Number(this.form.keyValue); this.form.keyboard=false; this.form.keyValue=''; break;
         case -2: this.form.keyboard=false;   break;
         case -3: this.form.keyValue='';  break;
         case -4: this.form.keyValue=this.form.keyValue.slice(0,-1); break;
         case 10: if(this.form.keyValue.indexOf('.')==-1){this.form.keyValue+='.';}  break;
-        default : this.form.keyValue+=val.toString();break;
+        default : this.form.keyValue+=val.toString(); break;
       }
     },
     orderDialog(){
@@ -641,9 +930,11 @@ export default defineComponent({
               during:this.form.time,
               money:this.form.money,
           });
+          console.log(response.data.status);
           if(response.data.status==1){
-            console.log(response);
             this.changeBalance(this.form.money);
+          }else{
+            this.errorDialog();
           }
       }
       catch(error) {
