@@ -9,7 +9,7 @@
     </div>
     <!-- listview -->
   <div class="overflow-y-auto overflow-x-hidden h-full p-[1rem]">
-    <div v-if="!news.length" class="flex items-center justify-center mt-[20px] text-[0.7rem]">
+    <div v-if="!news||news.length==0" class="flex items-center justify-center mt-[20px] text-[0.7rem]">
           暂⽆订单
         </div>
     <div v-for="(item,index) in news" :key="item.id">

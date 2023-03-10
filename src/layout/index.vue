@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-        <Content />
+        <router-view />
     </div>
     <div class="flex fixed w-full bottom-0 bg-[#1f2029] h-[3.5rem] z-[9999] text-[#ffeba7] border-t-[1px] border-[#333]">
         <router-link to="home"  class="grow text-center text-[.7rem] mt-[0.5rem]" active-class="active">

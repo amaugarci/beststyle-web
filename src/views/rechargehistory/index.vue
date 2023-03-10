@@ -9,7 +9,7 @@
     </div>
         <!-- body -->
     <div class="p-3 text-[1rem]">
-      <div v-if="!recharges.length" class="flex items-center justify-center mt-[20px] text-[0.7rem]">
+      <div v-if="!recharges||recharges.length==0" class="flex items-center justify-center mt-[20px] text-[0.7rem]">
           暂⽆订单
         </div>
       <div class="flex flex-col bg-[#32373A] p-5 gap-2 rounded my-[15px]" v-for="(item,index) in recharges" :key="item.id">

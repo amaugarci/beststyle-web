@@ -9,7 +9,7 @@
     </div>
     <!-- body -->
     <div class="overflow-y-auto overflow-x-hidden h-full">
-      <div v-if="!announcement.length" class="flex items-center justify-center mt-[20px] text-[0.7rem]">
+      <div v-if="!announcement||announcement.length==0" class="flex items-center justify-center mt-[20px] text-[0.7rem]">
           暂⽆订单
         </div>
       <ul v-for="(item,index) in announcement" :key="index" class="rounded-0 flex flex-col pl-0 mb-0 mt-4">
