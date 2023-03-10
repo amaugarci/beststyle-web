@@ -2,14 +2,14 @@
     <div class="absolute top-0 left-0 bottom-0 right-0 flex flex-col bg-[#fff]">
       <!-- header -->
       <div class="h-[2.5rem] w-full text-center bg-[#1f2029] pl-[10px] py-[8px]">
-        <div @click="back" class="float-left">
+        <div @click="back" class="float-left absolute">
           <BIconPersonCircle class="text-[1.3rem] cursor-pointer mt-[3px] inline-block mb-[7px]" />
           返回
         </div>
-        <div>客服</div>
+        <div class="font-black text-white">客服</div>
       </div>
       <!-- body -->
-      <iframe v-if="url" src="https://im.8713987.top/im.html#137_cpTO7uZHYzk9W8GR" class="w-full h-full"></iframe>
+      <iframe v-if="url" :src="url" class="w-full h-full"></iframe>
     </div>
 </template>
 <script>

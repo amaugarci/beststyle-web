@@ -2,20 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: 'Poppins',sans-serif;
-  font-weight: 300;
-  font-size: 15px;
-  line-height: 1.7;
-  color: #c4c3ca;
-  background-color: #1f2029;
-  overflow-x: hidden;
-}
-body {
-  background-color: #2b2f3e;
-  color: #eee;
-}
-
 *{
   box-sizing: border-box;
 }

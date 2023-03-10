@@ -5,10 +5,13 @@
       <div class="float-left">
         <BIconChevronLeft @click="back" class="text-[1.3rem] cursor-pointer mt-[3px]" />
       </div>
-      <div>资讯</div>
+      <div  class="font-black text-white">资讯</div>
     </div>
     <!-- listview -->
   <div class="overflow-y-auto overflow-x-hidden h-full p-[1rem]">
+    <div v-if="!news.length" class="flex items-center justify-center mt-[20px] text-[0.7rem]">
+          暂⽆订单
+        </div>
     <div v-for="(item,index) in news" :key="item.id">
       <div class="border-[1px] border-[#1f2029]" >
           <div class="bg-[#1f2029] p-[0.75rem] text-[#999]">
@@ -78,11 +81,7 @@ export default defineComponent({
   }
 })
 </script>
-<style>body {
-  background-color: #2b2f3e;
-  color: #eee;
-  line-height: 1.5;
-}
+<style>
 .scrolldown{
   max-height: 5.5rem;
   -webkit-line-clamp: 5;

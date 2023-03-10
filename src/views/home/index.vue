@@ -57,14 +57,10 @@
             {{item.UID}}
           </div>
           <div class="text-[.75rem] text-[#7e7e8a]">
-            H：
-            <span class="text-[.75rem] text-[#7e7e8a]">
-              {{ item.H }}
+            H:{{Number(item.H).toFixed(3) }}
+            <span class="mx-[2px]">
             </span>
-            L：
-            <span class="text-[.75rem] text-[#7e7e8a]">
-             {{ item.L }}
-            </span>
+            L: {{ Number(item.L).toFixed(3) }}
           </div>
         </div>
         <div class="h-full">

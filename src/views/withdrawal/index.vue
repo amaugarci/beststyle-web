@@ -5,7 +5,7 @@
       <div class="float-left">
         <BIconPersonCircle @click="back" class="text-[1.3rem] cursor-pointer mt-[3px]" />
       </div>
-      <div>提现</div>
+      <div class="font-black text-white">提现</div>
     </div>
     <!-- card -->
     <div class="m-3 bg-[#DC3545] p-4 flex flex-row">

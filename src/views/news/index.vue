@@ -5,10 +5,13 @@
       <div class="float-left">
         <BIconPersonCircle @click="back" class="text-[1.3rem] cursor-pointer mt-[3px]" />
       </div>
-      <div>新闻公告</div>
+      <div class="font-black text-white">新闻公告</div>
     </div>
     <!-- body -->
     <div class="overflow-y-auto overflow-x-hidden h-full">
+      <div v-if="!announcement.length" class="flex items-center justify-center mt-[20px] text-[0.7rem]">
+          暂⽆订单
+        </div>
       <ul v-for="(item,index) in announcement" :key="index" class="rounded-0 flex flex-col pl-0 mb-0 mt-4">
         <li @click="showdialog(index)" class="flex items-center justify-between bg-[#1f2029] cursor-pointer text-[#ddd] border-[1px] border-[#1f2029] p-[0.75rem]" >
          <div> {{item.title}}</div>
@@ -69,11 +72,6 @@ export default defineComponent({
 })
 </script>
 <style>
-body {
-  background-color: #2b2f3e;
-  color: #eee;
-  line-height: 1.5;
-}
 
 .scrolldown {
   max-height: 5.5rem;

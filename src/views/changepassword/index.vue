@@ -5,7 +5,7 @@
       <div class="float-left">
         <BIconPersonCircle @click="back" class="text-[1.3rem] cursor-pointer mt-[3px]" />
       </div>
-      <div>修改密码</div>
+      <div  class="font-black text-white">修改密码</div>
     </div>
     <!-- body -->
     <div class="overflow-x-hidden overflow-y-auto h-full p-3">
@@ -146,11 +146,6 @@ export default defineComponent({
 })
 </script>
 <style>
-body {
-  background-color: #2b2f3e;
-  color: #eee;
-  line-height: 1.5;
-}
 
 .scrolldown {
   max-height: 5.5rem;
