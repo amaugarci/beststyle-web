@@ -154,8 +154,6 @@
     </div>
   </div>
 </template>
-
-
 <script>
 layer.config({
   skin: 'symbol-class'
@@ -180,6 +178,7 @@ export default defineComponent({
   },
   data() {
     return {
+      message:'',
       form:{
         dir:true,
         title:'订单确认',
@@ -569,6 +568,12 @@ export default defineComponent({
         this.option = {
           animation: false,
           color: colorList,
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+              type: 'cross'
+            }
+          },
           barMinWidth: '30%',
           xAxis: [
             {
@@ -911,7 +916,7 @@ export default defineComponent({
           type:1,
           offset:'b',
           title:false,
-          content: 'Invalid money',
+          content: this.message,
           closeBtn: 0,
           shadeClose:1,
       });
@@ -919,7 +924,9 @@ export default defineComponent({
     ...mapActions(useAuthStore, ['changeBalance']),
     async orderApi(){
       if(this.form.money>this.getUser.cash_amount){
+        this.message='您的账户余额不足';
         this.errorDialog();
+        return;
       }
       try{
           const response=await axios.post('/order', {
@@ -930,15 +937,17 @@ export default defineComponent({
               during:this.form.time,
               money:this.form.money,
           });
-          console.log(response.data.status);
           if(response.data.status==1){
+
             this.changeBalance(this.form.money);
           }else{
+            this.message=response.data.message;
             this.errorDialog();
           }
       }
       catch(error) {
-          // this.showDialog();
+        this.message='出现意想不到的问题';
+        this.errorDialog();
       };
     },
   }

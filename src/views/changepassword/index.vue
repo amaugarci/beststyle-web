@@ -69,7 +69,7 @@ export default defineComponent({
           type:1,
           offset:'b',
           title:false,
-          content: '信息不正确',
+          content: this.message,
           closeBtn: 0,
           shadeClose:1,
       });
@@ -83,16 +83,18 @@ export default defineComponent({
                       type:1,
                       offset:'b',
                       title:false,
-                      content: 'success',
+                      content: '成功',
                       closeBtn: 0,
                       shadeClose:1,
                   });
               }else{
+
                   this.showDialog();
               }
           }
           catch(error) {
-              this.showDialog();
+             this.message='出现意想不到的问题'
+             this.showDialog();
           };
         }
         else{
@@ -108,7 +110,7 @@ export default defineComponent({
                       type:1,
                       offset:'b',
                       title:false,
-                      content: 'success',
+                      content: '成功',
                       closeBtn: 0,
                       shadeClose:1,
                   });
@@ -125,9 +127,19 @@ export default defineComponent({
         }
     },
     validation(value){
-        if(value.old==null||value.new==null||value.new<6||value.old<6||value.double!=value.new){
-            return false;
+        if(value.old==null||value.new==null){
+          this.message='请输入所有值'
+          return false;
         }
+        if(value.new.length<6||value.old.length<6){
+          this.message='密码必须为6位或更长。'
+          return false;
+        }
+        if(value.double!=value.new){
+          this.message='确认密码不正确'
+          return false;
+        }
+        
         return true;
     },
   }
