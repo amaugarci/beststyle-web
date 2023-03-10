@@ -9,28 +9,29 @@
     </div>
         <!-- body -->
     <div class="p-3 text-[1rem]">
-      <table class="table table-hover table-sm mb-0">
-        <thead>
-          <tr class="whitespace-nowrap text-[10px] md:text-[14px]">
-            <th>帐户ID</th>
-            <th>金额</th>
-            <th>充值后余额</th>
-            <th>时间</th>
-            <th>状态</th>
-          </tr>
-        </thead>
-        <tbody id="GoodsList">
-          <tr class="text-[10px] md:text-[14px]" v-for="(item,index) in recharges" :key="item.id">
-            <th>{{item.player.bank.name}}</th>
-            <th>{{item.amount}}</th>
-            <th>{{Number(item.lastprice)+Number(item.amount)}}</th>
-            <th>{{moment().utc(new Date(item.created_at)).local().format("MM-DD hh:mm") }}</th>
-            <th v-if="item.status==1"  class="textDanger">拒绝</th>
-            <th v-else-if="item.status==2&&item.status==4"  class="textSuccess">已通过</th>
-            <th v-else class="">待办的</th>
-          </tr>
-        </tbody>
-      </table>
+      <div class="flex flex-col bg-[#32373A] p-5 gap-2 rounded my-[15px]" v-for="(item,index) in recharges" :key="item.id">
+        <div class="flex justify-between items-center">
+          <div>{{item.player.bank.name}}</div>
+          <div class="text-green-500">{{item.player.bank.address}}</div>
+        </div>
+        <div class="flex justify-between items-center">
+          <div>
+            充值金额: {{item.amount}}
+          </div>
+          <div>
+            充值后金额: {{Number(item.lastprice)+Number(item.amount)}}
+          </div>
+        </div>
+        <div class="flex justify-between items-center">
+          <div >
+            充值时间: {{moment().utc(new Date(item.created_at)).local().format("MM-DD hh:mm") }}
+          </div>
+          <div v-if="item.status==1"  class="textDanger">状态: 拒绝</div>
+          <div v-else-if="item.status==2&&item.status==4"  class="textSuccess">状态: 已通过</div>
+          <div v-else class="">状态: 待办的</div>
+        </div>
+        
+      </div>
     </div>
   </div>
 </template>

@@ -10,8 +10,9 @@
     <!-- body -->
     <div class="overflow-y-auto overflow-x-hidden h-full">
       <ul v-for="(item,index) in announcement" :key="index" class="rounded-0 flex flex-col pl-0 mb-0 mt-4">
-        <li @click="showdialog(index)" class="bg-[#1f2029] cursor-pointer text-[#ddd] border-[1px] border-[#1f2029] p-[0.75rem]" >
-          {{item.title}}
+        <li @click="showdialog(index)" class="flex items-center justify-between bg-[#1f2029] cursor-pointer text-[#ddd] border-[1px] border-[#1f2029] p-[0.75rem]" >
+         <div> {{item.title}}</div>
+         <div> {{moment().utc(new Date(item.created_at)).local().format("yyyy-MM-DD hh:mm:ss") }}</div>
         </li>
       </ul>
     </div>
@@ -39,6 +40,9 @@ export default defineComponent({
     this.getAnnouncement();
   },
   methods: {
+    moment: function () {
+      return moment;
+    },
     back() {
       this.$router.push({ name: 'me' });
     },

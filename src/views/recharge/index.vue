@@ -59,6 +59,7 @@ export default defineComponent({
     BIconShieldExclamation 
   },
   data: () => ({
+    message:'',
     form:{
       bank_id:null,
       amount:null,
@@ -77,7 +78,7 @@ export default defineComponent({
           type:1,
           offset:'b',
           title:false,
-          content: '信息不正确',
+          content: this.message,
           closeBtn: 0,
           shadeClose:1,
       });
@@ -94,11 +95,12 @@ export default defineComponent({
                         type:1,
                         offset:'b',
                         title:false,
-                        content: 'success',
+                        content: '成功',
                         closeBtn: 0,
                         shadeClose:1,
                     });
                 }else{
+                   this.message=response.data.message;;
                     this.showDialog();
                 }
             }
@@ -111,7 +113,12 @@ export default defineComponent({
         }
     },
     validation(){
-        if(this.form.amount==null||this.form.security==null||this.form.security<6){
+        if(this.form.amount==null||this.form.security==null){
+            this.message='请输入所有值';
+            return false;
+        }
+        if(this.form.security<6){
+            this.message='安全密码必须为6位或更长';
             return false;
         }
         return true;

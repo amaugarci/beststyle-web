@@ -20,7 +20,7 @@
                             <span class="absolute inset-y-0 left-0 flex items-center pl-2">
                                 <BIconPersonCircle class="text-[#ffeba7] text-[18px]"/>
                             </span>
-                            <input type="text" v-model="signUp.accountnumber" class=" w-full py-3 text-[#c4c3ca] text-[14px] bg-[#1f2029] rounded-md pl-10 focus:outline-none" placeholder="帐号 [6-16位英文开头和数字]" autocomplete="off">
+                            <input type="text" v-model="signUp.name" class=" w-full py-3 text-[#c4c3ca] text-[14px] bg-[#1f2029] rounded-md pl-10 focus:outline-none" placeholder="帐号 [6-16位英文开头和数字]" autocomplete="off">
                         </div>
                         <div class="relative text-gray-600 w-full mt-[10px]">
                             <span class="absolute inset-y-0 left-0 flex items-center pl-2">
@@ -44,7 +44,7 @@
                             <span class="absolute inset-y-0 left-0 flex items-center pl-2">
                                 <BIconBrush class="text-[#ffeba7] text-[18px]"/>
                             </span>
-                            <input type="text" v-model="signUp.name" class=" w-full py-3 text-[#c4c3ca] text-[14px] bg-[#1f2029] rounded-md pl-10 focus:outline-none" placeholder="真实姓名" autocomplete="off">
+                            <input type="text" v-model="signUp.realname" class=" w-full py-3 text-[#c4c3ca] text-[14px] bg-[#1f2029] rounded-md pl-10 focus:outline-none" placeholder="真实姓名" autocomplete="off">
                         </div>
                         <button @click="creatAccount" class=" px-[30px] py-[10px] bg-[#ffeba7] mt-[10px] rounded-md text-[14px] text-[#102770] font-bold" id="LoginSubmit">登陆</button>
                     </div>
@@ -106,15 +106,16 @@ export default defineComponent({
     BIconArrowUpLeft
   },
   data:()=>({
+    message:'帐号或密码错误',
     checked:true,
     username:'player',
     password:'player',
     signUp:{
-        accountnumber:'',
+        name:'',
         password:'',
         resetPassword:'',
         securitynumber:'',
-        name:''
+        realname:''
     }
   }),
   computed:{
@@ -137,10 +138,12 @@ export default defineComponent({
                     await this.fetchUser();
                     this.$router.push({ name: this.getReturnUrl })
                 }else{
+                    this.message='帐号或密码错误';
                     this.showDialog();
                 }
             }
             catch(error) {
+                this.message='帐号或密码错误';
                 this.showDialog();
             };
         }
@@ -149,7 +152,6 @@ export default defineComponent({
         }
     },
     async creatAccount(){
-       
         if(this.signUpvalidation()){
             try{
                 const response=await axios.post('/register', {
@@ -160,16 +162,17 @@ export default defineComponent({
                         type:1,
                         offset:'b',
                         title:false,
-                        content: 'success',
+                        content: '成功',
                         closeBtn: 0,
                         shadeClose:1,
                     });
                 }else{
+                    this.message='出现意想不到的问题'
                     this.showDialog();
                 }
             }
             catch(error) {
-                console.log(error);
+                this.message='出现意想不到的问题'
                 this.showDialog();
             };
         }
@@ -182,19 +185,37 @@ export default defineComponent({
                 type:1,
                 offset:'b',
                 title:false,
-                content: '帐号或密码错误',
+                content: this.message,
                 closeBtn: 0,
                 shadeClose:1,
             });
     },
     validation(){
-        if(this.username==''||this.password==''||this.password.length<6){
+        if(this.username==''||this.password==''){
+            this.message='请输入所有值'
+            return false;
+        }
+        if(this.password.length<6){
+            this.message='密码必须为6位或更长。'
             return false;
         }
         return true;
     },
     signUpvalidation(){
-        if(this.signUp.accountnumber.length<6||this.signUp.accountnumber.length>16||this.signUp.password.length<6||this.signUp.password.length>16||this.signUp.password!=this.signUp.resetPassword||this.signUp.name==""){
+        if(this.signUp.name.length<6||this.signUp.name.length>16){
+            this.message='帐号必须为 6 -16位'
+            return false;
+        }
+        if(this.signUp.password.length<6||this.signUp.password.length>16){
+            this.message='密码必须为 6 -16位'
+            return false;
+        }
+        if(this.signUp.password!=this.signUp.resetPassword){
+            this.message='确认密码不正确'
+            return false;
+        }
+        if(this.signUp.realname==""){
+            this.message='请输入真实姓名'
             return false;
         }
         return true;

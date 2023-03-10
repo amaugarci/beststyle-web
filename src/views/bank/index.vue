@@ -39,6 +39,7 @@ export default defineComponent({
   data: () => ({
     name:'充值',
     isShow:false,
+    message:'',
     form:{
       name:null,
       cardnumber:null,
@@ -89,7 +90,7 @@ export default defineComponent({
           type:1,
           offset:'b',
           title:false,
-          content: '信息不正确',
+          content: this.message,
           closeBtn: 0,
           shadeClose:1,
       });
@@ -102,10 +103,12 @@ export default defineComponent({
                     this.addBank(response.data.bank);
                     this.$router.push({ name: this.getReturnUrl })
                 }else{
+                    this.message='银行存在'
                     this.showDialog();
                 }
             }
             catch(error) {
+                this.message='请输入姓名，真实姓名'
                 this.showDialog();
             };
         }
@@ -114,8 +117,13 @@ export default defineComponent({
         }
     },
     validation(){
-        if(this.form.name==null||this.form.cardnumber==null||this.form.address==null||this.form.realname==null||this.form.phonenumber.length<8||this.form.phonenumber.length>16){
+        if(this.form.name==null||this.form.cardnumber==null||this.form.address==null||this.form.realname==null){
+          this.message='请输入所有值';
             return false;
+        }
+        if(this.form.phonenumber.length<8||this.form.phonenumber.length>16){
+          this.message='电话号码必须为 6 -16位';
+          return false;
         }
         return true;
     },

@@ -46,11 +46,7 @@ export default defineComponent({
 })
 </script>
 
-<style>body {
-  background-color: #fff;
-  color: #eee;
-  line-height: 1.5;
-}
+<style>
 .scrolldown{
   max-height: 5.5rem;
   -webkit-line-clamp: 5;
