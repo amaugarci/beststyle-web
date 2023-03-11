@@ -892,17 +892,16 @@ export default defineComponent({
     },
     orderDialog(){
       layer.config({
-        skin: 'symbol-class'
-      });
+        skin: 'me-class'
+      })
       layer.open({
         title:false,
-        content: '请输入金额',
-        btn:'确定',
+        content: '立即订单？',
+        btn:['取消','确定'],
         btnAlign: 'c',
         closeBtn: 0,
         shadeClose:1,
-        yes :(index, layero)=>{
-          layer.close(index);
+        btn2 :()=>{
           this.showDialog=false;
           this.orderApi();
         }
@@ -954,12 +953,6 @@ export default defineComponent({
 })
 </script>
 <style>
-body {
-  background-color: #2b2f3e;
-  color: #eee;
-  line-height: 1.5;
-}
-
 .scrolldown {
   max-height: 5.5rem;
   -webkit-line-clamp: 5;

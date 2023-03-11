@@ -5,17 +5,34 @@
       <div class="float-left">
         <BIconPersonCircle @click="back" class="text-[1.3rem] cursor-pointer mt-[3px]" />
       </div>
-      <div>{{ name }}</div>
+      <div class="font-black text-white">{{ name }}</div>
     </div>
     <!-- body -->
     <div class="overflow-x-hidden overflow-y-auto h-full p-3">
       <div v-if="isShow">
-          <input type="text" v-model="form.name" class="form-control form-control-sm mb-3" placeholder="银行名称"  required="">
-          <input type="number" v-model="form.cardnumber"  class="form-control form-control-sm mb-3"  placeholder="卡号" required="">
-          <input type="text" v-model="form.address" class="form-control form-control-sm mb-3" placeholder="开户地址"  required="">
-          <input type="text" v-model="form.realname"  class="form-control form-control-sm mb-3"  placeholder="真实姓名" required="">
-          <input type="number" v-model="form.phonenumber" class="form-control form-control-sm mb-3" placeholder="手机号码 [8-16位数字]" required="">
-          <button class="btn btn-success btn-block btn-sm" @click="sendRequest">
+          <ul class="mt-2 list-group-item list-group-flush">
+            <li class="list-group-item flex items-center px-[20px] py-[15px]">
+              <BIconPersonCircle />
+              <input type="text" v-model="form.name" class="input-transparent p-1 text-[16px]" placeholder="银行名称"  required="">
+            </li>
+            <li class="list-group-item flex items-center px-[20px] py-[15px]">
+              <BIconCardImage />
+              <input type="number" v-model="form.cardnumber"  class="input-transparent p-1 text-[16px]"  placeholder="卡号" required="">
+            </li> 
+            <li class="list-group-item flex items-center px-[20px] py-[15px]">
+              <BIconBank />
+              <input type="text" v-model="form.address" class="input-transparent p-1 text-[16px]" placeholder="开户地址"  required="">
+            </li> 
+            <li class="list-group-item flex items-center px-[20px] py-[15px]">
+              <BIconPersonCheck />
+              <input type="text" v-model="form.realname"  class="input-transparent p-1 text-[16px]"  placeholder="真实姓名" required="">
+            </li> 
+            <li class="list-group-item flex items-center px-[20px] py-[15px]">
+              <BIconPhoneFill />
+              <input type="number" v-model="form.phonenumber" class="input-transparent p-1 text-[16px]" placeholder="手机号码 [8-16位数字]" required="">
+            </li> 
+          </ul>        
+          <button class="my-2 btn btn-success btn-block btn-sm" style="padding:0.75rem" @click="sendRequest">
               确定
           </button>
       </div>
@@ -27,14 +44,18 @@
 <script>
 
 import { defineComponent } from 'vue'
-import { BIconPersonCircle } from 'bootstrap-icons-vue';
+import { BIconPersonCircle,BIconCardImage,BIconBank, BIconPersonCheck,BIconPhoneFill } from 'bootstrap-icons-vue';
 import {useAuthStore} from '@/pinia/modules/useAuthStore';
 import { mapState,mapActions  } from 'pinia'
 import axios from 'axios'
 export default defineComponent({
   name: 'bank',
   components: {
-    BIconPersonCircle
+    BIconPersonCircle,
+    BIconCardImage,
+    BIconBank,
+    BIconPersonCheck,
+    BIconPhoneFill
   },
   data: () => ({
     name:'充值',

@@ -5,10 +5,13 @@
       <div class="float-left">
         <BIconPersonCircle @click="back" class="text-[1.3rem] cursor-pointer mt-[3px]" />
       </div>
-      <div>充值记录</div>
+      <div class="font-black text-white">充值记录</div>
     </div>
         <!-- body -->
     <div class="p-3 text-[1rem]">
+      <div v-if="!recharges||recharges.length==0" class="flex items-center justify-center mt-[20px] text-[0.7rem]">
+          暂⽆订单
+        </div>
       <div class="flex flex-col bg-[#32373A] p-5 gap-2 rounded my-[15px]" v-for="(item,index) in recharges" :key="item.id">
         <div class="flex justify-between items-center">
           <div>{{item.player.bank.name}}</div>
@@ -75,11 +78,7 @@ export default defineComponent({
   }
 })
 </script>
-<style>body {
-  background-color: #2b2f3e;
-  color: #eee;
-  line-height: 1.5;
-}
+<style>
 .scrolldown{
   max-height: 5.5rem;
   -webkit-line-clamp: 5;
