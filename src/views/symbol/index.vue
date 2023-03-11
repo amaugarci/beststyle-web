@@ -2,7 +2,7 @@
   <div v-if="this.symbol" class="absolute top-0 left-0 bottom-0 right-0 flex flex-col">
     <!-- header -->
     <div class="h-[2.5rem] w-full text-center bg-[#1f2029] pl-[10px] py-[8px]">
-      <div class="float-left">
+      <div class="float-left absolute">
         <BIconChevronLeft @click="back" class="text-[1.3rem] cursor-pointer mt-[3px]" />
       </div>
       <div v-if="symbol">{{ symbol.displayName + ' / ' + symbol.productName }}</div>
@@ -60,7 +60,7 @@
       <span class="m-[5px] text-[#40d090] text-[13px]">{{ Number(lowValue).toFixed(2) }}</span>
       <span class="m-[5px] text-[#fde047] text-[13px]">{{ Number(highValue).toFixed(2) }}</span>
     </div>
-    <VueEcharts ref="charts" v-if="option" :option="option" :key="reRender" class="tradingView"></VueEcharts>
+    <VueEcharts ref="charts" v-if="option" :option="loading?option:false" :key="reRender" class="tradingView"></VueEcharts>
     <!-- dialog -->
     <div :class="{block:showDialog}" class="order-setbox-lay" @click="()=>showDialog=false"></div>
     <div  class="order-setbox" :class="{block:showDialog}">
@@ -114,7 +114,8 @@
           <tbody>
             <tr>
               <td><span class="goods-order-name">{{ symbol.name + ' / ' + symbol.productName }}</span></td>
-              <td class="order-setbox-direction" :class="{ sellColor: !form.dir, buyColor: form.dir }">买涨</td>
+              <td v-if="form.dir" class="order-setbox-direction buyColor" >买涨</td>
+              <td v-else class="order-setbox-direction sellColor" >买跌</td>
               <td class="order-setbox-nowprice" :class="{ sellColor: !symbol.status, buyColor: symbol.status }">{{symbol.price}}</td>
               <td class="order-setbox-money">1000</td>
             </tr>
@@ -179,6 +180,7 @@ export default defineComponent({
   data() {
     return {
       message:'',
+      loading:false,
       form:{
         dir:true,
         title:'订单确认',
@@ -373,6 +375,7 @@ export default defineComponent({
       this.$router.push({ name: 'home' });
     },
     changePeriod(during) {
+      this.loading=false;
       this.changeType(1);
       this.period = during;
       this.connection.close();
@@ -803,6 +806,7 @@ export default defineComponent({
             }
           ]
         };
+        this.loading=true;
         this.createSocket();
       }
       catch (error) {
@@ -896,7 +900,24 @@ export default defineComponent({
       })
       layer.open({
         title:false,
-        content: '立即订单？',
+        content: `<table class="order-table">
+          <thead>
+            <tr class="text-center">
+              <th>商品名称</th>
+              <th>方向</th>
+              <th>现价</th>
+              <th>金额</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="goods-order-name">${this.symbol.name}/${this.symbol.productName}</span></td>
+              <td  class="order-setbox-direction ${this.form.dir?' buyColor" > 买涨':' sellColor" >买跌'}</td>
+              <td class="order-setbox-nowprice  ${this.symbol.status?'buyColor':'sellColor'}">${this.symbol.price}</td>
+              <td class="order-setbox-money">1000</td>
+            </tr>
+          </tbody>
+        </table>`,
         btn:['取消','确定'],
         btnAlign: 'c',
         closeBtn: 0,
