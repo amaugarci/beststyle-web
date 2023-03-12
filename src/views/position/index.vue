@@ -11,23 +11,23 @@
         <div v-for="(item,index) in orders" :key="item.id" class="flex flex-col bg-[#32373A] p-5 gap-2 rounded my-[15px]">
           <div class="flex justify-between items-center">
             <div>{{item.symbol.name}} [<span v-if="item.dir" class="textDanger"> 买涨 </span> <span v-else class="textSuccess"> 买跌 </span>]</div>
-            <div  v-if="item.status==0" class="text-red-500">过程</div>
-            <div  v-else class="text-green-500">已结算</div>
+            <div  v-if="item.status==0" class="text-red-500">未平仓</div>
+            <div  v-else class="text-green-500">已平仓</div>
           </div>
           <div class="flex justify-between items-center">
             <div>
               买入金额: {{item.money}}
             </div>
             <div>
-              买后余额: {{Number(item.totalBalance)-Number(item.money)}}
+              盈亏: {{Number(item.totalBalance)-Number(item.money)}}
             </div>
           </div>
           <div class="flex justify-between items-center">
             <div  v-if="item.lastprice!='-'">
-              平仓价格: {{item.price}} - {{Number(item.lastprice).toFixed(2)}}
+              建仓价格: {{item.price}} - {{Number(item.lastprice).toFixed(2)}}
             </div>
             <div  v-else>
-              平仓价格: {{item.price}} - ?
+              建仓价格: {{item.price}} - ?
             </div>
             <div>
               收费: {{getSystem.bettingPercent}}
@@ -35,14 +35,14 @@
           </div>
           <div class="flex justify-between items-center">
             <div >
-              平仓时间: {{moment().utc(new Date(item.created_at)).local().format("MM-DD hh:mm:ss") }}
+              建仓时间: {{moment().utc(new Date(item.created_at)).local().format("yyyy-MM-DD hh:mm:ss") }}
             </div>
-            <div v-if="item.status==1&&item.during==180" class="textDanger"> 结果: -{{0.01*Number(item.money)*Number(item.symbol.lossRatio.split(',')[0])}}</div>
-            <div v-else-if="item.status==1&&item.during==300" class="textDanger"> 结果: -{{0.01*Number(item.money)*Number(item.symbol.lossRatio.split(',')[1])}}</div>
-            <div v-else-if="item.status==2&&item.during==600" class="textDanger"> 结果: -{{0.01*Number(item.money)*Number(item.symbol.lossRatio.split(',')[2])}}</div>
-            <div v-else-if="item.status==2&&item.during==180" class="textSuccess"> 结果: {{0.01*Number(item.money)*Number(item.symbol.profitRatio.split(',')[0])}}</div>
-            <div v-else-if="item.status==2&&item.during==300" class="textSuccess"> 结果: {{0.01*Number(item.money)*Number(item.symbol.profitRatio.split(',')[1])}}</div>
-            <div v-else-if="item.status==2&&item.during==600" class="textSuccess"> 结果: {{0.01*Number(item.money)*Number(item.symbol.profitRatio.split(',')[2])}}</div>
+            <div v-if="item.status==1&&item.during==180" class="textDanger"> 盈亏: -{{0.01*Number(item.money)*Number(item.symbol.lossRatio.split(',')[0])}}</div>
+            <div v-else-if="item.status==1&&item.during==300" class="textDanger"> 盈亏: -{{0.01*Number(item.money)*Number(item.symbol.lossRatio.split(',')[1])}}</div>
+            <div v-else-if="item.status==2&&item.during==600" class="textDanger"> 盈亏: -{{0.01*Number(item.money)*Number(item.symbol.lossRatio.split(',')[2])}}</div>
+            <div v-else-if="item.status==2&&item.during==180" class="textSuccess"> 盈亏: {{0.01*Number(item.money)*Number(item.symbol.profitRatio.split(',')[0])}}</div>
+            <div v-else-if="item.status==2&&item.during==300" class="textSuccess"> 盈亏: {{0.01*Number(item.money)*Number(item.symbol.profitRatio.split(',')[1])}}</div>
+            <div v-else-if="item.status==2&&item.during==600" class="textSuccess"> 盈亏: {{0.01*Number(item.money)*Number(item.symbol.profitRatio.split(',')[2])}}</div>
             <div v-else-if="item.status==3" class="textSuccess">0</div>
             <div v-else>-</div>
           </div>

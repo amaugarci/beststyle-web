@@ -40,7 +40,7 @@ export default defineComponent({
       };
     },
     back() {
-      this.$router.push({ name: 'me' });
+      this.$router.push({ name: 'home' });
     },
   }
 })

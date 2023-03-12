@@ -2,7 +2,7 @@
   <div class="absolute top-0 left-0 bottom-0 right-0 flex flex-col">
     <!-- header -->
     <div class="h-[2.5rem] w-full text-center bg-[#1f2029] pl-[10px] py-[8px]">
-      <div class="float-left">
+      <div class="float-left absolute">
         <BIconPersonCircle @click="back" class="text-[1.3rem] cursor-pointer mt-[3px]" />
       </div>
       <div class="font-black text-white">新闻公告</div>
@@ -10,7 +10,7 @@
     <!-- body -->
     <div class="overflow-y-auto overflow-x-hidden h-full">
       <div v-if="!announcement||announcement.length==0" class="flex items-center justify-center mt-[20px] text-[0.7rem]">
-          暂⽆订单
+        暂无公告
         </div>
       <ul v-for="(item,index) in announcement" :key="index" class="rounded-0 flex flex-col pl-0 mb-0 mt-4">
         <li @click="showdialog(index)" class="flex items-center justify-between bg-[#1f2029] cursor-pointer text-[#ddd] border-[1px] border-[#1f2029] p-[0.75rem]" >

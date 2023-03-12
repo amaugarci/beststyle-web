@@ -51,16 +51,16 @@
           <div class="text-[.75rem] text-[#7e7e8a]">
             {{item.productName}}
           </div>
-        </div>
+      </div>
         <div class="text-right pr-[0.5rem]">
           <div class="font-normal text-[0.75rem] text-[#999]">
             {{item.UID}}
           </div>
           <div class="text-[.75rem] text-[#7e7e8a]">
-            H:{{Number(item.H).toFixed(3) }}
+            H:{{Number(item.H).toFixed(4) }}
             <span class="mx-[2px]">
             </span>
-            L: {{ Number(item.L).toFixed(3) }}
+            L: {{ Number(item.L).toFixed(4) }}
           </div>
         </div>
         <div class="h-full">

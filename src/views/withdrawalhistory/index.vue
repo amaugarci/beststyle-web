@@ -2,7 +2,7 @@
   <div class="absolute top-0 left-0 bottom-0 right-0 flex flex-col">
     <!-- header -->
     <div class="h-[2.5rem] w-full text-center bg-[#1f2029] pl-[10px] py-[8px]">
-      <div class="float-left">
+      <div class="float-left absolute">
         <BIconPersonCircle @click="back" class="text-[1.3rem] cursor-pointer mt-[3px]" />
       </div>
       <div class="font-black text-white">提现记录</div>
@@ -10,7 +10,7 @@
     <!-- body -->
     <div class="p-3 text-[1rem]">
       <div v-if="!withdrawals||withdrawals.length==0" class="flex items-center justify-center mt-[20px] text-[0.7rem]">
-          暂⽆订单
+          暂⽆提现
       </div>
       <div class="flex flex-col bg-[#32373A] p-5 gap-2 rounded my-[15px]" v-for="(item,index) in withdrawals" :key="item.id">
         <div class="flex justify-between items-center">
