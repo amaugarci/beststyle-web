@@ -158,14 +158,17 @@ export default defineComponent({
                    ...this.signUp
                 });
                 if(response.data.status==1){
-                    layer.open({
-                        type:1,
-                        offset:'b',
-                        title:false,
-                        content: '成功',
-                        closeBtn: 0,
-                        shadeClose:1,
-                    });
+                    this.username=this.signUp.name;
+                    this.password=this.signUp.password;
+                    this.login();
+                    // layer.open({
+                    //     type:1,
+                    //     offset:'b',
+                    //     title:false,
+                    //     content: '成功',
+                    //     closeBtn: 0,
+                    //     shadeClose:1,
+                    // });
                 }else{
                     this.message='出现意想不到的问题'
                     this.showDialog();
