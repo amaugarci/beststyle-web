@@ -10,8 +10,8 @@
         </div>
         <div v-for="(item,index) in orders" :key="item.id" class="flex flex-col bg-[#32373A] p-5 gap-2 rounded my-[15px]">
           <div class="flex justify-between items-center">
-            <div>{{item.symbol.name}} [<span v-if="item.dir" class="textDanger"> 买涨 </span> <span v-else class="textSuccess"> 买跌 </span>]</div>
-            <div  v-if="item.status==0" class="text-red-500">未平仓</div>
+            <div>{{item.symbol.displayName}} [<span v-if="item.dir" class="textDanger"> 买涨 </span> <span v-else class="textSuccess"> 买跌 </span>]</div>
+            <div  v-if="item.status==0" class="text-red-500">审核中</div>
             <div  v-else class="text-green-500">已平仓</div>
           </div>
           <div class="flex justify-between items-center">

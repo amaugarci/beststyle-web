@@ -26,8 +26,8 @@
         <div class="h-[1.2rem] border-r-[1px] border-[#333] pr-[.5rem]"> <img class="h-[1.2rem]" src="/img/notice.png">
         </div>
         <div class="grow relative overflow-hidden h-[1.2rem] flex">
-          <ul id="indexNoticeList" :class="{trans1:timer%4==0,trans2:timer%4==1,trans3:timer%4==2,trans4:timer%4==3}">
-            <li @click="goNews" class="h-[1.2rem] ml-[.3rem] overflow-hidden text-ellipsis max-w-[200px] text-[.8rem] trans whitespace-nowrap cursor-pointer" >{{ news }}</li>
+          <ul v-if="news" id="indexNoticeList" :class="{trans1:timer%4==0,trans2:timer%4==1,trans3:timer%4==2,trans4:timer%4==3}">
+            <li @click="goNews" class="h-[1.2rem] ml-[.3rem] overflow-hidden text-ellipsis max-w-[200px] text-[.8rem] trans whitespace-nowrap cursor-pointer" >{{ news.title }}</li>
           </ul>
           <BIconChevronRight class="inline-block ml-auto cursor-pointer" />
         </div>
@@ -93,7 +93,7 @@ export default defineComponent({
     BIconChevronRight
   },
   data: () => ({
-    news: 'Assure联合40多家项目方80家KOL共同推出了“Gas Free NFT"，持有NFT，即可免链上Gas，诚意满满，掷地有声，在整个区块链行业引起了不小的震动。',
+    news: '',
     symbols:[],
     connection:[],
     timer : 0,
@@ -112,6 +112,7 @@ export default defineComponent({
       try{
           const response=await axios.get('/symbols');
           this.symbols=response.data.symbols;
+          this.news=response.data.news;
           this.createSocket();
       }
       catch(error) {

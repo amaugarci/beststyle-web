@@ -31,7 +31,7 @@
           </div>
           <div v-if="item.status==1"  class="textDanger">状态: 拒绝</div>
           <div v-else-if="item.status==2&&item.status==4"  class="textSuccess">状态: 已通过</div>
-          <div v-else class="">状态: 待办的</div>
+          <div v-else class="">状态: 审核中</div>
         </div>
       </div>
     </div>

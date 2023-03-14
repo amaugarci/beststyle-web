@@ -958,7 +958,7 @@ export default defineComponent({
               money:this.form.money,
           });
           if(response.data.status==1){
-
+            this.showSucss();
             this.changeBalance(this.form.money);
           }else{
             this.message=response.data.message;
@@ -970,7 +970,20 @@ export default defineComponent({
         this.errorDialog();
       };
     },
-  }
+    showSucss(){
+      layer.config({
+        skin: 'success-class'
+      })
+      layer.open({
+        title:false,
+        content: '成功',
+        btn:'确定',
+        btnAlign: 'c',
+        closeBtn: 0,
+        shadeClose:1,
+      });
+    },
+  },
 })
 </script>
 <style>
