@@ -120,7 +120,7 @@ export default defineComponent({
     checked:true,
     username:'player',
     password:'player',
-    showPassword:false,
+    showPassword:true,
     signUp:{
         name:'',
         password:'',
