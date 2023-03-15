@@ -10,7 +10,7 @@
     <div v-if="symbol">
       <div class="order-price-ex">
         <div class="order-price-now">
-          <h3 id="charts-now" :class="{ sellColor: !symbol.status, buyColor: symbol.status  }">{{ symbol.price }}</h3>
+          <h3 id="charts-now" :class="{ sellColor: !symbol.status, buyColor: symbol.status  }">{{ Number(symbol.price).toFixed(2) }}</h3>
           <p id="charts-margin" :class="{ sellColor: !symbol.status, buyColor: symbol.status }">DIFF：{{ symbol.DIFF.toFixed(2) }}</p>
         </div>
         <div class="order-price-hls">

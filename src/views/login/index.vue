@@ -15,7 +15,7 @@
             <div class="card-3d-wrapper" :class="{ mrotate180:checked }">
                 <div class="card-front">
                     <div class="px-8 pt-[10px] text-left flex flex-col items-center">
-                        <h3 class="text-2xl font-bold text-center text-[#c4c3ca]">sign Up</h3>
+                        <h3 class="text-2xl font-bold text-center text-[#c4c3ca]">开户</h3>
                         <div class="relative text-gray-600 w-full mt-[10px]">
                             <span class="absolute inset-y-0 left-0 flex items-center pl-2">
                                 <BIconPersonCircle class="text-[#ffeba7] text-[18px]"/>
