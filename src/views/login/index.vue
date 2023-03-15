@@ -1,7 +1,7 @@
 <template>
     <div class="min-h-screen justify-center flex flex-col">
         <h6 class="pb-3 mx-auto">
-            <span class="text-base px-[20px] font-bold uppercase">登陆</span> 
+            <span class="text-base px-[20px] font-bold uppercase">注册</span> 
             <span class="text-base px-[20px] font-bold uppercase">开户</span>
         </h6>
         <div class="w-[100px] h-[30px] mx-auto relative">
@@ -62,10 +62,14 @@
                             <span class="absolute inset-y-0 left-0 flex items-center pl-2">
                                 <BIconLock class="text-[#ffeba7] text-[18px]"/>
                             </span>
-                            <input type="password" v-model="password"  class=" w-full py-3 text-[#c4c3ca] text-[14px] bg-[#1f2029] rounded-md pl-10 focus:outline-none" placeholder="登陆密码" autocomplete="off">
+                            <input :type="showPassword?'password':'text'" v-model="password"  class=" w-full py-3 text-[#c4c3ca] text-[14px] bg-[#1f2029] rounded-md pl-10 focus:outline-none" placeholder="登陆密码" autocomplete="off">
+                            <span class="absolute inset-y-0 right-2 flex items-center pl-2">
+                                <BIconEye v-if="!showPassword" class="text-[#ffeba7] text-[18px]" @click="()=>showPassword=!showPassword"/>
+                                <BIconEyeSlash v-else class="text-[#ffeba7] text-[18px]" @click="()=>showPassword=!showPassword"/>
+                            </span>
                         </div>
                         <button @click="login" class=" px-[30px] py-[10px] bg-[#ffeba7] mt-[30px] rounded-md text-[14px] text-[#102770] font-bold" id="LoginSubmit">登陆</button>
-                        <button class="mt-[30px] text-[#c4c3ca] rounded-md text-[14px] font-bold" id="LoginSubmit">忘记密码？</button>
+                        <button class="mt-[30px] text-[#c4c3ca] rounded-md text-[14px] font-bold" @click="openService">忘记密码？请联系客服!</button>
                     </div>
                 </div>
             </div>
@@ -88,7 +92,7 @@
 <script>
 
 import { defineComponent } from 'vue'
-import { BIconPersonCircle,BIconLock,BIconLockFill,BIconShieldCheck,BIconBrush,BIconArrowUpLeft } from 'bootstrap-icons-vue';
+import { BIconPersonCircle,BIconLock,BIconLockFill,BIconShieldCheck,BIconBrush,BIconArrowUpLeft,BIconEyeSlash,BIconEye } from 'bootstrap-icons-vue';
 import {useAuthStore} from '@/pinia/modules/useAuthStore';
 import { mapState,mapActions  } from 'pinia'
 import axios from 'axios'
@@ -103,13 +107,20 @@ export default defineComponent({
     BIconLockFill,
     BIconShieldCheck,
     BIconBrush,
-    BIconArrowUpLeft
+    BIconArrowUpLeft,
+    BIconEye,
+    BIconEyeSlash
+  },
+  mounted(){
+    this.getUrl();
   },
   data:()=>({
+    url:'',
     message:'帐号或密码错误',
     checked:true,
     username:'player',
     password:'player',
+    showPassword:false,
     signUp:{
         name:'',
         password:'',
@@ -122,6 +133,18 @@ export default defineComponent({
     ...mapState(useAuthStore, ['getUser','getReturnUrl']),
   },
   methods:{
+    openService(){
+        window.open(this.url, '_blank');
+    },
+    async getUrl(){
+      try{
+          const response=await axios.get('/url');
+          this.url=response.data.url;
+      }
+      catch(error) {
+        console.log(error);
+      };
+    },
     changeChecked () {
        this.checked=!this.checked;
     },

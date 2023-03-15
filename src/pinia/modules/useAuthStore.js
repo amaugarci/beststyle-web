@@ -5,7 +5,7 @@ export const useAuthStore = defineStore('useAuthStore', {
     user:null,
     system:null,
     token:localStorage.getItem('token'),
-    returnUrl:'me',
+    returnUrl:'home',
   }),
   getters:{
     getUser:(state)=>state.user,

@@ -8,14 +8,18 @@
       <div class="font-black text-white">充值</div>
     </div>
     <!-- card -->
-    <div class="m-3 bg-[#DC3545] p-4 flex flex-row">
-      <div class="rounded-full w-[48px] h-[48px] text-center justify-center flex items-center bg-[#FF8792] mr-[10px]">
-        <p>{{ getUser.bank.name.slice(0,1) }}</p>
+    <div class="m-3 bg-[#DC3545] p-4 flex flex-row justify-between">
+      <div class="flex">
+        <div class="rounded-full w-[48px] h-[48px] text-center justify-center flex items-center bg-[#FF8792] mr-[10px]">
+          <p>{{ getUser.bank.name.slice(0,1) }}</p>
+        </div>
+        <div class="flex flex-col justify-evenly">
+          <p>{{getUser.bank.name}}</p>
+          <p>{{`${getUser.bank.cardnumber.toString().slice(0,3)} **** **** **** **** ${getUser.bank.cardnumber.toString().slice(0,3)}`}}</p>
+        </div>
       </div>
-      <div class="flex flex-col justify-evenly">
-        <p>{{getUser.bank.name}}</p>
-        <p>{{`${getUser.bank.cardnumber.toString().slice(0,3)} **** **** **** **** ${getUser.bank.cardnumber.toString().slice(0,3)}`}}</p>
-      </div>
+      <button
+          class="my-2" style="padding:0.75rem" @click="updateCard">编辑</button>
     </div>
     <p class="px-3">
       余额：{{ getUser.cash_amount }} 
@@ -26,7 +30,7 @@
         <ul class="mt-2 list-group-item list-group-flush">
           <li class="list-group-item flex items-center px-[20px] py-[15px]">
             <BIconLifePreserver class="bi-life-preserver"/>
-            <input type="number" name="money" placeholder="提现金额" v-model="form.amount" class="input-transparent p-1 text-[16px]" id="CashMoney">
+            <input type="number" name="money" placeholder="充值金额" v-model="form.amount" class="input-transparent p-1 text-[16px]" id="CashMoney">
           </li> 
           <li class="list-group-item flex items-center px-[20px] py-[15px]">
             <BIconShieldExclamation class="bi-shield-exclamation" />
@@ -70,6 +74,9 @@ export default defineComponent({
     ...mapState(useAuthStore, ['getUser','getReturnUrl']),
   },
   methods: {
+    updateCard(){
+      this.$router.push({ name: 'bankedit' });
+    },
     back() {
       this.$router.push({ name: 'me' });
     },

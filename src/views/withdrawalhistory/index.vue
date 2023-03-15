@@ -14,8 +14,9 @@
       </div>
       <div class="flex flex-col bg-[#32373A] p-5 gap-2 rounded my-[15px]" v-for="(item,index) in withdrawals" :key="item.id">
         <div class="flex justify-between items-center">
-          <div>{{item.player.bank.name}}</div>
-          <div class="text-green-500">{{item.player.bank.address}}</div>
+          <div v-if="item.bank">{{item.bank.name}}</div>
+          <diV v-else>管理员</diV>
+          <div v-if="item.bank" class="text-green-500">{{item.bank.address}}</div>
         </div>
         <div class="flex justify-between items-center">
           <div>
@@ -30,7 +31,7 @@
             提现时间: {{moment().utc(new Date(item.created_at)).local().format("MM-DD hh:mm") }}
           </div>
           <div v-if="item.status==1"  class="textDanger">状态: 拒绝</div>
-          <div v-else-if="item.status==2&&item.status==4"  class="textSuccess">状态: 已通过</div>
+          <div v-else-if="item.status==2||item.status==4"  class="textSuccess">状态: 已通过</div>
           <div v-else class="">状态: 审核中</div>
         </div>
       </div>

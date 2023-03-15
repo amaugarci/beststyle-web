@@ -54,7 +54,7 @@
       </div>
         <div class="text-right pr-[0.5rem]">
           <div class="font-normal text-[0.75rem] text-[#999]">
-            {{item.UID}}
+            {{`HKD${item.UID}`}}
           </div>
           <div class="text-[.75rem] text-[#7e7e8a]">
             H:{{Number(item.H).toFixed(4) }}
@@ -65,7 +65,7 @@
         </div>
         <div class="h-full">
           <span class="inline-block h-[2rem] w-[6rem] text-center leading-8" :class="{sellBg:item.status,buyBg:!item.status}">
-            {{ item.price }}
+            {{ Number(item.price).toFixed(4) }}
           </span>
         </div>
       </div>
@@ -130,13 +130,18 @@ export default defineComponent({
         }else{
           this.symbols[i]['status']=true;
         }
-        this.symbols[i]['price']=price.slice(0,8);
+        this.symbols[i]['price']=Number(price).toFixed(4);
+        if(this.symbols[i]['price']>this.symbols[i]['H']){
+          this.symbols[i]['H']=this.symbols[i]['price'];
+        }
+        if(this.symbols[i]['price']<this.symbols[i]['L']){
+          this.symbols[i]['L']=this.symbols[i]['price'];
+        }
       }
       return connection;
     },
     createSocket(){
       for(let i=0;i<this.symbols.length;i++){
-        // console.log(i);
         this.connection.push(this.listenSocket(i, this.symbols[i]['symbol']))
       }
     },
