@@ -914,7 +914,7 @@ export default defineComponent({
               <td><span class="goods-order-name">${this.symbol.displayName}</span></td>
               <td  class="order-setbox-direction ${this.form.dir?' buyColor" > 买涨':' sellColor" >买跌'}</td>
               <td class="order-setbox-nowprice  ${this.symbol.status?'buyColor':'sellColor'}">${this.symbol.price}</td>
-              <td class="order-setbox-money">${this.symbol.money}</td>
+              <td class="order-setbox-money">${this.form.money}</td>
             </tr>
           </tbody>
         </table>`,
