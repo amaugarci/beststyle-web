@@ -113,11 +113,11 @@
           </thead>
           <tbody>
             <tr>
-              <td><span class="goods-order-name">{{ symbol.name + ' / ' + symbol.productName }}</span></td>
+              <td><span class="goods-order-name">{{ symbol.displayName + ' / ' + symbol.productName }}</span></td>
               <td v-if="form.dir" class="order-setbox-direction buyColor" >买涨</td>
               <td v-else class="order-setbox-direction sellColor" >买跌</td>
               <td class="order-setbox-nowprice" :class="{ sellColor: !symbol.status, buyColor: symbol.status }">{{symbol.price}}</td>
-              <td class="order-setbox-money">1000</td>
+              <td class="order-setbox-money">{{ form.money }}</td>
             </tr>
           </tbody>
         </table> <button @click="orderDialog" class="btn btn-success btn-block btn-sm order-setbox-submit">确认下单</button>
@@ -911,10 +911,10 @@ export default defineComponent({
           </thead>
           <tbody>
             <tr>
-              <td><span class="goods-order-name">${this.symbol.name}/${this.symbol.productName}</span></td>
+              <td><span class="goods-order-name">${this.symbol.displayName}</span></td>
               <td  class="order-setbox-direction ${this.form.dir?' buyColor" > 买涨':' sellColor" >买跌'}</td>
               <td class="order-setbox-nowprice  ${this.symbol.status?'buyColor':'sellColor'}">${this.symbol.price}</td>
-              <td class="order-setbox-money">1000</td>
+              <td class="order-setbox-money">${this.symbol.money}</td>
             </tr>
           </tbody>
         </table>`,
