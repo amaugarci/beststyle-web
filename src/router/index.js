@@ -12,6 +12,7 @@ import profile from './modules/profile'
 import {useAuthStore} from '@/pinia/modules/useAuthStore';
 const router = createRouter({
   history: createWebHashHistory(),
+  mode: 'history',
   routes: [
     {
       path: '/',
