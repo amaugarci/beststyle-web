@@ -1,5 +1,5 @@
 
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 
 import login from './modules/login'
 import home from './modules/home'
@@ -11,7 +11,7 @@ import me from './modules/me'
 import profile from './modules/profile'
 import {useAuthStore} from '@/pinia/modules/useAuthStore';
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes: [
     {
       path: '/',
