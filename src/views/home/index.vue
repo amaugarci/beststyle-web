@@ -111,7 +111,7 @@ export default defineComponent({
         if(this.news.length!=0&&this.timer%4==0){
           this.index=(this.timer/4)%this.news.length;
         }
-    }.bind(this),2000);
+    }.bind(this),500);
   },
   methods: {
     goNews(){
@@ -183,13 +183,13 @@ body {
   background-color: #40d090;
 }
 .trans1{
-  transition-duration: 2000ms; transform: translate3d(0rem, 1.2rem, 0rem);
+  transition-duration: 500ms; transform: translate3d(0rem, 1.2rem, 0rem);
 }
 .trans2{
-  transition-duration: 2000ms; transform: translate3d(0rem, 0.0rem, 0rem);
+  transition-duration: 500ms; transform: translate3d(0rem, 0.0rem, 0rem);
 }
 .trans3{
-  transition-duration: 2000ms; transform: translate3d(0rem, -1.2rem, 0rem);
+  transition-duration: 500ms; transform: translate3d(0rem, -1.2rem, 0rem);
 }
 .trans4{
   transform: translate3d(0rem, -1.2rem, 0rem);
