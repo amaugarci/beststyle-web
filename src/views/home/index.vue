@@ -29,7 +29,7 @@
           <ul v-if="news" id="indexNoticeList" :class="{trans1:timer%4==0,trans2:timer%4==1,trans3:timer%4==2,trans4:timer%4==3}">
             <li v-if="index!=null" @click="goNews" class="h-[1.2rem] ml-[.3rem] overflow-hidden text-ellipsis max-w-[200px] text-[.8rem] trans whitespace-nowrap cursor-pointer" >{{ news[index].title }}</li>
           </ul>
-          <BIconChevronRight class="inline-block ml-auto cursor-pointer" />
+          <BIconChevronRight class="inline-block ml-auto cursor-pointer"  @click="goNews"/>
         </div>
         <div class="clearfix"></div>
       </div>
