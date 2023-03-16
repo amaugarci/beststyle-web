@@ -27,7 +27,7 @@
         </div>
         <div class="grow relative overflow-hidden h-[1.2rem] flex">
           <ul v-if="news" id="indexNoticeList" :class="{trans1:timer%4==0,trans2:timer%4==1,trans3:timer%4==2,trans4:timer%4==3}">
-            <li @click="goNews" class="h-[1.2rem] ml-[.3rem] overflow-hidden text-ellipsis max-w-[200px] text-[.8rem] trans whitespace-nowrap cursor-pointer" >{{ news.title }}</li>
+            <li v-if="index!=null" @click="goNews" class="h-[1.2rem] ml-[.3rem] overflow-hidden text-ellipsis max-w-[200px] text-[.8rem] trans whitespace-nowrap cursor-pointer" >{{ news[index].title }}</li>
           </ul>
           <BIconChevronRight class="inline-block ml-auto cursor-pointer" />
         </div>
@@ -93,7 +93,9 @@ export default defineComponent({
     BIconChevronRight
   },
   data: () => ({
-    news: '',
+    news: [],
+    flag:true,
+    index:null,
     symbols:[],
     connection:[],
     timer : 0,
@@ -102,6 +104,13 @@ export default defineComponent({
     this.getSymbols();
     setInterval(function(){
         this.timer++;
+        if(this.flag&&this.news.length){
+          this.flag=false
+          this.timer=0;
+        }
+        if(this.news.length!=0&&this.timer%4==0){
+          this.index=(this.timer/4)%this.news.length;
+        }
     }.bind(this),2000);
   },
   methods: {
