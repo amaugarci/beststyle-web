@@ -13,15 +13,15 @@
       <ul class="mt-2 list-group-item list-group-flush">
         <li class="list-group-item flex items-center px-[20px] py-[15px]">
           <BIconLock />
-          <input type="text" v-model="password.old" class="input-transparent p-1 text-[16px]" placeholder="原密码"  required="">
+          <input type="text" v-model="password.old" class="ml-[10px] input-transparent p-1 text-[16px]" placeholder="原密码"  required="">
         </li>
         <li class="list-group-item flex items-center px-[20px] py-[15px]">
           <BIconLock />
-          <input type="number" v-model="password.new"  class="input-transparent p-1 text-[16px]" placeholder="登陆密码 [6~16位]" required="">
+          <input type="number" v-model="password.new"  class="ml-[10px] input-transparent p-1 text-[16px]" placeholder="登陆密码 [6~16位]" required="">
         </li> 
         <li class="list-group-item flex items-center px-[20px] py-[15px]">
           <BIconLockFill />
-          <input type="text" v-model="password.double" class="input-transparent p-1 text-[16px]" placeholder="再次输入密码"  required="">
+          <input type="text" v-model="password.double" class="ml-[10px] input-transparent p-1 text-[16px]" placeholder="再次输入密码"  required="">
         </li> 
       </ul>        
       <button class="my-2 btn btn-success btn-block btn-sm" style="padding:0.75rem" @click="sendPassword">
@@ -32,15 +32,15 @@
        <ul class="mt-2 list-group-item list-group-flush">
           <li class="list-group-item flex items-center px-[20px] py-[15px]">
             <BIconLock />
-            <input type="text" v-model="securitynumber.old" class="input-transparent p-1 text-[16px]" placeholder="原密码"  required="">
+            <input type="text" v-model="securitynumber.old" class="ml-[10px] input-transparent p-1 text-[16px]" placeholder="原密码"  required="">
           </li>
           <li class="list-group-item flex items-center px-[20px] py-[15px]">
             <BIconLock />
-            <input type="number" v-model="securitynumber.new"  class="input-transparent p-1 text-[16px]"  placeholder="安全密码 [6位数字]" required="">
+            <input type="number" v-model="securitynumber.new"  class="ml-[10px] input-transparent p-1 text-[16px]"  placeholder="安全密码 [6位数字]" required="">
           </li> 
           <li class="list-group-item flex items-center px-[20px] py-[15px]">
             <BIconLockFill />
-            <input type="text" v-model="securitynumber.double" class="input-transparent p-1 text-[16px]" placeholder="再次输入密码"  required="">
+            <input type="text" v-model="securitynumber.double" class="ml-[10px] input-transparent p-1 text-[16px]" placeholder="再次输入密码"  required="">
           </li> 
         </ul>        
         <button class="my-2 btn btn-success btn-block btn-sm" style="padding:0.75rem" @click="sendSecurity">
@@ -106,7 +106,7 @@ export default defineComponent({
                       shadeClose:1,
                   });
               }else{
-
+                this.message=response.data.message;
                   this.showDialog();
               }
           }

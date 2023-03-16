@@ -13,23 +13,23 @@
           <ul class="mt-2 list-group-item list-group-flush">
             <li class="list-group-item flex items-center px-[20px] py-[15px]">
               <BIconPersonCircle />
-              <input type="text" v-model="form.name" class="input-transparent p-1 text-[16px]" placeholder="银行名称"  required="">
+              <input type="text" v-model="form.name" class="ml-[10px] input-transparent p-1 text-[16px]" placeholder="银行名称"  required="">
             </li>
             <li class="list-group-item flex items-center px-[20px] py-[15px]">
               <BIconCardImage />
-              <input type="number" v-model="form.cardnumber"  class="input-transparent p-1 text-[16px]"  placeholder="卡号" required="">
+              <input type="number" v-model="form.cardnumber"  class="ml-[10px] input-transparent p-1 text-[16px]"  placeholder="卡号" required="">
             </li> 
             <li class="list-group-item flex items-center px-[20px] py-[15px]">
               <BIconBank />
-              <input type="text" v-model="form.address" class="input-transparent p-1 text-[16px]" placeholder="开户地址"  required="">
+              <input type="text" v-model="form.address" class="ml-[10px] input-transparent p-1 text-[16px]" placeholder="开户地址"  required="">
             </li> 
             <li class="list-group-item flex items-center px-[20px] py-[15px]">
               <BIconPersonCheck />
-              <input type="text" v-model="form.realname"  class="input-transparent p-1 text-[16px]"  placeholder="真实姓名" required="">
+              <input type="text" v-model="form.realname"  class="ml-[10px] input-transparent p-1 text-[16px]"  placeholder="真实姓名" required="">
             </li> 
             <li class="list-group-item flex items-center px-[20px] py-[15px]">
               <BIconPhoneFill />
-              <input type="number" v-model="form.phonenumber" class="input-transparent p-1 text-[16px]" placeholder="手机号码 [8-16位数字]" required="">
+              <input type="number" v-model="form.phonenumber" class="ml-[10px] input-transparent p-1 text-[16px]" placeholder="手机号码 [8-16位数字]" required="">
             </li> 
           </ul>        
           <button class="my-2 btn btn-success btn-block btn-sm" style="padding:0.75rem" @click="sendRequest">

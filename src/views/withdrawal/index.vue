@@ -30,11 +30,11 @@
         <ul class="mt-2 list-group-item list-group-flush">
           <li class="list-group-item flex items-center px-[20px] py-[15px]">
             <BIconLifePreserver class="bi-life-preserver"/>
-            <input type="number" name="money" placeholder="提现金额" v-model="form.amount" class="input-transparent p-1 text-[16px]" id="CashMoney">
+            <input type="number" name="money" placeholder="提现金额" v-model="form.amount" class="ml-[10px] input-transparent p-1 text-[16px]" id="CashMoney">
           </li> 
           <li class="list-group-item flex items-center px-[20px] py-[15px]">
             <BIconShieldExclamation class="bi-shield-exclamation" />
-            <input type="password" name="money" placeholder="安全密码" v-model="form.security" class="input-transparent p-1 text-[16px]" id="CashSafePawd">
+            <input type="password" name="money" placeholder="安全密码" v-model="form.security" class="ml-[10px] input-transparent p-1 text-[16px]" id="CashSafePawd">
           </li> 
         </ul>
         <button
