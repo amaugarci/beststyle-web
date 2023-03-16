@@ -11,8 +11,7 @@ import me from './modules/me'
 import profile from './modules/profile'
 import {useAuthStore} from '@/pinia/modules/useAuthStore';
 const router = createRouter({
-  history: createWebHashHistory(),
-  mode: 'history',
+  history: createWebHistory(),
   routes: [
     {
       path: '/',
