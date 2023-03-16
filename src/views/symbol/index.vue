@@ -895,6 +895,11 @@ export default defineComponent({
       }
     },
     orderDialog(){
+      if(this.form.money<=0||this.form.money>this.getUser.cash_amount){
+        this.message='您的账户余额不足';
+        this.errorDialog();
+        return;
+      }
       layer.config({
         skin: 'me-class'
       })
@@ -943,11 +948,6 @@ export default defineComponent({
     },
     ...mapActions(useAuthStore, ['changeBalance']),
     async orderApi(){
-      if(this.form.money>this.getUser.cash_amount){
-        this.message='您的账户余额不足';
-        this.errorDialog();
-        return;
-      }
       try{
           const response=await axios.post('/order', {
               symbolid:this.$route.params.id,
@@ -966,7 +966,7 @@ export default defineComponent({
           }
       }
       catch(error) {
-        this.message='出现意想不到的问题';
+        this.message='网络错误，请稍候再试';
         this.errorDialog();
       };
     },

@@ -73,7 +73,7 @@ export default defineComponent({
     ...mapState(useAuthStore, ['getUser','getReturnUrl']),
   },
   mounted(){
-    if(this.getUser.bank!=null){
+    if(this.getUser==null||this.getUser.bank!=null){
       this.$router.push({ name: 'me' });
     }
     else{
@@ -91,7 +91,7 @@ export default defineComponent({
       })
       layer.open({
         title:false,
-        content: '未绑定银行卡',
+        content: '请先绑定银行卡',
         btn:['取消','确定'],
         btnAlign: 'c',
         closeBtn: 0,
@@ -129,7 +129,7 @@ export default defineComponent({
                 }
             }
             catch(error) {
-                this.message='请输入姓名，真实姓名'
+                this.message='网络错误，请稍候再试'
                 this.showDialog();
             };
         }
@@ -138,12 +138,22 @@ export default defineComponent({
         }
     },
     validation(){
+      const regexPattern = /^[\p{Script=Han}\p{P}\p{Z}\p{L}]+$/u;
         if(this.form.name==null||this.form.cardnumber==null||this.form.address==null||this.form.realname==null){
           this.message='请输入所有值';
             return false;
         }
-        if(this.form.phonenumber.length<8||this.form.phonenumber.length>16){
+        if(this.form.phonenumber.toString().length<8||this.form.phonenumber.toString().length>16){
           this.message='电话号码必须为 6 -16位';
+          return false;
+        }
+        console.log(regexPattern.test(this.form.name));
+        if(!regexPattern.test(this.form.name)){
+          this.message='银行名称是不正确的';
+          return false;
+        }
+        if(!regexPattern.test(this.form.realname)){
+          this.message='真实姓名是不正确的';
           return false;
         }
         return true;

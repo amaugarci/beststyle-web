@@ -111,7 +111,7 @@ export default defineComponent({
               }
           }
           catch(error) {
-             this.message='出现意想不到的问题'
+             this.message='网络错误，请稍候再试'
              this.showDialog();
           };
         }
