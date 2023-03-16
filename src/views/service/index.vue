@@ -32,7 +32,7 @@ export default defineComponent({
   methods:{
     async getUrl() {
       try {
-        const response = await axios.get('/url');
+        const response = await axios.get('/urls');
         this.url = response.data.url
       }
       catch (error) {
