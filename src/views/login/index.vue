@@ -46,7 +46,7 @@
                             </span>
                             <input type="text" v-model="signUp.realname" class=" w-full py-3 text-[#c4c3ca] text-[14px] bg-[#1f2029] rounded-md pl-10 focus:outline-none" placeholder="真实姓名" autocomplete="off">
                         </div>
-                        <button @click="creatAccount" class=" px-[30px] py-[10px] bg-[#ffeba7] mt-[10px] rounded-md text-[14px] text-[#102770] font-bold" id="LoginSubmit">登陆</button>
+                        <button @click="creatAccount" class=" px-[30px] py-[10px] bg-[#ffeba7] mt-[10px] rounded-md text-[14px] text-[#102770] font-bold" id="LoginSubmit">开户</button>
                     </div>
                 </div>
                 <div class="card-back rotate180 ">
