@@ -19,8 +19,8 @@
           <p>V：<span id="charts-sales" class="charts-price">{{ Number(symbol.V).toFixed(2) }}</span></p>
         </div>
         <div style="padding-left: 1rem" class="order-price-btn"> 
-          <button @click="riseDialog" class="buy-bg order-upbtn" style="margin-bottom: .3rem">买涨</button> 
-          <button @click="lowDialog" class="sell-bg order-dowbtn">买跌</button> 
+          <button @click="riseDialog" class="buy-bg order-upbtn" style="margin-bottom: .3rem" :disabled="!markline">买涨</button> 
+          <button @click="lowDialog" class="sell-bg order-dowbtn" :disabled="!markline">买跌</button> 
         </div>
       </div>
     </div>
@@ -179,6 +179,7 @@ export default defineComponent({
   },
   data() {
     return {
+      markline:false,
       message:'',
       loading:false,
       form:{
@@ -382,6 +383,7 @@ export default defineComponent({
       this.socketClose=true;
     },
     changeType(type) {
+      this.markline=false;
       this.type = type;
       if(type==1){
         this.option.series=[
@@ -837,6 +839,9 @@ export default defineComponent({
         this.current.price = Number(price);
         this.current.time = JSON.parse(event.data)['E'];
         if (this.type != 2) {
+          if(!this.markline){
+            this.markline=true;
+          }
           this.option.series[3].markLine.data[0].yAxis = Number(price);
         }
         if (date == this.dates.slice(-1)) {
