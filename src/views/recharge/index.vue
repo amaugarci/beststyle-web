@@ -38,7 +38,7 @@
           </li> 
         </ul>
         <button
-          class="my-2 btn btn-success btn-block btn-sm " style="padding:0.75rem" @click="sendRequest">确定</button>
+          class="my-2 btn btn-success btn-block btn-sm " style="padding:0.75rem" @click="sendRequest" :disabled="loading">确定</button>
       </div>
     </div>
   </div>
@@ -63,6 +63,7 @@ export default defineComponent({
     BIconShieldExclamation 
   },
   data: () => ({
+    loading:false,
     message:'',
     form:{
       bank_id:null,
@@ -91,6 +92,7 @@ export default defineComponent({
       });
     },
     async sendRequest(){
+      this.loading=true;
       this.form.bank_id=this.getUser.bank.id;
       if(this.validation()){
             try{
@@ -118,6 +120,7 @@ export default defineComponent({
         else{
             this.showDialog();
         }
+        this.loading=false;
     },
     validation(){
         if(this.form.amount==null||this.form.security==null){
