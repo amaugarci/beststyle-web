@@ -13,6 +13,10 @@
         "disableOnInteraction": true
       }'
     >
+      <swiper-slide><img src="/img/index-04.png" class="w-full" data-xblocker="passed"
+          style="visibility: visible;"></swiper-slide>
+      <swiper-slide><img src="/img/index-05.png" class="w-full" data-xblocker="passed"
+          style="visibility: visible;"></swiper-slide>
       <swiper-slide><img src="/img/index-01.png" class="w-full" data-xblocker="passed"
           style="visibility: visible;"></swiper-slide>
       <swiper-slide><img src="/img/index-03.jpg" class="w-full" data-xblocker="passed"
@@ -111,7 +115,7 @@ export default defineComponent({
         if(this.news.length!=0&&this.timer%4==0){
           this.index=(this.timer/4)%this.news.length;
         }
-    }.bind(this),500);
+    }.bind(this),1000);
   },
   methods: {
     goNews(){

@@ -118,8 +118,8 @@ export default defineComponent({
     url:'',
     message:'帐号或密码错误',
     checked:true,
-    username:'player',
-    password:'player',
+    username:'',
+    password:'',
     showPassword:true,
     signUp:{
         name:'',
