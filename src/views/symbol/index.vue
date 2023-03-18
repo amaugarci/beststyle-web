@@ -553,6 +553,7 @@ export default defineComponent({
         this.form.loss=[...this.symbol.lossRatio.split(',')];
         let charts = response.data.charts;
         this.volumn=Number(charts[0][5]);
+        this.markline=true;
         charts.forEach(element => {
           this.dates.push(moment.utc(new Date(element[0])).local().format('hh:mm'));
           this.data.push([Number(element[1]), Number(element[4]), Number(element[3]), Number(element[2]), Number(element[5])]);
