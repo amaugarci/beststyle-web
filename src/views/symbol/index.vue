@@ -547,6 +547,8 @@ export default defineComponent({
       try {
         const response = await axios.get(`/chart/${id}?period=${this.period}`);
         this.symbol = response.data.symbol;
+        this.current.price = Number(this.symbol.price);
+        this.current.time = this.symbol.time;
         this.highValue=this.symbol.H;
         this.lowValue=this.symbol.L;
         this.form.profit=[...this.symbol.profitRatio.split(',')];
@@ -825,7 +827,7 @@ export default defineComponent({
         if (this.symbol['price'] == 0) {
           this.symbol['DIFF'] = 0.2;
         }
-        if (this.symbol['DIFF']) {
+        if (this.symbol['DIFF']>0) {
           this.symbol['status'] = false;
         } else {
           this.symbol['status'] = true;
@@ -840,9 +842,6 @@ export default defineComponent({
         this.current.price = Number(price);
         this.current.time = JSON.parse(event.data)['E'];
         if (this.type != 2) {
-          if(!this.markline){
-            this.markline=true;
-          }
           this.option.series[3].markLine.data[0].yAxis = Number(price);
         }
         if (date == this.dates.slice(-1)) {
