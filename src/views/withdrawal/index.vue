@@ -15,7 +15,7 @@
         </div>
         <div class="flex flex-col justify-evenly">
           <p>{{getUser.bank.name}}</p>
-          <p>{{`${getUser.bank.cardnumber.toString().slice(0,3)} **** **** **** **** ${getUser.bank.cardnumber.toString().slice(0,3)}`}}</p>
+          <p>{{`${getUser.bank.cardnumber.toString().slice(0,3)} **** **** **** **** ${getCardNum(getUser.bank.cardnumber.toString())}`}}</p>
         </div>
       </div>
       <button
@@ -85,6 +85,10 @@ export default defineComponent({
   methods: {
     updateCard(){
       this.$router.push({ name: 'bankedit' });
+    },
+    getCardNum(cardnum){
+      var len = cardnum.length -3;
+      return cardnum.slice(len);
     },
     back() {
       this.$router.push({ name: 'me' });

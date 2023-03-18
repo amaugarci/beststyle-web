@@ -17,7 +17,7 @@
         </li>
         <li class="list-group-item flex items-center px-[20px] py-[15px]">
           <BIconLock />
-          <input type="number" v-model="password.new"  class="ml-[10px] input-transparent p-1 text-[16px]" placeholder="登陆密码 [6~16位]" required="">
+          <input type="text" v-model="password.new"  class="ml-[10px] input-transparent p-1 text-[16px]" placeholder="登陆密码 [6~16位]" required="">
         </li> 
         <li class="list-group-item flex items-center px-[20px] py-[15px]">
           <BIconLockFill />
@@ -36,7 +36,7 @@
           </li>
           <li class="list-group-item flex items-center px-[20px] py-[15px]">
             <BIconLock />
-            <input type="number" v-model="securitynumber.new"  class="ml-[10px] input-transparent p-1 text-[16px]"  placeholder="安全密码 [6位数字]" required="">
+            <input type="text" v-model="securitynumber.new"  class="ml-[10px] input-transparent p-1 text-[16px]"  placeholder="安全密码 [6位数字]" required="">
           </li> 
           <li class="list-group-item flex items-center px-[20px] py-[15px]">
             <BIconLockFill />

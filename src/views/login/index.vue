@@ -218,7 +218,7 @@ export default defineComponent({
     },
     validation(){
         if(this.username==''||this.password==''){
-            this.message='请输入所有值'
+            this.message='请输入用户名和密码'
             return false;
         }
         if(this.password.length<6){
