@@ -43,7 +43,7 @@
           </div>
           <div class="flex justify-between items-center">
             <div >
-              建仓时间: {{moment().utc(new Date(item.created_at)).local().format("yyyy-MM-DD hh:mm:ss") }}
+              建仓时间: {{moment().utc(new Date(item.created_at)).local().format("yyyy-MM-DD HH:mm:ss") }}
             </div>
 
           </div>

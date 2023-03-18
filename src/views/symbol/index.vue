@@ -230,7 +230,7 @@ export default defineComponent({
   mounted() {
     this.getCurrentChart(this.$route.params.id);
     setInterval(function(){
-        this.timer=moment.utc().local().format('hh:mm:ss');
+        this.timer=moment.utc().local().format('HH:mm:ss');
     }.bind(this),1000);
   },
   methods: {
