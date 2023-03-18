@@ -26,8 +26,8 @@
         <div class="h-[1.2rem] border-r-[1px] border-[#333] pr-[.5rem]"> <img class="h-[1.2rem]" src="/img/notice.png">
         </div>
         <div class="grow relative overflow-hidden h-[1.2rem] flex">
-          <ul v-if="news" id="indexNoticeList" :class="{trans1:timer%4==0,trans2:timer%4==1,trans3:timer%4==2,trans4:timer%4==3}">
-            <li v-if="index!=null" @click="goNews" class="h-[1.2rem] ml-[.3rem] overflow-hidden text-ellipsis max-w-[200px] text-[.8rem] trans whitespace-nowrap cursor-pointer" >{{ news[index].title }}</li>
+          <ul v-if="!flag" id="indexNoticeList" :class="{trans0:timer%index==0,trans1:timer%index==1,trans2:timer%index==2,trans3:timer%index==3,trans4:timer%index==4}">
+            <li v-for="(item,i) in news" @click="goNews" class="h-[1.2rem] ml-[.3rem] overflow-hidden text-ellipsis max-w-[200px] text-[.8rem] trans whitespace-nowrap cursor-pointer" >{{ item.title }}</li>
           </ul>
           <BIconChevronRight class="inline-block ml-auto cursor-pointer"  @click="goNews"/>
         </div>
@@ -108,10 +108,13 @@ export default defineComponent({
           this.flag=false
           this.timer=0;
         }
-        if(this.news.length!=0&&this.timer%4==0){
-          this.index=(this.timer/4)%this.news.length;
+        if(this.news.length==1){
+          this.index=1;
         }
-    }.bind(this),500);
+        else if(this.news.length>=2){
+          this.index=5;
+        }
+    }.bind(this),1000);
   },
   methods: {
     goNews(){
@@ -182,17 +185,20 @@ body {
 .buyBg{
   background-color: #40d090;
 }
+.trans0{
+  transition-duration: 1000ms; transform: translate3d(0rem, 1.2rem, 0rem);
+}
 .trans1{
-  transition-duration: 500ms; transform: translate3d(0rem, 1.2rem, 0rem);
+  transition-duration: 1000ms; transform: translate3d(0rem, 0.0rem, 0rem);
 }
 .trans2{
-  transition-duration: 500ms; transform: translate3d(0rem, 0.0rem, 0rem);
+  transition-duration: 1000ms; transform: translate3d(0rem, -1.2rem, 0rem);
 }
 .trans3{
-  transition-duration: 500ms; transform: translate3d(0rem, -1.2rem, 0rem);
+  transition-duration: 1000ms; transform: translate3d(0rem, -2.4rem, 0rem);
 }
 .trans4{
-  transform: translate3d(0rem, -1.2rem, 0rem);
+  transform: translate3d(0rem, -2.4rem, 0rem);
   display: none;
 }
 *{

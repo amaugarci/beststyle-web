@@ -18,7 +18,7 @@
         <div v-if="getUser" class="flex-1 pl-[2rem] flex-col">
           <p>用户名：<span id="UserAccount">{{getUser['name'] }}</span></p>
           <p>UID：<span id="UserUid">{{'HKD'+(52125+getUser['id']) }}</span></p>
-          <p> <span class="user-money">余额： {{getUser['cash_amount'] }}</span> </p>
+          <p> <span class="user-money">余额： {{Number(getUser['cash_amount']).toFixed(2) }}</span> </p>
           <div class="flex flex-row text-[#ffeba7]">
             <img src="/img/cz.svg">
             <p class="ml-[5px]" @click="()=>{$router.push({ name: 'recharge' })}">充值 |</p>

@@ -15,7 +15,7 @@
         </div>
         <div class="flex flex-col justify-evenly">
           <p>{{getUser.bank.name}}</p>
-          <p>{{`${getUser.bank.cardnumber.toString().slice(0,3)} **** **** **** **** ${getUser.bank.cardnumber.toString().slice(0,3)}`}}</p>
+          <p>{{`${getUser.bank.cardnumber.toString().slice(0,3)} **** **** **** **** ${getUser.bank.cardnumber.toString().slice(-3)}`}}</p>
         </div>
       </div>
       <button

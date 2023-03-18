@@ -20,12 +20,12 @@
             </div>
             <div>
               盈亏:
-              <span v-if="item.status==1&&item.during==180" class="textDanger"> -{{0.01*Number(item.money)*Number(item.symbol.lossRatio.split(',')[0])}}</span>
-              <span v-else-if="item.status==1&&item.during==300" class="textDanger"> -{{0.01*Number(item.money)*Number(item.symbol.lossRatio.split(',')[1])}}</span>
-              <span v-else-if="item.status==2&&item.during==600" class="textDanger"> -{{0.01*Number(item.money)*Number(item.symbol.lossRatio.split(',')[2])}}</span>
-              <span v-else-if="item.status==2&&item.during==180" class="textSuccess"> {{0.01*Number(item.money)*Number(item.symbol.profitRatio.split(',')[0])}}</span>
-              <span v-else-if="item.status==2&&item.during==300" class="textSuccess"> {{0.01*Number(item.money)*Number(item.symbol.profitRatio.split(',')[1])}}</span>
-              <span v-else-if="item.status==2&&item.during==600" class="textSuccess"> {{0.01*Number(item.money)*Number(item.symbol.profitRatio.split(',')[2])}}</span>
+              <span v-if="item.status==1&&item.during==180" class="textDanger"> -{{Number(0.01*Number(item.money)*Number(item.symbol.lossRatio.split(',')[0])).toFixed(2)}}</span>
+              <span v-else-if="item.status==1&&item.during==300" class="textDanger"> -{{Number(0.01*Number(item.money)*Number(item.symbol.lossRatio.split(',')[1])).toFixed(2)}}</span>
+              <span v-else-if="item.status==2&&item.during==600" class="textDanger"> -{{Number(0.01*Number(item.money)*Number(item.symbol.lossRatio.split(',')[2])).toFixed(2)}}</span>
+              <span v-else-if="item.status==2&&item.during==180" class="textSuccess"> {{Number(0.01*Number(item.money)*Number(item.symbol.profitRatio.split(',')[0])).toFixed(2)}}</span>
+              <span v-else-if="item.status==2&&item.during==300" class="textSuccess"> {{Number(0.01*Number(item.money)*Number(item.symbol.profitRatio.split(',')[1])).toFixed(2)}}</span>
+              <span v-else-if="item.status==2&&item.during==600" class="textSuccess"> {{Number(0.01*Number(item.money)*Number(item.symbol.profitRatio.split(',')[2])).toFixed(2)}}</span>
               <span v-else-if="item.status==3" class="textSuccess">0</span>
               <span v-else>-</span>
             </div>
