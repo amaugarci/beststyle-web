@@ -78,6 +78,10 @@ export default defineComponent({
     updateCard(){
       this.$router.push({ name: 'bankedit' });
     },
+    getCardNum(cardnum){
+      var len = cardnum.length -3;
+      return cardnum.slice(len);
+    },
     back() {
       this.$router.push({ name: 'me' });
     },

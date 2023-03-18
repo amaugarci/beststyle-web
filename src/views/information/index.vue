@@ -15,7 +15,7 @@
     <div v-for="(item,index) in news" :key="item.id">
       <div class="border-[1px] border-[#1f2029]" >
           <div class="bg-[#1f2029] p-[0.75rem] text-[#999]">
-            {{moment().utc(new Date(item.updated_at)).local().format("yyyy-MM-DD hh:mm:ss") }}
+            {{moment().utc(new Date(item.updated_at)).local().format("yyyy-MM-DD HH:mm:ss") }}
           </div>
           <div class="p-[1rem]">
             <div class="text-[#ccc] pb-[0.7rem]">{{ item.title }}</div>

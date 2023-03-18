@@ -13,23 +13,23 @@
           <ul class="mt-2 list-group-item list-group-flush">
             <li class="list-group-item flex items-center px-[20px] py-[15px]">
               <BIconPersonCircle />
-              <input type="text" v-model="form.name" class="ml-[10px] input-transparent p-1 text-[16px]" placeholder="银行名称"  required="">
+              <input type="text" v-model="name" class="ml-[10px] input-transparent p-1 text-[16px]" placeholder="银行名称"  required="">
             </li>
             <li class="list-group-item flex items-center px-[20px] py-[15px]">
               <BIconCardImage />
-              <input type="number" v-model="form.cardnumber"  class="ml-[10px] input-transparent p-1 text-[16px]"  placeholder="卡号" required="">
+              <input type="number" v-model="cardnumber2"  class="ml-[10px] input-transparent p-1 text-[16px]"  placeholder="卡号" required="">
             </li> 
             <li class="list-group-item flex items-center px-[20px] py-[15px]">
               <BIconBank />
-              <input type="text" v-model="form.address" class="ml-[10px] input-transparent p-1 text-[16px]" placeholder="开户地址"  required="">
+              <input type="text" v-model="address" class="ml-[10px] input-transparent p-1 text-[16px]" placeholder="开户地址"  required="">
             </li> 
             <li class="list-group-item flex items-center px-[20px] py-[15px]">
               <BIconPersonCheck />
-              <input type="text" v-model="form.realname"  class="ml-[10px] input-transparent p-1 text-[16px]"  placeholder="真实姓名" required="">
+              <input type="text" v-model="realname"  class="ml-[10px] input-transparent p-1 text-[16px]"  placeholder="真实姓名" required="">
             </li> 
             <li class="list-group-item flex items-center px-[20px] py-[15px]">
               <BIconPhoneFill />
-              <input type="number" v-model="form.phonenumber" class="ml-[10px] input-transparent p-1 text-[16px]" placeholder="手机号码 [8-16位数字]" required="">
+              <input type="number" v-model="phonenumber" class="ml-[10px] input-transparent p-1 text-[16px]" placeholder="手机号码 [8-16位数字]" required="">
             </li> 
           </ul>        
           <button class="my-2 btn btn-success btn-block btn-sm" style="padding:0.75rem" @click="sendRequest">
@@ -59,19 +59,21 @@ export default defineComponent({
   },
   data: () => ({
     message:'',
-    form:{
-      name:null,
-      cardnumber:null,
-      address:null,
-      realname:null,
-      phonenumber:null,
-    }
+    name:null,
+    cardnumber2:null,
+    address:null,
+    realname:null,
+    phonenumber:null,
   }),
   mounted(){
     if(this.getUser.bank==null){
       this.$router.push({ name: 'me' });
     }else{
-      this.form=this.getUser.bank;
+      this.name = this.getUser.bank.name;
+      this.cardnumber2 = this.getUser.bank.cardnumber.toString();
+      this.address = this.getUser.bank.address;
+      this.realname = this.getUser.bank.realname;
+      this.phonenumber = this.getUser.bank.phonenumber;
     }
   },
   computed:{
@@ -95,10 +97,16 @@ export default defineComponent({
     async sendRequest(){
       if(this.validation()){
           try{
-                const response=await axios.post('/editbank', this.form);
+            var form = this.getUser.bank;
+            form.name = this.name;
+            form.cardnumber = this.cardnumber2;
+            form.address = this.address;
+            form.realname = this.realname;
+            form.phonenumber = this.phonenumber;
+                const response=await axios.post('/editbank', form);
                 if(response.data.status==1){
                     this.addBank(response.data.bank);
-                    this.$router.push({ name: this.getReturnUrl })
+                    this.$router.push({ name: 'me' });
                 }else{
                     this.message='银行存在'
                     this.showDialog();
@@ -115,20 +123,20 @@ export default defineComponent({
     },
     validation(){
       const regexPattern = /^[\p{Script=Han}\p{P}\p{Z}\p{L}]+$/u;
-        if(this.form.name==null||this.form.cardnumber==null||this.form.address==null||this.form.realname==null){
+        if(this.name==null||this.cardnumber2==null||this.address==null||this.realname==null){
           this.message='请输入所有值';
             return false;
         }
-        if(this.form.phonenumber.toString().length<8||this.form.phonenumber.toString().length>16){
+        if(this.phonenumber.toString().length<8||this.phonenumber.toString().length>16){
           this.message='电话号码必须为 6 -16位';
           return false;
         }
-        console.log(regexPattern.test(this.form.name));
-        if(!regexPattern.test(this.form.name)){
+        console.log(regexPattern.test(this.name));
+        if(!regexPattern.test(this.name)){
           this.message='银行名称是不正确的';
           return false;
         }
-        if(!regexPattern.test(this.form.realname)){
+        if(!regexPattern.test(this.realname)){
           this.message='真实姓名是不正确的';
           return false;
         }

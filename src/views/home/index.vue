@@ -13,6 +13,10 @@
         "disableOnInteraction": true
       }'
     >
+      <swiper-slide><img src="/img/index-04.png" class="w-full" data-xblocker="passed"
+          style="visibility: visible;"></swiper-slide>
+      <swiper-slide><img src="/img/index-05.png" class="w-full" data-xblocker="passed"
+          style="visibility: visible;"></swiper-slide>
       <swiper-slide><img src="/img/index-01.png" class="w-full" data-xblocker="passed"
           style="visibility: visible;"></swiper-slide>
       <swiper-slide><img src="/img/index-03.jpg" class="w-full" data-xblocker="passed"
