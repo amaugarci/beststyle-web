@@ -1,5 +1,5 @@
 <template>
-  <div v-if="this.symbol" class="absolute top-0 left-0 bottom-0 right-0 flex flex-col">
+  <div v-if="this.symbol" class="absolute top-0 left-0 right-0 flex flex-col">
     <!-- header -->
     <div class="h-[2.5rem] w-full text-center bg-[#1f2029] pl-[10px] py-[8px]">
       <div class="float-left absolute">
