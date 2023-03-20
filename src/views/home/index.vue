@@ -41,8 +41,8 @@
     <!-- title -->
     <div class="bg-[#2b2f3e]">
       <div class="flex py-2 px-3">
-        <div class="grow"><small>热门产品</small></div>
-        <div><small>最新</small></div>
+        <div class="grow"><small>{{ $t('product') }}</small></div>
+        <div><small>{{ $t('last') }}</small></div>
       </div>
     </div>
     <div class="block" v-for="(item,index) in symbols" :key="item.id">

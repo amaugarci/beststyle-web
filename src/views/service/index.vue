@@ -4,9 +4,9 @@
       <div class="h-[2.5rem] w-full text-center bg-[#1f2029] pl-[10px] py-[8px]">
         <div @click="back" class="float-left absolute">
           <BIconPersonCircle class="text-[1.3rem] cursor-pointer mt-[3px] inline-block mb-[7px]" />
-          返回
+          {{ $t('return') }}
         </div>
-        <div class="font-black text-white">客服</div>
+        <div class="font-black text-white">{{ $t('service') }}</div>
       </div>
       <!-- body -->
       <iframe v-if="url" :src="url" class="w-full h-full"></iframe>

@@ -5,12 +5,12 @@
       <div class="float-left absolute">
         <BIconPersonCircle @click="back" class="text-[1.3rem] cursor-pointer mt-[3px]" />
       </div>
-      <div class="font-black text-white">新闻公告</div>
+      <div class="font-black text-white">{{ $t('newannouncement') }}</div>
     </div>
     <!-- body -->
     <div class="overflow-y-auto overflow-x-hidden h-full">
       <div v-if="!announcement||announcement.length==0" class="flex items-center justify-center mt-[20px] text-[0.7rem]">
-        暂无公告
+        {{ $t('noannouncement') }}
         </div>
       <ul v-for="(item,index) in announcement" :key="index" class="rounded-0 flex flex-col pl-0 mb-0 mt-4">
         <li @click="showdialog(index)" class="flex items-center justify-between bg-[#1f2029] cursor-pointer text-[#ddd] border-[1px] border-[#1f2029] p-[0.75rem]" >
@@ -62,7 +62,7 @@ export default defineComponent({
       layer.open({
         title:false,
         content: this.announcement[index].description,
-        btn:'确定',
+        btn:this.$t('ok'),
         btnAlign: 'c',
         closeBtn: 0,
         shadeClose:1,

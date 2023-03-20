@@ -5,7 +5,7 @@
       <div class="float-left absolute">
         <BIconPersonCircle @click="back" class="text-[1.3rem] cursor-pointer mt-[3px]" />
       </div>
-      <div class="font-black text-white">银行编辑</div>
+      <div class="font-black text-white">{{ $t('editbank') }}</div>
     </div>
     <!-- body -->
     <div class="overflow-x-hidden overflow-y-auto h-full p-3">
@@ -13,23 +13,23 @@
           <ul class="mt-2 list-group-item list-group-flush">
             <li class="list-group-item flex items-center px-[20px] py-[15px]">
               <BIconPersonCircle />
-              <input type="text" v-model="name" class="ml-[10px] input-transparent p-1 text-[16px]" placeholder="银行名称"  required="">
+              <input type="text" v-model="name" class="ml-[10px] input-transparent p-1 text-[16px]" :placeholder="$t('bankname')"  required="">
             </li>
             <li class="list-group-item flex items-center px-[20px] py-[15px]">
               <BIconCardImage />
-              <input type="number" v-model="cardnumber2"  class="ml-[10px] input-transparent p-1 text-[16px]"  placeholder="卡号" required="">
+              <input type="number" v-model="cardnumber2"  class="ml-[10px] input-transparent p-1 text-[16px]"  :placeholder="$t('cardnumber')"  required="">
             </li> 
             <li class="list-group-item flex items-center px-[20px] py-[15px]">
               <BIconBank />
-              <input type="text" v-model="address" class="ml-[10px] input-transparent p-1 text-[16px]" placeholder="开户地址"  required="">
+              <input type="text" v-model="address" class="ml-[10px] input-transparent p-1 text-[16px]" :placeholder="$t('aaddress')"  required="">
             </li> 
             <li class="list-group-item flex items-center px-[20px] py-[15px]">
               <BIconPersonCheck />
-              <input type="text" v-model="realname"  class="ml-[10px] input-transparent p-1 text-[16px]"  placeholder="真实姓名" required="">
+              <input type="text" v-model="realname"  class="ml-[10px] input-transparent p-1 text-[16px]"  :placeholder="$t('realname')" required="">
             </li> 
             <li class="list-group-item flex items-center px-[20px] py-[15px]">
               <BIconPhoneFill />
-              <input type="number" v-model="phonenumber" class="ml-[10px] input-transparent p-1 text-[16px]" placeholder="手机号码 [8-16位数字]" required="">
+              <input type="number" v-model="phonenumber" class="ml-[10px] input-transparent p-1 text-[16px]" :placeholder="$t('pnumberinvalid')" required="">
             </li> 
           </ul>        
           <button class="my-2 btn btn-success btn-block btn-sm" style="padding:0.75rem" @click="sendRequest">
@@ -108,12 +108,12 @@ export default defineComponent({
                     this.addBank(response.data.bank);
                     this.$router.push({ name: 'me' });
                 }else{
-                    this.message='银行存在'
+                    this.message=this.$t('bexist');
                     this.showDialog();
                 }
             }
             catch(error) {
-                this.message='网络错误，请稍候再试'
+                this.message=this.$t('neterror');
                 this.showDialog();
             };
         }
@@ -124,20 +124,20 @@ export default defineComponent({
     validation(){
       const regexPattern = /^[\p{Script=Han}\p{P}\p{Z}\p{L}]+$/u;
         if(this.name==null||this.cardnumber2==null||this.address==null||this.realname==null){
-          this.message='请输入所有值';
+          this.message=this.$t('allvalue');
             return false;
         }
         if(this.phonenumber.toString().length<8||this.phonenumber.toString().length>16){
-          this.message='电话号码必须为 6 -16位';
+          this.message=this.$t('pnumberinvalid');
           return false;
         }
         console.log(regexPattern.test(this.name));
         if(!regexPattern.test(this.name)){
-          this.message='银行名称是不正确的';
+          this.message=this.$t('bnameinvalid');
           return false;
         }
         if(!regexPattern.test(this.realname)){
-          this.message='真实姓名是不正确的';
+          this.message=this.$t('rnameinvalid');
           return false;
         }
         return true;

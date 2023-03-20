@@ -5,46 +5,46 @@
       <div class="float-left absolute">
         <BIconPersonCircle @click="back" class="text-[1.3rem] cursor-pointer mt-[3px]" />
       </div>
-      <div  class="font-black text-white">修改密码</div>
+      <div  class="font-black text-white">{{ $t('passwordchange') }}</div>
     </div>
     <!-- body -->
     <div class="overflow-x-hidden overflow-y-auto h-full p-3">
-      <p class="mt-[0.3rem] text-[1rem] pb-[1rem]">登陆密码</p>
+      <p class="mt-[0.3rem] text-[1rem] pb-[1rem]">{{$t('password')}}</p>
       <ul class="mt-2 list-group-item list-group-flush">
         <li class="list-group-item flex items-center px-[20px] py-[15px]">
           <BIconLock />
-          <input type="text" v-model="password.old" class="ml-[10px] input-transparent p-1 text-[16px]" placeholder="原密码"  required="">
+          <input type="text" v-model="password.old" class="ml-[10px] input-transparent p-1 text-[16px]" :placeholder="$t('opass')"  required="">
         </li>
         <li class="list-group-item flex items-center px-[20px] py-[15px]">
           <BIconLock />
-          <input type="text" v-model="password.new"  class="ml-[10px] input-transparent p-1 text-[16px]" placeholder="登陆密码 [6~16位]" required="">
+          <input type="text" v-model="password.new"  class="ml-[10px] input-transparent p-1 text-[16px]" :placeholder="$t('loginpasswordlimit')" required="">
         </li> 
         <li class="list-group-item flex items-center px-[20px] py-[15px]">
           <BIconLockFill />
-          <input type="text" v-model="password.double" class="ml-[10px] input-transparent p-1 text-[16px]" placeholder="再次输入密码"  required="">
+          <input type="text" v-model="password.double" class="ml-[10px] input-transparent p-1 text-[16px]" :placeholder="$t('reloginpassword')"  required="">
         </li> 
       </ul>        
       <button class="my-2 btn btn-success btn-block btn-sm" style="padding:0.75rem" @click="sendPassword">
-          确定
+          {{ $t('ok') }}
       </button>
       <hr>
-      <p class="mt-[0.3rem] text-[1rem] pb-[1rem]">安全密码</p>
+      <p class="mt-[0.3rem] text-[1rem] pb-[1rem]">{{ $t('scode') }}</p>
        <ul class="mt-2 list-group-item list-group-flush">
           <li class="list-group-item flex items-center px-[20px] py-[15px]">
             <BIconLock />
-            <input type="text" v-model="securitynumber.old" class="ml-[10px] input-transparent p-1 text-[16px]" placeholder="原密码"  required="">
+            <input type="text" v-model="securitynumber.old" class="ml-[10px] input-transparent p-1 text-[16px]" :placeholder="$t('opass')"  required="">
           </li>
           <li class="list-group-item flex items-center px-[20px] py-[15px]">
             <BIconLock />
-            <input type="text" v-model="securitynumber.new"  class="ml-[10px] input-transparent p-1 text-[16px]"  placeholder="安全密码 [6位数字]" required="">
+            <input type="text" v-model="securitynumber.new"  class="ml-[10px] input-transparent p-1 text-[16px]"  :placeholder="$t('loginpasswordlimit')" required="">
           </li> 
           <li class="list-group-item flex items-center px-[20px] py-[15px]">
             <BIconLockFill />
-            <input type="text" v-model="securitynumber.double" class="ml-[10px] input-transparent p-1 text-[16px]" placeholder="再次输入密码"  required="">
+            <input type="text" v-model="securitynumber.double" class="ml-[10px] input-transparent p-1 text-[16px]" :placeholder="$t('reloginpassword')"   required="">
           </li> 
         </ul>        
         <button class="my-2 btn btn-success btn-block btn-sm" style="padding:0.75rem" @click="sendSecurity">
-            确定
+            {{ $t('ok') }}
         </button>
     </div>
   </div>
@@ -101,7 +101,7 @@ export default defineComponent({
                       type:1,
                       offset:'b',
                       title:false,
-                      content: '成功',
+                      content: $t('success'),
                       closeBtn: 0,
                       shadeClose:1,
                   });
@@ -111,7 +111,7 @@ export default defineComponent({
               }
           }
           catch(error) {
-             this.message='网络错误，请稍候再试'
+             this.message=this.$t('neterror')
              this.showDialog();
           };
         }
@@ -128,7 +128,7 @@ export default defineComponent({
                       type:1,
                       offset:'b',
                       title:false,
-                      content: '成功',
+                      content: this.$t('success'),
                       closeBtn: 0,
                       shadeClose:1,
                   });
@@ -146,15 +146,15 @@ export default defineComponent({
     },
     validation(value){
         if(value.old==null||value.new==null){
-          this.message='请输入所有值'
+          this.message=this.$t('allvalue')
           return false;
         }
         if(value.new.length<6||value.old.length<6){
-          this.message='密码必须为6位或更长。'
+          this.message=this.$t('passsix')
           return false;
         }
         if(value.double!=value.new){
-          this.message='确认密码不正确'
+          this.message=this.$t('cpassincorrect')
           return false;
         }
         

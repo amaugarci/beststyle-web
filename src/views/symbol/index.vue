@@ -19,8 +19,8 @@
           <p>V：<span id="charts-sales" class="charts-price">{{ Number(symbol.V).toFixed(2) }}</span></p>
         </div>
         <div style="padding-left: 1rem" class="order-price-btn"> 
-          <button @click="riseDialog" class="buy-bg order-upbtn" style="margin-bottom: .3rem" :disabled="!markline">买涨</button> 
-          <button @click="lowDialog" class="sell-bg order-dowbtn" :disabled="!markline">买跌</button> 
+          <button @click="riseDialog" class="buy-bg order-upbtn" style="margin-bottom: .3rem" :disabled="!markline">{{ $t('buy') }}</button> 
+          <button @click="lowDialog" class="sell-bg order-dowbtn" :disabled="!markline">{{ $t('sell') }}</button> 
         </div>
       </div>
     </div>
@@ -28,10 +28,10 @@
       <span class="tab-link button my-kendtrend">
         <article>
           <span @click="changeType(1)" :class="{ active: type == 1 }" data-ctype="k">
-            K线
+            {{ $t('kline') }}
           </span>
           <span @click="changeType(2)" data-ctype="l" :class="{ active: type == 2 }">
-            走势
+            {{ $t('trend') }}
           </span>
         </article>
       </span>
@@ -64,91 +64,91 @@
     <!-- dialog -->
     <div :class="{block:showDialog}" class="order-setbox-lay" @click="()=>showDialog=false"></div>
     <div  class="order-setbox" :class="{block:showDialog}">
-      <header> {{form.title }} <div @click="()=>showDialog=false" class="order-setbox-close">X</div>
+      <header> {{$t('orderconform') }} <div @click="()=>showDialog=false" class="order-setbox-close">X</div>
       </header>
       <div class="order-setbox-body">
-        <p class="order-setbox-title">结算时间</p>
+        <p class="order-setbox-title">{{ $t('settlementtime') }}</p>
         <div v-if="form.profit" class="order-setbox-settime">
           <div :class="{active:form.time==180}" @click="()=>{form.time=180; form.benefit=0}" data-setime="180" id="GoodsOrderOne">
-            <p class="a"><span class="aa">180</span><span class="tiny">秒</span></p>
-            <p v-if="form.dir" class="b">盈亏<span class="bb">{{ form.profit[0] }}</span>%</p>
-            <p v-else class="b">盈亏<span class="bb">{{ form.loss[0] }}</span>%</p>
+            <p class="a"><span class="aa">180</span><span class="tiny">{{ $t('second') }}</span></p>
+            <p v-if="form.dir" class="b">{{$t('profit')}}<span class="bb">{{ form.profit[0] }}</span>%</p>
+            <p v-else class="b">{{$t('profit')}}<span class="bb">{{ form.loss[0] }}</span>%</p>
           </div>
           <div :class="{active:form.time==300}" @click="()=>{form.time=300;form.benefit=1}" data-setime="300" id="GoodsOrderToo">
-            <p class="a"><span class="aa">300</span><span class="tiny">秒</span></p>
-            <p v-if="form.dir" class="b">盈亏<span class="bb">{{ form.profit[1] }}</span>%</p>
-            <p v-else class="b">盈亏<span class="bb">{{ form.loss[1] }}</span>%</p>
+            <p class="a"><span class="aa">300</span><span class="tiny">{{ $t('second') }}</span></p>
+            <p v-if="form.dir" class="b">{{$t('profit')}}<span class="bb">{{ form.profit[1] }}</span>%</p>
+            <p v-else class="b">{{$t('profit')}}<span class="bb">{{ form.loss[1] }}</span>%</p>
           </div>
           <div :class="{active:form.time==600}" @click="()=>{form.time=600;form.benefit=2}" data-setime="600" id="GoodsOrderThree">
-            <p class="a"><span class="aa">600</span><span class="tiny">秒</span></p>
-            <p v-if="form.dir" class="b">盈亏<span class="bb">{{ form.profit[2] }}</span>%</p>
-            <p v-else class="b">盈亏<span class="bb">{{ form.loss[2] }}</span>%</p>
+            <p class="a"><span class="aa">600</span><span class="tiny">{{ $t('second') }}</span></p>
+            <p v-if="form.dir" class="b">{{$t('profit')}}<span class="bb">{{ form.profit[2] }}</span>%</p>
+            <p v-else class="b">{{$t('profit')}}<span class="bb">{{ form.loss[2] }}</span>%</p>
           </div>
         </div>
-        <p class="order-setbox-title">投资金额</p>
+        <p class="order-setbox-title">{{$t('investamount')}}</p>
         <div class="order-setbox-setmoney">
           <div :class="{active:form.money==1000}" @click="changeMoney(1000)">1000</div>
           <div :class="{active:form.money==5000}" @click="changeMoney(5000)">5000</div>
           <div :class="{active:form.money==10000}" @click="changeMoney(10000)">10000</div>
-          <div :class="{active:form.all}" class="all-in" @click="changeMoney(-1)">全部</div>
-          <div :class="{active:form.custom}" class="other" @click="changeMoney(-2)">其它</div>
+          <div :class="{active:form.all}" class="all-in" @click="changeMoney(-1)">{{ $t('all') }}</div>
+          <div :class="{active:form.custom}" class="other" @click="changeMoney(-2)">{{ $t('custom') }}</div>
         </div>
         <div class="order-setbox-info">
-          <div>余额：<span class="order-user-money">{{ form.money }}</span></div>
-          <div style="flex: 1;text-align: center;"> 手续费：
+          <div>{{$t('balance')}}：<span class="order-user-money">{{ form.money }}</span></div>
+          <div style="flex: 1;text-align: center;"> {{$t('fee')}}：
             <span v-if="getSystem" class="buy-color order-fee">
               {{ getSystem.bettingPercent }}
             </span>
             % </div>
-          <div>实际支付： <span class="buy-color order-truemoney">{{ form.money }}</span> </div>
+          <div>{{$t('actualpayment')}}： <span class="buy-color order-truemoney">{{ form.money }}</span> </div>
         </div>
         <table class="order-table">
           <thead>
             <tr class="text-center">
-              <th>商品名称</th>
-              <th>方向</th>
-              <th>现价</th>
-              <th>金额</th>
+              <th>{{ $t('symbolname') }}</th>
+              <th>{{ $t('direction') }}</th>
+              <th>{{ $t('currentprice') }}</th>
+              <th>{{ $t('amount') }}</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td><span class="goods-order-name">{{ symbol.displayName + ' / ' + symbol.productName }}</span></td>
-              <td v-if="form.dir" class="order-setbox-direction buyColor" >买涨</td>
-              <td v-else class="order-setbox-direction sellColor" >买跌</td>
+              <td v-if="form.dir" class="order-setbox-direction buyColor" >{{ $t('buy') }}</td>
+              <td v-else class="order-setbox-direction sellColor" >{{ $t('sell') }}</td>
               <td class="order-setbox-nowprice" :class="{ sellColor: !symbol.status, buyColor: symbol.status }">{{symbol.price}}</td>
               <td class="order-setbox-money">{{ form.money }}</td>
             </tr>
           </tbody>
-        </table> <button @click="orderDialog" class="btn btn-success btn-block btn-sm order-setbox-submit">确认下单</button>
+        </table> <button @click="orderDialog" class="btn btn-success btn-block btn-sm order-setbox-submit">{{ $t('conformorder') }}</button>
       </div>
     </div>
     <div class="number-keyboard" :class="{block:form.keyboard}">
-      <header> 金额：<b class="number-money">{{ form.keyValue }}</b> </header>
+      <header> {{$t('amount')}}：<b class="number-money">{{ form.keyValue }}</b> </header>
       <table class="number-keyboard-table">
         <tbody>
           <tr>
             <td @click="keyPress(1)">1</td>
             <td @click="keyPress(2)">2</td>
             <td @click="keyPress(3)">3</td>
-            <td @click="keyPress(-4)">退格</td>
+            <td @click="keyPress(-4)">{{ $t('backspace') }}</td>
           </tr>
           <tr>
             <td @click="keyPress(4)">4</td>
             <td @click="keyPress(5)">5</td>
             <td @click="keyPress(6)">6</td>
-            <td @click="keyPress(-3)">清空</td>
+            <td @click="keyPress(-3)">{{ $t('empty') }}</td>
           </tr>
           <tr>
             <td @click="keyPress(7)">7</td>
             <td @click="keyPress(8)">8</td>
             <td @click="keyPress(9)">9</td>
-            <td @click="keyPress(-2)">关闭</td>
+            <td @click="keyPress(-2)">{{ $t('close') }}</td>
           </tr>
           <tr>
             <td @click="keyPress(10)">.</td>
             <td @click="keyPress(0)">0</td>
-            <td colspan="2" @click="keyPress(-1)">确认</td>
+            <td colspan="2" @click="keyPress(-1)">{{ $t('conform') }}</td>
           </tr>
         </tbody>
       </table>
@@ -184,7 +184,7 @@ export default defineComponent({
       loading:false,
       form:{
         dir:true,
-        title:'订单确认',
+        title:'',
         time:180,
         benefit:0,
         money:1000,
@@ -424,7 +424,6 @@ export default defineComponent({
             },
             {
               type: 'candlestick',
-              name: '日K',
               data: this.data,
               markLine: {
                 symbol: ['none'],
@@ -547,6 +546,8 @@ export default defineComponent({
       try {
         const response = await axios.get(`/chart/${id}?period=${this.period}`);
         this.symbol = response.data.symbol;
+        this.current.price = Number(this.symbol.price);
+        this.current.time = this.symbol.time;
         this.highValue=this.symbol.H;
         this.lowValue=this.symbol.L;
         this.form.profit=[...this.symbol.profitRatio.split(',')];
@@ -739,7 +740,6 @@ export default defineComponent({
             },
             {
               type: 'candlestick',
-              name: '日K',
               data: this.data,
               markLine: {
                 symbol: ['none'],
@@ -825,7 +825,7 @@ export default defineComponent({
         if (this.symbol['price'] == 0) {
           this.symbol['DIFF'] = 0.2;
         }
-        if (this.symbol['DIFF']) {
+        if (this.symbol['DIFF']>0) {
           this.symbol['status'] = false;
         } else {
           this.symbol['status'] = true;
@@ -840,9 +840,6 @@ export default defineComponent({
         this.current.price = Number(price);
         this.current.time = JSON.parse(event.data)['E'];
         if (this.type != 2) {
-          if(!this.markline){
-            this.markline=true;
-          }
           this.option.series[3].markLine.data[0].yAxis = Number(price);
         }
         if (date == this.dates.slice(-1)) {
@@ -914,22 +911,22 @@ export default defineComponent({
         content: `<table class="order-table">
           <thead>
             <tr class="text-center">
-              <th>商品名称</th>
-              <th>方向</th>
-              <th>现价</th>
-              <th>金额</th>
+              <th>${ this.$t('symbolname') }</th>
+              <th>${ this.$t('direction') }</th>
+              <th>${ this.$t('currentprice')}</th>
+              <th>${ this.$t('amount') }</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td><span class="goods-order-name">${this.symbol.displayName}</span></td>
-              <td  class="order-setbox-direction ${this.form.dir?' buyColor" > 买涨':' sellColor" >买跌'}</td>
+              <td  class="order-setbox-direction ${this.form.dir?' buyColor" > '+this.$t('buy'):' sellColor" >'+this.$t('sell')}</td>
               <td class="order-setbox-nowprice  ${this.symbol.status?'buyColor':'sellColor'}">${this.symbol.price}</td>
               <td class="order-setbox-money">${this.form.money}</td>
             </tr>
           </tbody>
         </table>`,
-        btn:['取消','确定'],
+        btn:[`${this.$t('cancel')}`,`${this.$t('ok')}`],
         btnAlign: 'c',
         closeBtn: 0,
         shadeClose:1,
