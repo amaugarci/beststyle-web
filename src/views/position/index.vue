@@ -1,5 +1,5 @@
 <template>
-    <div class="absolute top-0 left-0 bottom-0 right-0 flex flex-col">
+    <div class="absolute top-0 left-0 right-0 flex flex-col">
       <!-- header -->
       <div class="h-[2.5rem] w-full text-center bg-[#1f2029] pl-[10px] py-[8px]">
         <div class="font-black text-white">{{ $t('orderrecord') }}</div>
@@ -43,9 +43,8 @@
           </div>
           <div class="flex justify-between items-center">
             <div >
-              {{$t('opentime')}}: {{moment().utc(new Date(item.created_at)).local().format("yyyy-MM-DD HH:mm:ss") }}
+              {{$t('opentime')}}: {{moment().utc(new Date(item.created_at)).local().format("yyyy-MM-DD hh:mm:ss") }}
             </div>
-
           </div>
         </div>
       </div>
