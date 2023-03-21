@@ -229,6 +229,7 @@ export default defineComponent({
   },
   mounted() {
     this.getCurrentChart(this.$route.params.id);
+    this.current.time = new Date().getTime() -5000;
     setInterval(function(){
         this.timer=moment.utc().local().format('HH:mm:ss');
     }.bind(this),1000);
