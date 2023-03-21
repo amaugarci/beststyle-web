@@ -383,7 +383,6 @@ export default defineComponent({
       this.socketClose=true;
     },
     changeType(type) {
-      this.markline=false;
       this.type = type;
       if(type==1){
         this.option.series=[
