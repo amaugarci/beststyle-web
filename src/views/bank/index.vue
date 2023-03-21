@@ -17,7 +17,7 @@
             </li>
             <li class="list-group-item flex items-center px-[20px] py-[15px]">
               <BIconCardImage />
-              <input type="number" v-model="form.cardnumber"  class="ml-[10px] input-transparent p-1 text-[16px]"  :placeholder="$t('cardnumber')" required="">
+              <input type="text" v-model="form.cardnumber"  class="ml-[10px] input-transparent p-1 text-[16px]"  :placeholder="$t('cardnumber')" required="">
             </li> 
             <li class="list-group-item flex items-center px-[20px] py-[15px]">
               <BIconBank />

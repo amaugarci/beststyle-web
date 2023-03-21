@@ -1,5 +1,5 @@
 <template>
-    <div class="absolute top-0 left-0 right-0 flex flex-col bg-[#fff]" style="height: 100vh;">
+    <div class="absolute top-0 left-0 right-0 flex flex-col bg-[#fff]" style="height: 96%;;">
       <!-- header -->
       <div class="h-[2.5rem] w-full text-center bg-[#1f2029] pl-[10px] py-[8px]">
         <div @click="back" class="float-left absolute">

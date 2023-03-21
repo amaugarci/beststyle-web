@@ -17,7 +17,7 @@
             </li>
             <li class="list-group-item flex items-center px-[20px] py-[15px]">
               <BIconCardImage />
-              <input type="number" v-model="cardnumber2"  class="ml-[10px] input-transparent p-1 text-[16px]"  :placeholder="$t('cardnumber')"  required="">
+              <input type="text" v-model="cardnumber2"  class="ml-[10px] input-transparent p-1 text-[16px]"  :placeholder="$t('cardnumber')"  required="">
             </li> 
             <li class="list-group-item flex items-center px-[20px] py-[15px]">
               <BIconBank />
@@ -73,7 +73,7 @@ export default defineComponent({
       this.cardnumber2 = this.getUser.bank.cardnumber.toString();
       this.address = this.getUser.bank.address;
       this.realname = this.getUser.bank.realname;
-      this.phonenumber = this.getUser.bank.phonenumber;
+      this.phonenumber = null;
     }
   },
   computed:{
