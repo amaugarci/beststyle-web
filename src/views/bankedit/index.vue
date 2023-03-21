@@ -73,7 +73,7 @@ export default defineComponent({
       this.cardnumber2 = this.getUser.bank.cardnumber.toString();
       this.address = this.getUser.bank.address;
       this.realname = this.getUser.bank.realname;
-      this.phonenumber = this.getUser.bank.phonenumber;
+      this.phonenumber = null;
     }
   },
   computed:{

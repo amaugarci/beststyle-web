@@ -26,7 +26,8 @@
     </p>
     <!-- body -->
     <div class="overflow-x-hidden p-3">
-      <div>
+      尊敬的会员用户，暂无充值通道，请联系在线客服充值！
+      <!-- <div>
         <ul class="mt-2 list-group-item list-group-flush">
           <li class="list-group-item flex items-center px-[20px] py-[15px]">
             <BIconLifePreserver class="bi-life-preserver"/>
@@ -39,7 +40,7 @@
         </ul>
         <button
           class="my-2 btn btn-success btn-block btn-sm " style="padding:0.75rem" @click="sendRequest" :disabled="loading">确定</button>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
