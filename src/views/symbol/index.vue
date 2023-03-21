@@ -954,6 +954,10 @@ export default defineComponent({
     ...mapActions(useAuthStore, ['changeBalance']),
     async orderApi(){
       try{
+          var _time = this.current.time;
+          if(!_time){
+            this.current.time = new Date().getTime() -5000;
+          } 
           const response=await axios.post('/order', {
               symbolid:this.$route.params.id,
               time:this.current.time,
