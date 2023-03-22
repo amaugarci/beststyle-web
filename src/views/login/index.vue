@@ -1,7 +1,7 @@
 <template>
     <div class="min-h-screen justify-center flex flex-col">
         <h6 class="pb-3 mx-auto">
-            <span class="text-base px-[20px] font-bold uppercase">注册</span> 
+            <span class="text-base px-[20px] font-bold uppercase">登录</span> 
             <span class="text-base px-[20px] font-bold uppercase">开户</span>
         </h6>
         <div class="w-[100px] h-[30px] mx-auto relative">
