@@ -161,7 +161,7 @@ export default defineComponent({
                     await this.fetchUser();
                     this.$router.push({ name: this.getReturnUrl })
                 }else{
-                    this.message='帐号或密码错误';
+                    this.message='这些凭据与我们的记录不符';
                     this.showDialog();
                 }
             }
@@ -193,7 +193,7 @@ export default defineComponent({
                     //     shadeClose:1,
                     // });
                 }else{
-                    this.message='网络错误，请稍候再试'
+                    this.message='帐号已经存在'
                     this.showDialog();
                 }
             }
