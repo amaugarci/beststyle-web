@@ -106,8 +106,12 @@ export default defineComponent({
                       shadeClose:1,
                   });
               }else{
-                this.message=response.data.message;
-                  this.showDialog();
+                if(response.data.message==0){
+                  this.message=this.$t('invalidpassword');
+                }else{
+                  this.message=this.$t('neterror')
+                }
+                this.showDialog();
               }
           }
           catch(error) {
@@ -133,7 +137,12 @@ export default defineComponent({
                       shadeClose:1,
                   });
               }else{
-                  this.showDialog();
+                if(response.data.message==0){
+                  this.message=this.$t('invalidpassword');
+                }else{
+                  this.message=this.$t('neterror')
+                }
+                this.showDialog();
               }
           }
           catch(error) {

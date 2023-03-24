@@ -1,12 +1,18 @@
 <template>
   <div>
     <div>
-        <div class="absolute top-[6px] right-[15px] z-[9999]">
-          <select class="block px-[3px] py-[1px] appearance-none text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm w-15  focus:outline-none focus:ring-primary-500 focus:border-primary-500" v-model="selectedLanguage" @change="changeLanguage">
-              <option v-for="language in availableLanguages" :value="language">{{ language }}</option>
-          </select>
+      <div ref="button" class="z-[9999] absolute top-[2px] right-[15px]">
+            <button class="text-white bg-[#2b2f3e] border-blue-700 border-2 font-medium rounded-lg text-sm px-2 py-1.5 text-center inline-flex items-center" type="button" @click="()=>expand=!expand">{{selectedLanguage}}</button>
+            <!-- Dropdown menu -->
+            <div id="dropdown" class="z-10 bg-white divide-y divide-gray-100 rounded-md shadow w-9" :class="{'hidden':!expand}">
+                <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" >
+                    <li  v-for="(language, index) in availableLanguages"  @click="changeLanguage(language)">
+                        <div class="block py-2 hover:bg-gray-200 dark:hover:bg-gray-600 dark:hover:text-white text-center" :class="{'text-white bg-blue-700':language==selectedLanguage}">{{ language }}</div>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <router-view />
+        <router-view :key="selectedLanguage"/>
     </div>
     <div class="flex fixed w-full bottom-0 bg-[#1f2029] h-[3.5rem] z-[9999] text-[#ffeba7] border-t-[1px] border-[#333]">
         <router-link to="home"  class="grow text-center text-[.7rem] mt-[0.5rem]" active-class="active">
@@ -48,6 +54,7 @@ import {BIconAlarm, BIconHouseFill,BIconClockHistory,BIconChatSquareDots,BIconCa
 import Content from './components/Content/index.vue';
 import {useAuthStore} from '@/pinia/modules/useAuthStore';
 import { mapState,mapActions  } from 'pinia'
+import axios from 'axios'
 
 export default defineComponent({
   name: 'layout',
@@ -64,19 +71,35 @@ export default defineComponent({
     Content
   },
   data:()=>({
+    expand:false,
     availableLanguages: [],
     selectedLanguage: '',
   }),
   computed: {
     ...mapState(useAuthStore, ['getSystem']),
   },
+  mounted(){
+    document.addEventListener('click', this.handleClickOutside);
+  },
+  beforeDestroy() {
+    document.removeEventListener('click', this.handleClickOutside);
+  },
   created() {
     this.availableLanguages = Object.keys(this.$i18n.messages)
     this.selectedLanguage = this.$i18n.locale
   },
   methods:{
-    changeLanguage() {
-      this.$i18n.locale = this.selectedLanguage
+    handleClickOutside(event) {
+        if (this.$refs.button&&this.$refs.button.contains(event.target)) {
+            return;
+        }
+        this.expand=false;
+    },
+    changeLanguage(language) {
+      this.expand=!this.expand;
+      this.$i18n.locale = language;
+      this.selectedLanguage=language;
+      axios.defaults.headers['Accept-Language'] = language;
     },
   }
 });

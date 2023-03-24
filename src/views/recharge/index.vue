@@ -25,8 +25,8 @@
       {{$t('balance')}} : {{getUser.cash_amount }} 
     </p>
     <!-- body -->
-    <div class="overflow-x-hidden p-3">
-      尊敬的会员用户，暂无充值通道，请联系在线客服充值！
+    <div class="overflow-x-hidden p-3 text-center">
+      {{ $t('stoprecharge') }}
       <!-- <div>
         <ul class="mt-2 list-group-item list-group-flush">
           <li class="list-group-item flex items-center px-[20px] py-[15px]">
@@ -114,8 +114,13 @@ export default defineComponent({
                         shadeClose:1,
                     });
                 }else{
-                   this.message=response.data.message;;
-                    this.showDialog();
+                  if(response.data.message==0)
+                  {
+                    this.message=this.$t('suspended');
+                  }else{
+                    this.message=this.$t('incorrectscode');
+                  }
+                  this.showDialog();
                 }
             }
             catch(error) {

@@ -899,7 +899,7 @@ export default defineComponent({
     },
     orderDialog(){
       if(this.form.money<=0||this.form.money>this.getUser.cash_amount){
-        this.message='您的账户余额不足';
+        this.message=this.$t('invalidbalance');
         this.errorDialog();
         return;
       }
@@ -968,12 +968,24 @@ export default defineComponent({
             this.showSucss();
             this.changeBalance(this.form.money);
           }else{
-            this.message=response.data.message;
+            if(response.data.message==0){
+              this.message=this.$t('suspended');
+            }else if(response.data.message==1){
+              this.message=this.$t('invalidbalance');
+            }else if(response.data.message==2){
+              this.message=this.$t('timeout');
+            }else if(response.data.message==3){
+              this.message=this.$t('outdaybetting');
+            }else if(response.data.message==4){
+              this.message=this.$t('outbetting');
+            }else{
+              this.message=this.$t('incorrectscode');
+            }
             this.errorDialog();
           }
       }
       catch(error) {
-        this.message='网络错误，请稍候再试';
+        this.message=this.$t('neterror');
         this.errorDialog();
       };
     },
@@ -983,8 +995,8 @@ export default defineComponent({
       })
       layer.open({
         title:false,
-        content: '成功',
-        btn:'确定',
+        content: this.$t('success'),
+        btn:this.$t('ok'),
         btnAlign: 'c',
         closeBtn: 0,
         shadeClose:1,

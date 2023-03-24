@@ -10,20 +10,9 @@ import 'vue3-layer/dist/s3Layer.css';
 import '@/plugins';
 axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
+axios.defaults.headers['Accept-Language'] = 'CN';
 const app = createApp(App)
 app.use(router)
-   .use(pinia);
-axios.get('/localization')
- .then(response => {
-   response.data.forEach(localeObj => {
-     const locale = Object.keys(localeObj)[0]
-     const translations = localeObj[locale]
-     i18n.global.setLocaleMessage(locale, translations)
-   });
-
-   app.use(i18n)
-      .mount('#app')
- })
- .catch(error => {
-   console.log(error)
- })
+   .use(i18n)
+   .use(pinia)
+   .mount('#app')

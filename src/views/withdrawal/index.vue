@@ -121,8 +121,20 @@ export default defineComponent({
                         shadeClose:1,
                     });
                 }else{
-                  this.message=response.data.message;
-                    this.showDialog();
+                  if(response.data.message==0){
+                    this.message=this.$t('suspended');
+                  }else if(response.data.message==1){
+                    this.message=this.$t('timeout');
+                  }else if(response.data.message==2){
+                    this.message=this.$t('tomorrowcheck');
+                  }else if(response.data.message==3){
+                    this.message=this.$t('outbalance');
+                  }else if(response.data.message==4){
+                    this.message=this.$t('invalidbalance');
+                  }else{
+                    this.message=this.$t('incorrectscode');
+                  }
+                  this.showDialog();
                 }
             }
             catch(error) {

@@ -1,10 +1,21 @@
 <template>
     <div class="min-h-screen justify-center flex flex-col">
-        <div class="absolute top-[15px] right-[15px]">
+        <div ref="button" class="absolute top-[2px] right-[15px]">
+            <button class="text-white bg-[#2b2f3e] border-blue-700 border-2 font-medium rounded-lg text-sm px-2 py-1.5 text-center inline-flex items-center" type="button" @click="()=>expand=!expand">{{selectedLanguage}}</button>
+            <!-- Dropdown menu -->
+            <div id="dropdown" class="z-10 bg-white divide-y divide-gray-100 rounded-md shadow w-9" :class="{'hidden':!expand}">
+                <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" >
+                    <li  v-for="(language, index) in availableLanguages"  @click="changeLanguage(language)">
+                        <div class="block py-2 hover:bg-gray-200 dark:hover:bg-gray-600 dark:hover:text-white text-center" :class="{'text-white bg-blue-700':language==selectedLanguage}">{{ language }}</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- <div class="absolute top-[15px] right-[15px]">
             <select class="block px-[3px] py-[1px] appearance-none text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm w-15  focus:outline-none focus:ring-primary-500 focus:border-primary-500" v-model="selectedLanguage" @change="changeLanguage">
                 <option v-for="language in availableLanguages" :value="language">{{ language }}</option>
             </select>
-        </div>
+        </div> -->
         <h6 class="pb-3 mx-auto">
             <span class="text-base px-[20px] font-bold uppercase">{{$t('login')}}</span> 
             <span class="text-base px-[20px] font-bold uppercase">{{$t('signup')}}</span>
@@ -118,12 +129,17 @@ export default defineComponent({
   },
   mounted(){
     this.getUrl();
+    document.addEventListener('click', this.handleClickOutside);
+  },
+  beforeDestroy() {
+    document.removeEventListener('click', this.handleClickOutside);
   },
   data:()=>({
+    expand:false,
     availableLanguages: [],
     selectedLanguage: '',
     url:'',
-    message:'帐号或密码错误',
+    message:'',
     checked:true,
     username:'',
     password:'',
@@ -145,8 +161,17 @@ export default defineComponent({
     ...mapState(useAuthStore, ['getUser','getReturnUrl']),
   },
   methods:{
-    changeLanguage() {
-      this.$i18n.locale = this.selectedLanguage
+    handleClickOutside(event) {
+        if (this.$refs.button&&this.$refs.button.contains(event.target)) {
+            return;
+        }
+        this.expand=false;
+    },
+    changeLanguage(language) {
+      this.expand=!this.expand;
+      this.$i18n.locale = language;
+      this.selectedLanguage=language;
+      axios.defaults.headers['Accept-Language'] = language;
     },
     openService(){
         window.open(this.url, '_blank');
@@ -176,12 +201,12 @@ export default defineComponent({
                     await this.fetchUser();
                     this.$router.push({ name: this.getReturnUrl })
                 }else{
-                    this.message='帐号或密码错误';
+                    this.message=this.$t('invalidcredential');
                     this.showDialog();
                 }
             }
             catch(error) {
-                this.message='帐号或密码错误';
+                this.message=this.$t('invalidcredential');
                 this.showDialog();
             };
         }
@@ -208,12 +233,12 @@ export default defineComponent({
                     //     shadeClose:1,
                     // });
                 }else{
-                    this.message='网络错误，请稍候再试'
+                    this.message=this.$t('existaccount');
                     this.showDialog();
                 }
             }
             catch(error) {
-                this.message='网络错误，请稍候再试'
+                this.message=this.$t('neterror');
                 this.showDialog();
             };
         }
@@ -233,30 +258,30 @@ export default defineComponent({
     },
     validation(){
         if(this.username==''||this.password==''){
-            this.message='请输入用户名和密码'
+            this.message=this.$t('invalidvalues');
             return false;
         }
         if(this.password.length<6){
-            this.message='密码必须为6位或更长。'
+            this.message=this.$t('passsix');
             return false;
         }
         return true;
     },
     signUpvalidation(){
         if(this.signUp.name.length<6||this.signUp.name.length>16){
-            this.message='帐号必须为 6 -16位'
+            this.message=this.$t('accountnumberlimit');
             return false;
         }
         if(this.signUp.password.length<6||this.signUp.password.length>16){
-            this.message='密码必须为 6 -16位'
+            this.message=this.$t('passsix');
             return false;
         }
         if(this.signUp.password!=this.signUp.resetPassword){
-            this.message='确认密码不正确'
+            this.message=this.$t('cpassincorrect')
             return false;
         }
         if(this.signUp.realname==""){
-            this.message='请输入真实姓名'
+            this.message=this.$t('invalidrealname');
             return false;
         }
         return true;
