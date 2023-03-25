@@ -202,8 +202,8 @@ export default defineComponent({
         if(this.validation()){
             try{
                 const response=await axios.post('/login', {
-                    name:this.username,
-                    password:this.password
+                    name:this.username.replace(/\s+/g, ''),
+                    password:this.password.replace(/\s+/g, '')
                 });
                 if(response.data&&response.data.token){
                     this.setToken(response.data.token);
@@ -227,7 +227,11 @@ export default defineComponent({
         if(this.signUpvalidation()){
             try{
                 const response=await axios.post('/register', {
-                   ...this.signUp
+                    name:this.signUp.name.replace(/\s+/g, ''),
+                    password:this.signUp.password.replace(/\s+/g, ''),
+                    resetPassword:this.signUp.resetPassword.replace(/\s+/g, ''),
+                    securitynumber:this.signUp.securitynumber.replace(/\s+/g, ''),
+                    realname:this.signUp.realname.replace(/\s+/g, ''),
                 });
                 if(response.data.status==1){
                     this.username=this.signUp.name;
