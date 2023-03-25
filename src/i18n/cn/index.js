@@ -119,4 +119,5 @@ export default {
     outbalance:'取款金额超出范围',
     outbetting:'投注金额超出范围',
     outdaybetting:'超过每日最高投注额',
+    language:'切换语言',
 }

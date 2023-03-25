@@ -31,6 +31,10 @@
     <!-- list -->
     <div class="overflow-y-auto overflow-x-hidden	h-full bg-[#2b2f3e] w-full">
       <ul class="rounded-0 cursor-pointer ">
+        <li @click="language" class="border-b-[1px] bg-[#1f2029] border-gray-700	 text-[#ddd] px-[1.25rem] py-[0.75rem]">
+          <BIconGlobe2  class="text-[#ffeba7] inline-block text-[1rem] mr-[0.3rem]"/>
+          {{ $t('language') }}
+        </li>
         <li @click="recharge" class="border-b-[1px] bg-[#1f2029] border-gray-700	 text-[#ddd] px-[1.25rem] py-[0.75rem]">
           <BIconLifePreserver  class="text-[#ffeba7] inline-block text-[1rem] mr-[0.3rem]"/>
           {{ $t('rechargehistory') }}
@@ -69,6 +73,7 @@ import {
   BIconNewspaper,
   BIconPencilSquare,
   BIconPower,
+  BIconGlobe2
 } from 'bootstrap-icons-vue';
 import {useAuthStore} from '@/pinia/modules/useAuthStore';
 import { mapState,mapActions  } from 'pinia'
@@ -76,6 +81,7 @@ import { mapState,mapActions  } from 'pinia'
 export default defineComponent({
   name: 'me',
   components: {
+    BIconGlobe2,
     BIconHouseFill,
     BIconClockHistory,
     BIconChatSquareDots,
@@ -97,6 +103,9 @@ export default defineComponent({
   },
   methods: {
     ...mapActions(useAuthStore, ['logout']),
+    language(){
+      this.$router.push({ name: 'language' })
+    },
     recharge(){
       this.$router.push({ name: 'rechargehistory' })
     },

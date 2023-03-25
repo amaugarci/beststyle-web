@@ -119,4 +119,5 @@ export default {
     outbalance:'Withdrawal amount is out of range',
     outbetting:'Betting amount is out of range',
     outdaybetting:'Exceeded the daily maximum bet amount',
+    language:'Language',
 }

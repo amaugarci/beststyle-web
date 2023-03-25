@@ -1,9 +1,8 @@
 <template>
   <div>
     <div>
-      <div ref="button" class="z-[9999] absolute top-[2px] right-[15px]">
+      <!-- <div ref="button" class="z-[9999] absolute top-[2px] right-[15px]">
             <button class="text-white bg-[#2b2f3e] border-blue-700 border-2 font-medium rounded-lg text-sm px-2 py-1.5 text-center inline-flex items-center" type="button" @click="()=>expand=!expand">{{selectedLanguage}}</button>
-            <!-- Dropdown menu -->
             <div id="dropdown" class="z-10 bg-white divide-y divide-gray-100 rounded-md shadow w-9" :class="{'hidden':!expand}">
                 <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" >
                     <li  v-for="(language, index) in availableLanguages"  @click="changeLanguage(language)">
@@ -11,7 +10,7 @@
                     </li>
                 </ul>
             </div>
-        </div>
+        </div> -->
         <router-view :key="selectedLanguage"/>
     </div>
     <div class="flex fixed w-full bottom-0 bg-[#1f2029] h-[3.5rem] z-[9999] text-[#ffeba7] border-t-[1px] border-[#333]">

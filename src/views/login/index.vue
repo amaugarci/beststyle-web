@@ -3,10 +3,10 @@
         <div ref="button" class="absolute top-[2px] right-[15px]">
             <button class="text-white bg-[#2b2f3e] border-blue-700 border-2 font-medium rounded-lg text-sm px-2 py-1.5 text-center inline-flex items-center" type="button" @click="()=>expand=!expand">{{selectedLanguage}}</button>
             <!-- Dropdown menu -->
-            <div id="dropdown" class="z-10 bg-white divide-y divide-gray-100 rounded-md shadow w-9" :class="{'hidden':!expand}">
+            <div id="dropdown" class="z-10 bg-white divide-y divide-gray-100 rounded-md shadow w-19" :class="{'hidden':!expand}">
                 <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" >
                     <li  v-for="(language, index) in availableLanguages"  @click="changeLanguage(language)">
-                        <div class="block py-2 hover:bg-gray-200 dark:hover:bg-gray-600 dark:hover:text-white text-center" :class="{'text-white bg-blue-700':language==selectedLanguage}">{{ language }}</div>
+                        <div class="block py-2 hover:bg-gray-200 dark:hover:bg-gray-600 dark:hover:text-white text-center" :class="{'text-white bg-blue-700':language==selectedLanguage}">{{language=='EN'?'EngLish':'简本中文' }}</div>
                     </li>
                 </ul>
             </div>
@@ -137,7 +137,7 @@ export default defineComponent({
   data:()=>({
     expand:false,
     availableLanguages: [],
-    selectedLanguage: '',
+    selectedLanguage: '简本中文',
     url:'',
     message:'',
     checked:true,
@@ -154,7 +154,11 @@ export default defineComponent({
   }),
   created() {
     this.availableLanguages = Object.keys(this.$i18n.messages)
-    this.selectedLanguage = this.$i18n.locale
+    if(this.$i18n.locale=='EN'){
+        this.selectedLanguage='English';
+      }else{
+        this.selectedLanguage='简本中文';
+      }
   },
 
   computed:{
@@ -170,7 +174,12 @@ export default defineComponent({
     changeLanguage(language) {
       this.expand=!this.expand;
       this.$i18n.locale = language;
-      this.selectedLanguage=language;
+      if(language=='EN'){
+        this.selectedLanguage='English';
+      }else{
+        this.selectedLanguage='简本中文';
+      }
+     
       axios.defaults.headers['Accept-Language'] = language;
     },
     openService(){
