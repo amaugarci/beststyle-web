@@ -30,7 +30,7 @@
         <div class="h-[1.2rem] border-r-[1px] border-[#333] pr-[.5rem]"> <img class="h-[1.2rem]" src="/img/notice.png">
         </div>
         <div class="grow relative overflow-hidden h-[1.2rem] flex">
-          <ul v-if="!flag" id="indexNoticeList" :class="{trans0:timer%index==0,trans1:timer%index==1,trans2:timer%index==2,trans3:timer%index==3,trans4:timer%index==4}">
+          <ul v-if="!flag" id="indexNoticeList" :class="{trans0:timer%index==0,trans1:timer%index==1,trans2:timer%index==2,trans3:timer%index==3,trans4:timer%index==4,trans1:index==1}">
             <li v-for="(item,i) in news" @click="goNews" class="h-[1.2rem] ml-[.3rem] overflow-hidden text-ellipsis max-w-[200px] text-[.8rem] trans whitespace-nowrap cursor-pointer" >{{ item.title }}</li>
           </ul>
           <BIconChevronRight class="inline-block ml-auto cursor-pointer"  @click="goNews"/>
@@ -41,8 +41,8 @@
     <!-- title -->
     <div class="bg-[#2b2f3e]">
       <div class="flex py-2 px-3">
-        <div class="grow"><small>热门产品</small></div>
-        <div><small>最新</small></div>
+        <div class="grow"><small>{{ $t('product') }}</small></div>
+        <div><small>{{ $t('last') }}</small></div>
       </div>
     </div>
     <div class="block" v-for="(item,index) in symbols" :key="item.id">
@@ -108,9 +108,10 @@ export default defineComponent({
     this.getSymbols();
     setInterval(function(){
         this.timer++;
-        if(this.flag&&this.news.length){
+        if(this.flag&&this.news&&this.news.length){
           this.flag=false
           this.timer=0;
+          console.log('sss');
         }
         if(this.news.length==1){
           this.index=1;

@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
+import {i18n} from '@/i18n'
 export const useAuthStore = defineStore('useAuthStore', {
   state: () => ({
     user:null,
@@ -37,6 +38,9 @@ export const useAuthStore = defineStore('useAuthStore', {
       try {
         const { data } = await axios.get('/user');
         this.user=data.user;
+        console.log(axios.defaults.headers['Accept-Language']);
+        i18n.global.locale = this.user.localization.name;
+        axios.defaults.headers['Accept-Language'] = this.user.localization.name;
         this.system=data.system;
         document.title=this.system.title;
       }catch (e) {

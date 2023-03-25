@@ -5,34 +5,34 @@
       <div class="float-left absolute">
         <BIconPersonCircle @click="back" class="text-[1.3rem] cursor-pointer mt-[3px]" />
       </div>
-      <div class="font-black text-white">提现记录</div>
+      <div class="font-black text-white">{{ $t('withdrawalhistory') }}</div>
     </div>
     <!-- body -->
     <div class="p-3 text-[1rem]">
       <div v-if="!withdrawals||withdrawals.length==0" class="flex items-center justify-center mt-[20px] text-[0.7rem]">
-          暂⽆提现
+          {{ $t('nowithdrawal') }}
       </div>
       <div class="flex flex-col bg-[#32373A] p-5 gap-2 rounded my-[15px]" v-for="(item,index) in withdrawals" :key="item.id">
         <div class="flex justify-between items-center">
           <div v-if="item.bank">{{item.bank.name}}</div>
-          <diV v-else>管理员</diV>
+          <diV v-else>{{$t('administrator')}}</diV>
           <div v-if="item.bank" class="text-green-500">{{item.bank.address}}</div>
         </div>
         <div class="flex justify-between items-center">
           <div>
-            提现金额: {{item.amount}}
+            {{ $t('withdrawalamount') }}: {{item.amount}}
           </div>
           <div>
-            提现后金额: {{Number(item.lastprice)-Number(item.amount)*(1+Number(getSystem.withdrawPercent)/100)}}
+            {{ $t('afterwithdrawal') }}: {{Number(item.lastprice)-Number(item.amount)*(1+Number(getSystem.withdrawPercent)/100)}}
           </div>
         </div>
         <div class="flex justify-between items-center">
           <div >
-            提现时间: {{moment().utc(new Date(item.created_at)).local().format("MM-DD hh:mm") }}
+            {{ $t('withdrawaltime') }}: {{moment().utc(new Date(item.created_at)).local().format("MM-DD hh:mm") }}
           </div>
-          <div v-if="item.status==1"  class="textDanger">状态: 取消</div>
-          <div v-else-if="item.status==2||item.status==4"  class="textSuccess">状态: 已通过</div>
-          <div v-else class="">状态: 审核中</div>
+          <div v-if="item.status==1"  class="textDanger">{{ $t('state') }}: {{ $t('cancel') }}</div>
+          <div v-else-if="item.status==2||item.status==4"  class="textSuccess">{{ $t('state') }}: {{ $t('passed') }}</div>
+          <div v-else class="">{{ $t('state') }}: {{ $t('underreview') }}</div>
         </div>
       </div>
     </div>

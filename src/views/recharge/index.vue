@@ -5,7 +5,7 @@
       <div class="float-left absolute">
         <BIconPersonCircle @click="back" class="text-[1.3rem] cursor-pointer mt-[3px]" />
       </div>
-      <div class="font-black text-white">充值</div>
+      <div class="font-black text-white">{{ $t('recharge') }}</div>
     </div>
     <!-- card -->
     <div class="m-3 bg-[#DC3545] p-4 flex flex-row justify-between">
@@ -19,28 +19,28 @@
         </div>
       </div>
       <button
-          class="my-2" style="padding:0.75rem" @click="updateCard">编辑</button>
+          class="my-2" style="padding:0.75rem" @click="updateCard">{{ $t('edit') }}</button>
     </div>
     <p class="px-3">
-      余额：{{ getUser.cash_amount }} 
+      {{$t('balance')}} : {{getUser.cash_amount }} 
     </p>
     <!-- body -->
-    <div class="overflow-x-hidden p-3">
-      尊敬的会员用户，暂无充值通道，请联系在线客服充值！
+    <div class="overflow-x-hidden p-3 text-center">
+      {{ $t('stoprecharge') }}
       <!-- <div>
         <ul class="mt-2 list-group-item list-group-flush">
           <li class="list-group-item flex items-center px-[20px] py-[15px]">
             <BIconLifePreserver class="bi-life-preserver"/>
-            <input type="number" name="money" placeholder="充值金额" v-model="form.amount" class="ml-[10px] ml-[10px] input-transparent p-1 text-[16px]" id="CashMoney">
+            <input type="number" name="money" :placeholder="$t('ramount')" v-model="form.amount" class="ml-[10px] ml-[10px] input-transparent p-1 text-[16px]" id="CashMoney">
           </li> 
           <li class="list-group-item flex items-center px-[20px] py-[15px]">
             <BIconShieldExclamation class="bi-shield-exclamation" />
-            <input type="password" name="money" placeholder="安全密码" v-model="form.security" class="ml-[10px] input-transparent p-1 text-[16px]" id="CashSafePawd">
+            <input type="password" name="money" :placeholder="$t('scode')" v-model="form.security" class="ml-[10px] input-transparent p-1 text-[16px]" id="CashSafePawd">
           </li> 
         </ul>
         <button
-          class="my-2 btn btn-success btn-block btn-sm " style="padding:0.75rem" @click="sendRequest" :disabled="loading">确定</button>
-      </div> -->
+          class="my-2 btn btn-success btn-block btn-sm " style="padding:0.75rem" @click="sendRequest" :disabled="loading">{{ $t('ok') }}</button>
+      </div>-->
     </div>
   </div>
 </template>
@@ -109,13 +109,18 @@ export default defineComponent({
                         type:1,
                         offset:'b',
                         title:false,
-                        content: '成功',
+                        content: this.$t('success'),
                         closeBtn: 0,
                         shadeClose:1,
                     });
                 }else{
-                   this.message=response.data.message;;
-                    this.showDialog();
+                  if(response.data.message==0)
+                  {
+                    this.message=this.$t('suspended');
+                  }else{
+                    this.message=this.$t('incorrectscode');
+                  }
+                  this.showDialog();
                 }
             }
             catch(error) {
@@ -129,11 +134,11 @@ export default defineComponent({
     },
     validation(){
         if(this.form.amount==null||this.form.security==null){
-            this.message='请输入所有值';
+            this.message=this.$t('allvalue');
             return false;
         }
         if(this.form.security<6){
-            this.message='安全密码必须为6位或更长';
+            this.message=this.$t('spassincorrect');
             return false;
         }
         return true;

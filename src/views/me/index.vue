@@ -16,14 +16,14 @@
           class="ml-[2rem] bg-[#ffffff] h-[4.2rem] w-[4.2rem] text-center mt-[4.2] rounded-[10px] bg-logo bg-center bg-cover bg-no-repeat	">
         </div>
         <div v-if="getUser" class="flex-1 pl-[2rem] flex-col">
-          <p>用户名：<span id="UserAccount">{{getUser['name'] }}</span></p>
-          <p>UID：<span id="UserUid">{{'HKD'+(52125+getUser['id']) }}</span></p>
-          <p> <span class="user-money" @click="transaction">余额： {{Number(getUser['cash_amount']).toFixed(2) }}</span> </p>
+          <p>{{$t('username')}}:<span id="UserAccount">{{getUser['name'] }}</span></p>
+          <p>UID:<span id="UserUid">{{'HKD'+(52125+getUser['id']) }}</span></p>
+          <p> <span class="user-money" @click="transaction">{{$t('balance')}} : {{Number(getUser['cash_amount']).toFixed(2) }}</span> </p>
           <div class="flex flex-row text-[#ffeba7]">
             <img src="/img/cz.svg">
-            <p class="ml-[5px]" @click="()=>{$router.push({ name: 'recharge' })}">充值 |</p>
+            <p class="ml-[5px]" @click="()=>{$router.push({ name: 'recharge' })}">{{ $t('recharge') }} |</p>
             <img class="ml-[5px]" src="/img/tx.svg">
-            <p class="ml-[5px]" @click="()=>{$router.push({ name: 'withdrawal' })}"> 提现</p>
+            <p class="ml-[5px]" @click="()=>{$router.push({ name: 'withdrawal' })}"> {{ $t('withdrawal') }}</p>
           </div>
         </div>
       </div>
@@ -31,23 +31,27 @@
     <!-- list -->
     <div class="overflow-y-auto overflow-x-hidden	h-full bg-[#2b2f3e] w-full">
       <ul class="rounded-0 cursor-pointer ">
+        <li @click="language" class="border-b-[1px] bg-[#1f2029] border-gray-700	 text-[#ddd] px-[1.25rem] py-[0.75rem]">
+          <BIconGlobe2  class="text-[#ffeba7] inline-block text-[1rem] mr-[0.3rem]"/>
+          {{ $t('language') }}
+        </li>
         <li @click="recharge" class="border-b-[1px] bg-[#1f2029] border-gray-700	 text-[#ddd] px-[1.25rem] py-[0.75rem]">
           <BIconLifePreserver  class="text-[#ffeba7] inline-block text-[1rem] mr-[0.3rem]"/>
-          充值记录
+          {{ $t('rechargehistory') }}
         </li>
         <li @click="withdrawal" class="border-b-[1px] bg-[#1f2029] border-gray-700 text-[#ddd] px-[1.25rem] py-[0.75rem]">
           <BIconCreditCard2Back class="text-[#ffeba7] inline-block text-[1rem]  mr-[0.3rem]"/>
-          提现记录
+          {{ $t('withdrawalhistory') }}
         </li>
         <li @click="news" class="border-b-[1px] bg-[#1f2029] border-gray-700 text-[#ddd] px-[1.25rem] py-[0.75rem]">
           <BIconNewspaper class="text-[#ffeba7] inline-block text-[1rem]  mr-[0.3rem]"/>
-          新闻公告</li>
+          {{ $t('newannouncement') }}</li>
         <li @click="changepassword" class="border-b-[1px] bg-[#1f2029] border-gray-700 text-[#ddd] px-[1.25rem] py-[0.75rem]">
           <BIconPencilSquare class="text-[#ffeba7] inline-block text-[1rem]  mr-[0.3rem]"/>
-          修改密码</li>
+          {{ $t('passwordchange') }}</li>
         <li  @click="signOut"  class="border-b-[1px] bg-[#1f2029] border-gray-700 text-[#ddd] px-[1.25rem] py-[0.75rem]">
           <BIconPower class="text-[#ffeba7] inline-block text-[1rem]  mr-[0.3rem]"/>
-          退出登陆</li>
+          {{ $t('signout') }}</li>
       </ul>
     </div>
   </div>
@@ -69,6 +73,7 @@ import {
   BIconNewspaper,
   BIconPencilSquare,
   BIconPower,
+  BIconGlobe2
 } from 'bootstrap-icons-vue';
 import {useAuthStore} from '@/pinia/modules/useAuthStore';
 import { mapState,mapActions  } from 'pinia'
@@ -76,6 +81,7 @@ import { mapState,mapActions  } from 'pinia'
 export default defineComponent({
   name: 'me',
   components: {
+    BIconGlobe2,
     BIconHouseFill,
     BIconClockHistory,
     BIconChatSquareDots,
@@ -97,6 +103,9 @@ export default defineComponent({
   },
   methods: {
     ...mapActions(useAuthStore, ['logout']),
+    language(){
+      this.$router.push({ name: 'language' })
+    },
     recharge(){
       this.$router.push({ name: 'rechargehistory' })
     },
@@ -118,8 +127,8 @@ export default defineComponent({
       })
       layer.open({
         title:false,
-        content: '立即退出？',
-        btn:['取消','确定'],
+        content: `${this.$t('exitnow')}？`,
+        btn:[`${this.$t('cancel')}`,`${this.$t('ok')}`],
         btnAlign: 'c',
         closeBtn: 0,
         shadeClose:1,
