@@ -230,7 +230,7 @@ export default defineComponent({
                     name:this.signUp.name.replace(/\s+/g, ''),
                     password:this.signUp.password.replace(/\s+/g, ''),
                     resetPassword:this.signUp.resetPassword.replace(/\s+/g, ''),
-                    securitynumber:this.signUp.toString().securitynumber.replace(/\s+/g, ''),
+                    securitynumber:this.signUp.securitynumber.toString().replace(/\s+/g, ''),
                     realname:this.signUp.realname.replace(/\s+/g, ''),
                 });
                 if(response.data.status==1){
