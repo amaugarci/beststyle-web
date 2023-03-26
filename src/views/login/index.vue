@@ -251,6 +251,7 @@ export default defineComponent({
                 }
             }
             catch(error) {
+                console.log(error);
                 this.message=this.$t('neterror');
                 this.showDialog();
             };
