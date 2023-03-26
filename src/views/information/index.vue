@@ -5,12 +5,12 @@
       <div class="float-left absolute">
         <BIconChevronLeft @click="back" class="text-[1.3rem] cursor-pointer mt-[3px]" />
       </div>
-      <div  class="font-black text-white">资讯</div>
+      <div  class="font-black text-white">{{ $t('news') }}</div>
     </div>
     <!-- listview -->
   <div class="overflow-y-auto overflow-x-hidden h-full p-[1rem]">
     <div v-if="!news||news.length==0" class="flex items-center justify-center mt-[20px] text-[0.7rem]">
-          暂⽆资讯
+          {{ $t('nonews') }}
         </div>
     <div v-for="(item,index) in news" :key="item.id">
       <div class="border-[1px] border-[#1f2029]" >
@@ -23,7 +23,7 @@
               {{ item.description }}
             </div>
             <div @click="down(index)" class="text-center p-[0.1rem] text-[0.7rem] text-[#999] mt-[3px] cursor-pointer">
-              查看更多
+              {{ $t('seemore') }}
               <BIconCaretDownFill v-if="downs[index]" class="inline-block mb-[3px]"/>
               <BIconCaretUpFill v-else class="inline-block mb-[3px]"/>
             </div>

@@ -5,7 +5,7 @@
       <div class="float-left absolute">
         <BIconPersonCircle @click="back" class="text-[1.3rem] cursor-pointer mt-[3px]" />
       </div>
-      <div class="font-black text-white">提现</div>
+      <div class="font-black text-white">{{ $t('withdrawal') }}</div>
     </div>
     <!-- card -->
     <div class="m-3 bg-[#DC3545] p-4 flex flex-row justify-between">
@@ -19,10 +19,10 @@
         </div>
       </div>
       <button
-          class="my-2" style="padding:0.75rem" @click="updateCard">编辑</button>
+          class="my-2" style="padding:0.75rem" @click="updateCard">{{$t('edit')}}</button>
     </div>
     <p class="px-3">
-      余额：{{ getUser.cash_amount }} 
+      {{$t('balance')}} : {{ getUser.cash_amount }} 
     </p>
     <!-- body -->
     <div class="overflow-x-hidden p-3">
@@ -30,23 +30,23 @@
         <ul class="mt-2 list-group-item list-group-flush">
           <li class="list-group-item flex items-center px-[20px] py-[15px]">
             <BIconLifePreserver class="bi-life-preserver"/>
-            <input type="number" name="money" placeholder="提现金额" v-model="form.amount" class="ml-[10px] input-transparent p-1 text-[16px]" id="CashMoney">
+            <input type="number" name="money" :placeholder="$t('withdrawalamount')" v-model="form.amount" class="ml-[10px] input-transparent p-1 text-[16px]" id="CashMoney">
           </li> 
           <li class="list-group-item flex items-center px-[20px] py-[15px]">
             <BIconShieldExclamation class="bi-shield-exclamation" />
-            <input type="password" name="money" placeholder="安全密码" v-model="form.security" class="ml-[10px] input-transparent p-1 text-[16px]" id="CashSafePawd">
+            <input type="password" name="money" :placeholder="$t('scode')" v-model="form.security" class="ml-[10px] input-transparent p-1 text-[16px]" id="CashSafePawd">
           </li> 
         </ul>
         <button
-          class="my-2 btn btn-success btn-block btn-sm " style="padding:0.75rem" @click="sendRequest" :disabled="loading">确定</button>
+          class="my-2 btn btn-success btn-block btn-sm " style="padding:0.75rem" @click="sendRequest" :disabled="loading">{{ $t('ok') }}</button>
       </div>
     </div>
     <div class="px-3 flex">
       <p >
-        {{ `最小提现金额:${getSystem.minwithdrawal}` }}
+        {{ `${$t('minwithdrawal')}:${getSystem.minwithdrawal}` }}
       </p>
       <p class="ml-4">
-        {{`手续费：${getSystem.withdrawPercent}%`}}
+        {{`${$t('fee')}:${getSystem.withdrawPercent}%`}}
       </p>
   </div>
   </div>
@@ -116,13 +116,25 @@ export default defineComponent({
                         type:1,
                         offset:'b',
                         title:false,
-                        content: '成功',
+                        content: this.$t('success'),
                         closeBtn: 0,
                         shadeClose:1,
                     });
                 }else{
-                  this.message=response.data.message;
-                    this.showDialog();
+                  if(response.data.message==0){
+                    this.message=this.$t('suspended');
+                  }else if(response.data.message==1){
+                    this.message=this.$t('timeout');
+                  }else if(response.data.message==2){
+                    this.message=this.$t('tomorrowcheck');
+                  }else if(response.data.message==3){
+                    this.message=this.$t('outbalance');
+                  }else if(response.data.message==4){
+                    this.message=this.$t('invalidbalance');
+                  }else{
+                    this.message=this.$t('incorrectscode');
+                  }
+                  this.showDialog();
                 }
             }
             catch(error) {
@@ -136,19 +148,19 @@ export default defineComponent({
     },
     validation(){
         if(this.form.amount==null||this.form.security==null){
-            this.message='请输入所有值';
+            this.message=this.$t('allvalue');
             return false;
         }
         if(this.form.security<6){
-            this.message='安全密码必须为6位或更长';
+            this.message=this.$t('spassincorrect');
             return false;
         }
         if(Number(this.getSystem.minwithdrawal)>this.form.amount||Number(this.getSystem.maxwithdrawal)<this.form.amount){
-            this.message='取款金额超出范围';
+            this.message=this.$t('withdrawalout');
             return false;
         }
         if(Number(this.getUser.cash_amount)<this.form.amount){
-            this.message='您的账户余额不足';
+            this.message=this.$t('invalidbalance');
             return false;
         }
         return true;
