@@ -94,6 +94,9 @@ export default defineComponent({
       this.$router.push({ name: 'me' });
     },
     showDialog(){
+      layer.config({
+        skin: 'error-class'
+      })
       layer.open({
           type:1,
           offset:'b',
@@ -138,10 +141,12 @@ export default defineComponent({
                 }
             }
             catch(error) {
+              this.message=this.$t('neterror');
                 this.showDialog();
             };
         }
         else{
+          this.message=this.$t('neterror');
             this.showDialog();
         }
         this.loading=false;
