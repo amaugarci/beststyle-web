@@ -215,7 +215,7 @@ export default defineComponent({
                 }
             }
             catch(error) {
-                this.message=this.$t('invalidcredential');
+                this.message=this.$t('neterror');
                 this.showDialog();
             };
         }
