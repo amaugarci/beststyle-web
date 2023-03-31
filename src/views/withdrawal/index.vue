@@ -146,7 +146,7 @@ export default defineComponent({
             };
         }
         else{
-          this.message=this.$t('neterror');
+          //this.message=this.$t('neterror');
             this.showDialog();
         }
         this.loading=false;
