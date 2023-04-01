@@ -21,7 +21,7 @@
             <span class="text-base px-[20px] font-bold uppercase">{{$t('signup')}}</span>
         </h6>
         <div class="w-[100px] h-[30px] mx-auto relative">
-            <div @click="changeChecked" class="absolute mx-[15px] mt-[8px] w-[60px] mx-auto bg-[#ffeba7] h-[18px] rounded-full">
+            <div @click="changeChecked" class="absolute mx-[15px] mt-[8px] w-[60px] bg-[#ffeba7] h-[18px] rounded-full">
             </div>
             <div @click="changeChecked"  class="absolute w-[35px] mx-auto bg-[#102770] h-[35px] rounded-full justify-center flex flex-col buttontransaction" :class="{buttonrotate:!checked}">
                 <BIconArrowUpLeft class="font-black text-[#ffeba7] text-[16px] mx-auto "/>
@@ -130,6 +130,7 @@ export default defineComponent({
   mounted(){
     this.getUrl();
     document.addEventListener('click', this.handleClickOutside);
+    console.log(axios.defaults.timeout);
   },
   beforeDestroy() {
     document.removeEventListener('click', this.handleClickOutside);
@@ -204,7 +205,7 @@ export default defineComponent({
                 const response=await axios.post('/login', {
                     name:this.username.replace(/\s+/g, ''),
                     password:this.password.replace(/\s+/g, '')
-                });
+                },{timeout:20000});
                 if(response.data&&response.data.token){
                     this.setToken(response.data.token);
                     await this.fetchUser();
