@@ -5,6 +5,9 @@ module.exports = {
     "./src/**/*.{vue,js,ts,jsx,tsx}"
   ],
   theme: {
+    fontFamily: {
+      sans: ['PingFangSC-regular', 'sans-serif'],
+    },
     screens: {
       '2xl': '1366px',
       'xl': '1200px',
