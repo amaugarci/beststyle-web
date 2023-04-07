@@ -7,3 +7,6 @@
     border-color: #0B88F9;
     color:#0B88F9
   }
+body *::-webkit-scrollbar{
+  display: none;
+}

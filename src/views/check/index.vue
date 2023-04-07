@@ -7,7 +7,7 @@
     </div>
     <div v-if="!isadd" class="px-[20px] flex w-full justify-between items-center  bg-white h-[60px] text-[14px]">
       <div class="relative text-[#BBBBBB] w-[230px] rounded-full">
-          <input :type="showPassword?'password':'text'" v-model="password"  class="rounded-full border-2 w-full py-2 text-black text-[14px] pl-10 focus:outline-none" placeholder="请输入昵称" autocomplete="off">
+          <input type="text" v-model="password"  class="rounded-full border-2 w-full py-2 text-black text-[14px] pl-10 focus:outline-none" placeholder="请输入关键字" autocomplete="off">
           <span class="absolute inset-y-0 right-2 flex items-center pr-2">
               <BIconSearch  class="text-[#B2B2B2] text-[18px]" />
           </span>
@@ -25,7 +25,7 @@
             <p @click="goBackTwo()" class="font-normal">返回</p>
           </div>
         </div>
-        <div class="w-full h-[764px] bg-white flex flex-col px-[21px] relative pt-[18px]">
+        <div class="w-full pb-[20px] bg-white flex flex-col px-[21px] relative pt-[18px] mb-[30px]">
           <div class="flex flex-row mb-[7px]">
             <p class="text-[14px]  text-[#101010]">客户状态:</p>
             <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ items[selected].children[isdetail].state }}</p>
@@ -50,37 +50,50 @@
             <p class="text-[14px] font-normal text-[#101010]">添加日期:</p>
             <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ items[selected].children[isdetail].created_at }}</p>
           </div>
-          <div class="flex flex-row mb-[7px]">
-            <p class="text-[14px] font-normal text-[#101010]">微信号：</p>
-            <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ items[selected].children[isdetail].nickname }}</p>
+          <div class="flex justify-between items-center">
+            <div class="flex flex-row mb-[7px]">
+              <p class="text-[14px] font-normal text-[#101010]">微信号：</p>
+              <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ items[selected].children[isdetail].nickname }}</p>
+            </div>
+            <button @click="()=>{showdialog=true}"  class="px-[10px] shrink-0 py-[3px] rounded-full text-[13px] bg-gradient-to-r from-blue-700 to-blue-400">
+              添加
+            </button>
           </div>
-          <p class="text-[14px] font-normal text-[#101010]">添加日期:</p>
-          <p class="text-[14px] font-normal text-[#101010] ml-[2px] mb-[7px]">
-           {{  items[selected].children[isdetail].description}}
-          </p>
-          <p class="text-[14px] font-normal text-[#101010]">聊天截图:</p>
-          <div class="w-full flex items-center gap-[17px] ">
-            <div v-for="(item,index) in items[selected].children[isdetail].images" class="w-[152px] h-[340px] flex ju items-center relative flex-shrink-0">
-              <img :src="item.url" class="w-[152px] h-[340px] mt-[10px]"/>
+          <div v-for="(item,index) in counts" class="mb-[10px]">
+            <div class="flex gap-2 items-center">
+              <div class="w-[20px] h-[20px] bg-[#4EABFF] rounded-full ml-[-15px] mb-[5px]"></div>
+              <p>{{moment().utc(new Date()).local().format("yyyy-MM-DD") }}</p>
+            </div>
+            <div class="border-l-2 border-[#4EABFF] px-[10px] ml-[-7px]">
+              <p class="text-[14px] font-normal text-[#101010]">客户描述:</p>
+              <p class="text-[14px] font-normal text-[#101010] ml-[2px] mb-[7px]">
+              {{  items[selected].children[isdetail].description}}
+              </p>
+              <p class="text-[14px] font-normal text-[#101010]">聊天截图:</p>
+              <div class="w-full flex items-center gap-[17px] ">
+                <div v-for="(item,index) in items[selected].children[isdetail].images" class="w-[152px] h-[340px] flex items-center relative flex-shrink-0">
+                  <img :src="item.url" class="w-[152px] h-[340px] mt-[10px]"/>
+                </div>
+              </div>
+              <div class="absolute top-[17px] right-[14px]">
+                <div class="flex flex-row">
+                  <p class=" mr-[2px] text-[14px] font-normal text-[#101010]">客户头像：</p>
+                  <img :src="items[selected].children[isdetail].avatar" class="w-[88px] h-[91px] rounded-[8px]"> 
+                </div>
+              </div>
             </div>
           </div>
-          <div class="absolute top-[17px] right-[14px]">
-             <div class="flex flex-row">
-              <p class=" mr-[2px] text-[14px] font-normal text-[#101010]">客户头像：</p>
-              <img :src="items[selected].children[isdetail].avatar" class="w-[88px] h-[91px] rounded-[8px]"> 
-             </div>
-          </div>
-          <div class="flex absolute bottom-[13px] right-[21px] justify-end gap-[30px] items-center pt-[13px] text-[12px] text-[#969696]">
-            <div class="flex gap-1 items-center">
-              <BIconChatDots class="text-[12px]"/>
-              <p class="font-normal">评论</p>
+          <div class="flex justify-end gap-[30px] items-center pt-[13px] text-[12px] text-[#969696]">
+              <div class="flex gap-1 items-center">
+                <BIconChatDots class="text-[12px]"/>
+                <p class="font-normal">评论</p>
+              </div>
+              <div class="flex gap-1 items-center">
+                <BIconEye class="text-[15px]"/>
+                <p class="font-normal">569</p>
+              </div>
+              <p class="font-normal">2023-03-24</p>
             </div>
-            <div class="flex gap-1 items-center">
-              <BIconEye class="text-[15px]"/>
-              <p class="font-normal">569</p>
-            </div>
-            <p class="font-normal">2023-03-24</p>
-          </div>
         </div>
       </div>
       <div v-else-if="isadd" >
@@ -203,6 +216,43 @@
        </div>
     </div>
    </div>
+   <div ref="dialog"  class="absolute z-[99991] top-0 right-0 left-0 bottom-0 bg-[#010101] opacity-75" v-if="showdialog">
+   </div>
+   <div v-if="showdialog" class="absolute z-[99991] w-[90%] h-[400px] top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 bg-[#FFFFFF] px-[20px] pt-[20px]">
+      <div class="flex items-center mb-[20px]">
+        <img src="assets/icons/blueplus.svg" class="icon mr-[12px]"/>
+        <p class="font-black text-[#0B88F9]">添加</p>
+      </div>
+      <div class="relative w-full mb-[30px]">
+        <textarea
+          v-model="newCheck.description"
+          class="peer h-full min-h-[100px] w-full resize-none rounded-[7px] border border-blue-gray-200 bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200"
+          placeholder=" "
+          :class="{'border-t-transparent':career!=''}"
+        ></textarea>
+        <label class="pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-blue-gray-500 ">
+          客户描述
+        </label>
+      </div>
+      <div class="flex flex-row items-start text-[14px] mb-[13px]">
+          <p class="font-normal w-[60px] mr-[13px] flex-shrink-0 text-end">聊天记录</p>
+          <div class="grow flex justify-center overflow-x-auto">
+            <div class="w-full flex items-center gap-[17px] ">
+              <div v-for="(item,index) in newCheck.images" class="w-[85px] h-[100px] flex ju items-center relative flex-shrink-0">
+                <img  :src="item.url" class="w-[77px] h-[91px]"/>
+                <BIconXCircle class="text-[15px] z-10 top-0 right-0 text-[#FF0000] absolute" @click="()=>deleteImage(index)" />
+              </div>
+              <div @click="selectImages" class="flex items-center justify-center flex-shrink-0 bg-[#F0F0F0] w-[85px] h-[100px]">
+                <BIconPlus class="text-[30px]"/>
+              </div>
+            </div>
+            <input multiple  type="file" accept="image/*" style="display:none" ref="imageInputs" @change="uploadImages">
+          </div>
+        </div>
+        <button @click="saveCheck" class="absolute bottom-[26px] left-0 w-full py-[10px] bg-[#0B88F9] text-white font-black text-[16px]">
+          提&nbsp;&nbsp;&nbsp;&nbsp;交
+        </button>
+    </div>
 </template>
 
 <script>
@@ -210,6 +260,7 @@
 import { defineComponent } from 'vue'
 import { BIconPlus,BIconSearch,BIconChevronRight,BIconXCircle,BIconChatDots, BIconEye } from 'bootstrap-icons-vue';
 import axios from 'axios'
+import moment from 'moment'
 
 export default defineComponent({
   name: 'check',
@@ -415,8 +466,10 @@ export default defineComponent({
         ]
       }
     ],
+    showdialog:false,
     selected:0,
     isadd:false,
+    counts:Array(5).fill(0),
     isdetail:null,
     newCheck:{
         state:'',
@@ -428,16 +481,31 @@ export default defineComponent({
         nickname:'',
         realname:'',
         avatar:'',
-        age:57,
+        age:'',
         job:'',
         created_at:'',
         images:[
         ]
     }
   }),
-  mounted(){
+  mounted() {
+    document.addEventListener('click', this.handleClickOutside);
+  },
+  beforeRouteLeave(to, from, next) {
+    document.removeEventListener('click', this.handleClickOutside);
+    next();
   },
   methods: {
+    handleClickOutside(event) {
+      if(this.showdialog){
+        if(this.$refs.dialog.contains(event.target)){
+          this.showdialog=false;
+        }
+      }
+    },
+    moment: function () {
+        return moment;
+    },
     selectImages() {
       this.$refs.imageInputs.click()
     },
@@ -469,6 +537,9 @@ export default defineComponent({
     },
     goBackTwo(){
       this.isdetail=null;
+    },
+    saveCheck(){
+      this.showdialog=false;
     }
   }
 })
