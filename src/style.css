@@ -11,6 +11,26 @@ body *::-webkit-scrollbar{
   display: none;
 }
 
+option{
+  color: #000;
+}
+option.default{
+  color: #9CA3AF;
+}
+
+.form-control {
+  display: block;
+  padding: .375rem .75rem;
+  font-size: 0.8rem;
+  font-weight: 400;
+  line-height: 1.5;
+  height: 31px;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
 body .login-class{ border-radius: 5px; width: 100%;margin: 0px;}
 body .login-class .layui-layer-content{ color:#000; width: 100%; text-align: center;padding: 20px 30px}
 body .login-class .layui-layer-btn{ padding: 0px;height:50px;display:flex; align-items: center;}

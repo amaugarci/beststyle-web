@@ -90,9 +90,9 @@
     </div>
 
 
-    <div ref="dialog"  class="absolute z-[99991] top-0 right-0 left-0 bottom-0 bg-[#010101] opacity-75" v-if="iscomment">
+  <div ref="dialog"  class="fixed z-[99991] top-0 right-0 left-0 bottom-0 bg-[#010101] opacity-75" v-if="iscomment">
    </div>
-   <div v-if="iscomment" class="absolute z-[99991] w-[90%] h-[300px] top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 bg-[#FFFFFF] px-[20px] pt-[20px]">
+   <div v-if="iscomment" class="fixed z-[99991] w-[90%] h-[300px] top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 bg-[#FFFFFF] px-[20px] pt-[20px]">
       <div class="flex items-center mb-[20px]">
         <img src="assets/icons/blueplus.svg" class="icon mr-[12px]"/>
         <p class="font-black text-[#0B88F9]">添加评论</p>

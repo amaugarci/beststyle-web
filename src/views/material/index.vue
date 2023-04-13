@@ -46,9 +46,9 @@
       </div>
     </div>
   </div>
-  <div ref="dialog"  class="absolute z-[99991] top-0 right-0 left-0 bottom-0 bg-[#010101] opacity-75" v-if="showdownload">
+  <div ref="dialog"  class="fixed  z-[99991] top-0 right-0 left-0 bottom-0 bg-[#010101] opacity-75" v-if="showdownload">
   </div>
-  <div v-if="showdownload" class="absolute z-[99991] w-[90%] h-[600px] top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
+  <div v-if="showdownload" class="fixed z-[99991] w-[90%] h-[600px] top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
     <img src='https://i.ibb.co/Xjwh9Rv/3.png' class="bg-[#FFFFFF] w-full h-[490px]" >
     <p class="font-normal my-[10px] text-white">家门口的超市里买东西，自己一个人，只能晚上用发给大他也如同工会人体第三方的地方都是发</p>
     <div class="flex gap-1 items-center justify-end text-white">
