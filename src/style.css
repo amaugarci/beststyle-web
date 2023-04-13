@@ -10,3 +10,11 @@
 body *::-webkit-scrollbar{
   display: none;
 }
+
+body .login-class{ border-radius: 5px; width: 100%;margin: 0px;}
+body .login-class .layui-layer-content{ color:#000; width: 100%; text-align: center;padding: 20px 30px}
+body .login-class .layui-layer-btn{ padding: 0px;height:50px;display:flex; align-items: center;}
+body .success-class{ border-radius: 5px; width: 90%; max-width: 640px; }
+body .success-class .layui-layer-content{ color:#000; text-align: center;}
+body .success-class .layui-layer-btn{ padding: 0px;height:50px}
+body .success-class .layui-layer-btn .layui-layer-btn0{display: flex; align-items: center; justify-content: center;  background-color: #F2F2F2;border:none;margin:0px; border-top: 1px solid #D0D0D0; color: #40AFFE; width: 100%; height: 100%;}

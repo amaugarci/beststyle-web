@@ -1,74 +1,89 @@
 <template>
-  <div class="absolute top-[128px] bottom-0 right-0 left-0 text-[14px] bg-[#F3F9FF]">
+  <div v-if="traininggroups.length!=0" class="absolute top-[128px] bottom-0 right-0 left-0 text-[14px] bg-[#F3F9FF]">
     <div class="pl-[20px] flex w-full overflow-x-scroll gap-[40px] items-center  bg-white border-b-[1px] h-[40px] border-[#817b7b]">
-      <button @click="()=>{selectOne(index)}" v-for="(item, index) in items" class="px-[10px] shrink-0 py-[3px] rounded-full text-[13px]" :class="{'bg-gradient-to-r from-blue-700 to-blue-400 text-white':selected[0]==index}">
+      <button @click="()=>{selectOne(index)}" v-for="(item, index) in traininggroups" class="px-[10px] shrink-0 py-[3px] rounded-full text-[13px]" :class="{'bg-gradient-to-r from-blue-700 to-blue-400 text-white':selected[0]==index}">
         {{ item.name }}
       </button>
     </div>
-    <div v-if="subdetail">
+    <div v-if="training!=null&&subdetail">
       <div class="flex items-center py-[10px] gap-2 text-[14px]">
         <div class="flex items-center">
           <BIconChevronLeft class="text-[15px] cursor-pointer" @click="goBackTwo()"/>
-          <p class="font-normal">方法</p>
+          <p @click="goBackTwo()" class="font-normal">{{ traininggroups[selected[0]].children[selected[1]].name }}</p>
         </div>
         <div class="flex items-center">
           <BIconChevronLeft class="text-[15px] cursor-pointer" @click="goBack()"/>
-          <p class="font-normal">方法</p>
+          <p @click="goBack()" class="font-normal">{{ training.training_group.name }}</p>
         </div>
         <div class="flex items-center">
           <BIconChevronLeft class="text-[15px]" />
-          <p class="font-normal text-[#0B88F9]">最新养号方法...</p>
+          <p class="font-normal text-[#0B88F9] w-[100px] truncate">{{ training.title }}</p>
         </div>
       </div>
-      <div class="w-full h-[457px] bg-white flex flex-col items-center px-[21px] relative">
-        <p class="font-black py-[17px]">最新养号方法</p>
-        <p class="font-normal">上号前必须关闭手机定位（必须检查手机定位是否关闭检查网络是否有连错。1.快手、抖音、西瓜视频上号后必须刷视频完播率（完播率是指一个视频播放完，必须手动下滑到下一个视频），刷1个小时以上，每天刷两三个小时。第一天不允许修改任何资料，第二天设置一下头像和昵称，并且发一个作品（作品发风景、物品、美食等，禁止发美女和带有色情等违规作品），作品不能频繁发，其它资料再后期一天一天慢慢修改一点。（前三五天每天都要刷一个小时以上，后期可以下班吃饭时间挂着刷直播）前7天不能私聊所以也不要去挂住别人，可以评论和点赞。好养好后每天私聊不能超过3个（并且不能在同一时间新同时新增私聊）。快手抖音上号后需要设置关闭自己喜欢的作品、关闭允许查看关注的人和粉丝。</p>
-        <div class="flex absolute bottom-[13px] right-[21px] justify-end gap-[30px] items-center pt-[13px] text-[12px] text-[#969696]">
+      <div class="w-full bg-white flex flex-col items-center px-[21px] pb-[20px]">
+        <p class="font-black py-[17px]">{{ training.title }}</p>
+        <p class="font-normal" v-html="training.description"></p>
+
+        <p class="w-full my-[30px] font-bold">评论</p>
+        <div class="mb-[30px] w-full" v-for="(comment, index) in training.comment">
+          <div  class="flex flex-row w-full gap-2">
+            <p class="shrink-1 font-bold">{{ comment.user.name }}:</p>
+            <div class="grow">
+              <p class="w-full text-[10px] text-end">{{moment().utc(new Date(comment.updated_at)).local().format("yyyy-MM-DD") }}</p>
+              <p class="w-full">{{ comment.comment }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="w-full flex justify-end gap-[30px] items-center pt-[50px] text-[12px] text-[#969696]">
           <div class="flex gap-1 items-center">
-            <BIconChatDots class="text-[12px] cursor-pointer" @click="addComment"/>
+            <BIconChatDots class="text-[12px] cursor-pointer" @click="addComment()"/>
             <p class="font-normal">评论</p>
           </div>
           <div class="flex gap-1 items-center">
             <BIconEye class="text-[15px]"/>
-            <p class="font-normal">569</p>
+            <p class="font-normal">{{ training.count }}</p>
           </div>
-          <p class="font-normal">2023-03-24</p>
+          <p class="font-normal">
+            {{moment().utc(new Date(training.created_at)).local().format("yyyy-MM-DD") }}
+          </p>
         </div>
       </div>
     </div>
     <div v-else>
       <div class="pl-[20px] flex gap-[40px] w-full overflow-x-scroll items-center  bg-white h-[50px]">
-        <button v-if="items[selected[0]]" @click="()=>selectTwo(sindex)" v-for="(sitem, sindex) in items[selected[0]].children" class="shrink-0 px-[30px] py-[3px] rounded-[4px] text-[13px]" :class="{'bg-gradient-to-r from-blue-700 to-blue-400 text-white':selected[1]==sindex}">
+        <button v-if="traininggroups[selected[0]]" @click="()=>selectTwo(sindex)" v-for="(sitem, sindex) in traininggroups[selected[0]].children" class="shrink-0 px-[30px] py-[3px] rounded-[4px] text-[13px]" :class="{'bg-gradient-to-r from-blue-700 to-blue-400 text-white':selected[1]==sindex}">
           {{ sitem.name }}
         </button>
       </div>
-      <div  v-if="!items[selected[0]]||!items[selected[0]].children[selected[1]]" class=" flex justify-center">
+      <div  v-if="!traininggroups[selected[0]]||!traininggroups[selected[0]].children[selected[1]]" class=" flex justify-center">
         <p class="mt-[57px] font-normal">暂未开放权限</p>
       </div>
       <div v-if="!detail" class="mt-[30px] flex flex-col items-start px-[50px] gap-3 overflow-y-scroll">
-        <button  v-if=" items[selected[0]].children[selected[1]]" @click="()=>godetail()" v-for="(titem, tindex) in items[selected[0]].children[selected[1]].children">
+        <button  v-if=" traininggroups[selected[0]].children[selected[1]]" v-for="(titem, tindex) in traininggroups[selected[0]].children[selected[1]].children"  @click="()=>godetail(titem.id)">
           {{(tindex+1)+". "+titem.name }}
         </button>
       </div>
       <div v-if="detail" class="mx-[18px] absolute top-[90px] bottom-0 right-0 left-0 overflow-y-scroll">
-        <div v-for="(item,index) in details" class="mt-[13px] ">
-        <div class="h-[100px] w-full bg-white rounded-[9px] px-[14px] py-[13px] cursor-pointer relative"  @click="()=>goSubDetail()">
+        <div @click="()=>goSubDetail(item.id)" v-for="(item,index) in trainings" class="mt-[13px] cursor-pointer">
+        <div class="h-[100px] w-full bg-white rounded-[9px] px-[14px] py-[13px]  relative" >
           <div class="w-[228px]">
-            <p class="font-normal mb-[13px]">最新养号方法</p>
-            <p class="font-normal text-[12px]">上号前要把定位关闭，IG份额我还哦IG何物很尬iu额好哇...</p>
+            <p class="font-normal mb-[13px]">{{ item.title }}</p>
+            <p class="font-normal text-[12px] line-clamp-2" v-html="item.description"></p>
           </div>
-          <img src='https://i.ibb.co/Xjwh9Rv/3.png' class="absolute w-[63px] h-[77px] top-[12px] right-[12px]" >
+          <img :src="VITE_BACKEND_URL+item.photo" class="absolute w-[63px] h-[77px] top-[12px] right-[12px]" >
         </div>
         <div class="flex justify-end gap-[30px] items-center pt-[13px] text-[12px] text-[#969696]">
-            <div class="flex gap-1 items-center cursor-pointer" @click="addComment">
+            <div class="flex gap-1 items-center cursor-pointer">
               <BIconChatDots class="text-[12px]"/>
               <p class="font-normal">评论</p>
             </div>
             <div class="flex gap-1 items-center">
               <BIconEye class="text-[15px]"/>
-              <p class="font-normal">569</p>
+              <p class="font-normal">{{ item.count }}</p>
             </div>
-            <p class="font-normal">2023-03-24</p>
+            <p class="font-normal">
+              {{moment().utc(new Date(item.created_at)).local().format("yyyy-MM-DD") }}
+            </p>
           </div>
         </div>
       </div>
@@ -84,9 +99,10 @@
       </div>
       <div class="relative w-full mb-[30px]">
         <textarea
+        v-model="comment"
           class="peer h-full min-h-[100px] w-full resize-none rounded-[7px] border border-blue-gray-200 bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200"
           placeholder=" "
-          :class="{'border-t-transparent':career!=''}"
+          :class="{'border-t-transparent':comment!=''}"
         ></textarea>
         <label class="pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-blue-gray-500 ">
           评论
@@ -103,7 +119,9 @@
 
 import { defineComponent } from 'vue'
 import { BIconChevronLeft,BIconChatDots, BIconEye } from 'bootstrap-icons-vue';
+const VITE_BACKEND_URL = import.meta.env.VITE_IMAGE_URL;
 import axios from 'axios'
+import moment from 'moment'
 
 export default defineComponent({
   name: 'training',
@@ -113,103 +131,18 @@ export default defineComponent({
     BIconEye
   },
   data: () => ({
-    items:[
-      {
-        id:1,
-        name:'养号',
-        children:[
-          {
-            id:11,
-            name:'方法',
-            children:[
-              {
-                id:111,
-                name:'关注/持续评论',
-                
-                children: null,
-              },
-              {
-                id:112,
-                name:'把自己的可见作品包装好（需要检查）',
-                children: null,
-              }
-            ]
-          },
-          {
-            id:12,
-            name:'目标',
-            children:[
-              {
-                id:121,
-                name:'咨询对方专业问题',
-                children: null,
-              },
-              {
-                id:122,
-                name:'说对方像自己朋友',
-                children: null,
-              }
-            ]
-          }
-        ]
-      },
-      {
-        id:2,
-        name:'加粉',children:[
-          {
-            id:21,
-            name:'方法',
-            children:[
-              {
-                id:211,
-                name:'关注/持续评论',
-                children: null,
-              },
-              {
-                id:212,
-                name:'把自己的可见作品包装好（需要检查）',
-                children: null,
-              }
-            ]
-          },
-          {
-            id:22,
-            name:'目标',
-            children:[
-              {
-                id:221,
-                name:'咨询对方专业问题',
-                children: null,
-              },
-              {
-                id:222,
-                name:'说对方像自己朋友',
-                children: null,
-              }
-            ]
-          }
-        ]
-      },
-      {
-        id:3,
-        name:'初聊',children:[]
-      },
-      {
-        id:4,
-        name:'破冰',children:[]
-      },
-      {
-        id:5,
-        name:'故事',children:[]
-      },
-    ],
+    comment:'',
+    VITE_BACKEND_URL,
+    training:null,
+    traininggroups:[],
+    trainings:[],
     selected:[0,0],
-    details:Array(10).fill(1),
     detail:false,
     iscomment:false,
     subdetail:false,
   }),
   mounted() {
+    this.getTrainingGroup();
     document.addEventListener('click', this.handleClickOutside);
   },
   beforeRouteLeave(to, from, next) {
@@ -217,18 +150,60 @@ export default defineComponent({
     next();
   },
   methods: {
+    moment: function () {
+        return moment;
+    },
+    async getTrainingGroup() {
+      try {
+        this.traininggroups=[];
+        const response = await axios.get(`/traininggroups`);
+        if(response.data.status==1){
+          this.traininggroups = response.data.traininggroups;
+        }
+      }
+      catch (error) {
+        console.log(error);
+      };
+    },
+    async getTrainings(group_id) {
+      try {
+        this.trainings=[];
+        const response = await axios.get(`/trainings/${group_id}`);
+        if(response.data.status==1){
+          this.trainings = response.data.trainings;
+        }
+      }
+      catch (error) {
+        console.log(error);
+      };
+    },
+    async getTraining(id) {
+      try {
+        this.training=null;
+        const response = await axios.get(`/training/${id}`);
+        if(response.data.status==1){
+          this.training = response.data.training;
+        }
+      }
+      catch (error) {
+        console.log(error);
+      };
+    },
     handleClickOutside(event) {
       if(this.iscomment){
         if(this.$refs.dialog.contains(event.target)){
           this.iscomment=false;
+          this.comment='';
         }
       }
     },
-    godetail(){
+    godetail(group_id){
       this.detail=true;
+      this.getTrainings(group_id);
     },
-    goSubDetail(){
+    goSubDetail(id){
       this.subdetail=true;
+      this.getTraining(id);
     },
     selectOne(index){
       this.selected[0]=index;
@@ -252,8 +227,60 @@ export default defineComponent({
       this.iscomment=true;
     },
     saveCheck(){
+      this.postComment();
       this.iscomment=false;
-    }
+    },
+    async postComment(){
+      try{
+        const response=await axios.post(`/training/${this.training.id}/createcomment`, {
+            comment:this.comment,
+        });
+        if(response.status==422){
+            this.message='请输评论';
+            this.showDialog();
+        }
+        else if(response.status==200&&response.data.status==1){
+          console.log(response.data.comment);
+          this.training.comment.unshift(response.data.comment);
+          this.showSucss();
+        }
+        else{
+            this.message='请输评论';
+            this.showDialog();
+        }
+      }catch(error) {
+          this.message='网络错误';
+          this.showDialog();
+      }finally{
+        this.comment='';
+      };
+    },
+    showDialog(){
+        layer.config({
+          skin: 'login-class'
+        })
+        layer.open({
+            type:1,
+            offset:'b',
+            title:false,
+            content: this.message,
+            closeBtn: 0,
+            shadeClose:1,
+        });
+    },
+    showSucss(){
+      layer.config({
+        skin: 'success-class'
+      })
+      layer.open({
+        title:false,
+        content: '成功',
+        btn:'确定',
+        btnAlign: 'c',
+        closeBtn: 0,
+        shadeClose:1,
+      });
+    },
   }
 })
 </script>
