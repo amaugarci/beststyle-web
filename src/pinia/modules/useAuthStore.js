@@ -5,16 +5,22 @@ export const useAuthStore = defineStore('useAuthStore', {
   state: () => ({
     user:null,
     token:localStorage.getItem('token'),
+    ip_address:'',
     returnUrl:'training',
   }),
   getters:{
     getUser:(state)=>state.user,
+    getIp:(state)=>state.ip_address,
     getToken:(state)=>state.token,
     getReturnUrl:(state)=>state.returnUrl,
   },
   actions: {
     setUser(value) {
       this.user=value;
+    },
+    setIp(value) {
+      this.ip_address=value;
+      this.logout();
     },
     setToken(value) {
       this.token=value;
