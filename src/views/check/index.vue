@@ -61,6 +61,12 @@
               添加
             </button> -->
           </div>
+          <div class="absolute top-[17px] right-[14px]">
+            <div class="flex flex-row">
+              <p class=" mr-[2px] text-[14px] font-normal text-[#101010]">客户头像：</p>
+              <img :src="VITE_BACKEND_URL+check.photo" class="w-[88px] h-[91px] rounded-[8px]"> 
+            </div>
+          </div>
           <div v-for="(item,index) in check.comment" class="mb-[10px]">
             <div class="flex gap-2 items-center">
               <div class="w-[20px] h-[20px] bg-[#4EABFF] rounded-full ml-[-15px] mb-[5px]"></div>
@@ -75,12 +81,6 @@
               <div class="w-full flex items-center gap-[17px] overflow-x-auto">
                 <div v-for="(media,index) in item.medias" class="w-[152px] h-[340px] flex items-center relative flex-shrink-0">
                   <img :src="VITE_BACKEND_URL+media.thumbpath" class="w-[152px] h-[340px]"/>
-                </div>
-              </div>
-              <div class="absolute top-[17px] right-[14px]">
-                <div class="flex flex-row">
-                  <p class=" mr-[2px] text-[14px] font-normal text-[#101010]">客户头像：</p>
-                  <img :src="VITE_BACKEND_URL+check.photo" class="w-[88px] h-[91px] rounded-[8px]"> 
                 </div>
               </div>
             </div>
@@ -592,6 +592,7 @@ export default defineComponent({
 
     },
     goBackTwo(){
+      this.check=null;
       this.isdetail=null;
     },
     addComment(){
