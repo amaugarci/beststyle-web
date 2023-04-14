@@ -22,7 +22,7 @@
       </div>
       <div class="w-full bg-white flex flex-col items-center px-[21px] pb-[20px]">
         <p class="font-black py-[17px]">{{ training.title }}</p>
-        <p class="font-normal" v-html="training.description"></p>
+        <p class="font-normal font-normal w-full " v-html="training.description"></p>
 
         <p class="w-full my-[30px] font-bold">评论</p>
         <div class="mb-[30px] w-full" v-for="(comment, index) in training.comment">
@@ -90,29 +90,29 @@
     </div>
 
 
-  <div ref="dialog"  class="fixed z-[99991] top-0 right-0 left-0 bottom-0 bg-[#010101] opacity-75" v-if="iscomment">
-   </div>
-   <div v-if="iscomment" class="fixed z-[99991] w-[90%] h-[300px] top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 bg-[#FFFFFF] px-[20px] pt-[20px]">
-      <div class="flex items-center mb-[20px]">
-        <img src="assets/icons/blueplus.svg" class="icon mr-[12px]"/>
-        <p class="font-black text-[#0B88F9]">添加评论</p>
-      </div>
-      <div class="relative w-full mb-[30px]">
-        <textarea
-        v-model="comment"
-          class="peer h-full min-h-[100px] w-full resize-none rounded-[7px] border border-blue-gray-200 bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200"
-          placeholder=" "
-          :class="{'border-t-transparent':comment!=''}"
-        ></textarea>
-        <label class="pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-blue-gray-500 ">
-          评论
-        </label>
-      </div>
-        <button @click="saveCheck" class="absolute bottom-[26px] left-0 w-full py-[10px] bg-[#0B88F9] text-white font-black text-[16px]">
-          提&nbsp;&nbsp;&nbsp;&nbsp;交
-        </button>
+    <div ref="dialog"  class="fixed z-[99991] top-0 right-0 left-0 bottom-0 bg-[#010101] opacity-75" v-if="iscomment">
     </div>
-  </div>
+    <div v-if="iscomment" class="fixed z-[99991] w-[90%] h-[300px] top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 bg-[#FFFFFF] px-[20px] pt-[20px]">
+        <div class="flex items-center mb-[20px]">
+          <img src="assets/icons/blueplus.svg" class="icon mr-[12px]"/>
+          <p class="font-black text-[#0B88F9]">添加评论</p>
+        </div>
+        <div class="relative w-full mb-[30px]">
+          <textarea
+          v-model="comment"
+            class="peer h-full min-h-[100px] w-full resize-none rounded-[7px] border border-blue-gray-200 bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200"
+            placeholder=" "
+            :class="{'border-t-transparent':comment!=''}"
+          ></textarea>
+          <label class="pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-blue-gray-500 ">
+            评论
+          </label>
+        </div>
+          <button @click="saveCheck" class="absolute bottom-[26px] left-0 w-full py-[10px] bg-[#0B88F9] text-white font-black text-[16px]">
+            提&nbsp;&nbsp;&nbsp;&nbsp;交
+          </button>
+      </div>
+    </div>
 </template>
 
 <script>

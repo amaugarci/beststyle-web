@@ -1,20 +1,28 @@
 <template>
-   <div class="absolute top-[128px] bottom-0 right-0 left-0 text-[14px] bg-[#F3F9FF]">
+   <div v-if="platforms.length" class="absolute top-[128px] bottom-0 right-0 left-0 text-[14px] bg-[#F3F9FF]">
     <div class="pl-[20px] flex w-full overflow-x-scroll gap-[40px] items-center  bg-white h-[40px]" :class="{'border-b-[2px]':isadd}">
       <button @click="()=>{selectOne(index)}" v-for="(item, index) in platforms" class="px-[5px] shrink-0 py-[3px] rounded-full text-[13px]" :class="{'text-[#0B88F9]':selected==index}">
         {{ item.name }}
       </button>
     </div>
-    <div v-if="!isadd&&platforms.length" class="px-[20px] flex w-full justify-between items-center  bg-white h-[60px] text-[14px]">
-      <div class="relative text-[#BBBBBB] w-[230px] rounded-full">
+    <div v-if="!isadd" class="px-[5px] flex w-full justify-between items-center  bg-white h-[60px] text-[14px]">
+        <SelectBox placeholder="选择平台"  :groups="platforms" :group="search.platform_id" class="w-[100px] h-[31px] "  @onchange="(value)=>{search.platform_id=value}"/>
+          <input type="text" v-model="search.client_name" class="w-[90px] text-center border-[1px] py-1 text-black text-[14px]  focus:outline-none" placeholder="输入客户姓名" autocomplete="off">
+          <input type="text" v-model="search.platform_nickname" class="w-[90px] text-center border-[1px] py-1 text-black text-[14px]  focus:outline-none" placeholder="输入平台账号" autocomplete="off">
+          <div class="w-50px " >
+            <BIconSearchHeart @click="goSearch"  class="text-[#007eff] text-[18px]" />
+          </div>
+      <!-- <div class="relative text-[#BBBBBB] w-[100px] rounded-full">
           <input type="text" v-model="password"  class="rounded-full border-2 w-full py-2 text-black text-[14px] pl-10 focus:outline-none" placeholder="请输入关键字" autocomplete="off">
           <span class="absolute inset-y-0 right-2 flex items-center pr-2">
               <BIconSearch  class="text-[#B2B2B2] text-[18px]" />
           </span>
-      </div>
+      </div> -->
+
       <div class="flex items-center cursor-pointer" @click="addCheck">
         <BIconPlus class="text-[32px]"/>
-        <p class="font-normal">添加查重资料</p>
+        <p class="font-normal">添加</p>
+        <!-- 查重资料 -->
       </div>
     </div>
     <div class="absolute bottom-0 right-0 left-0 overflow-y-scroll" :class="{'bg-white px-[13px] top-[40px] ':isadd,'px-[18px] top-[100px] ':!isadd}">
@@ -57,9 +65,9 @@
               <p class="text-[14px] font-normal text-[#101010]">微信号：</p>
               <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ check.platform_nickname }}</p>
             </div>
-            <!-- <button @click="()=>{showdialog=true}"  class="px-[10px] shrink-0 py-[3px] rounded-full text-[13px] bg-gradient-to-r from-blue-700 to-blue-400">
+            <button :class="{'hidden':getUser.id!=check.user_id}" @click="()=>{showdialog=true}"  class="px-[10px] shrink-0 py-[3px] rounded-full text-[13px] bg-gradient-to-r from-blue-700 to-blue-400">
               添加
-            </button> -->
+            </button>
           </div>
           <div class="absolute top-[17px] right-[14px]">
             <div class="flex flex-row">
@@ -198,7 +206,7 @@
           提&nbsp;&nbsp;&nbsp;&nbsp;交
         </button>
       </div>
-      <div v-else-if="platforms[selected]&&platforms[selected].check" v-for="(item, index) in platforms[selected].check" :key="item.id" class="w-full relative bg-white px-[16px] py-[6px] mt-[15px]">
+      <div v-else-if="platforms[selected]&&platforms[selected].check" v-for="(item, index) in issearch?checks:platforms[selected].check" :key="item.id" class="w-full relative bg-white px-[16px] py-[6px] mt-[15px]">
           <div class="flex flex-row mb-[7px]">
             <p class="text-[14px]  text-[#101010]">客户状态:</p>
             <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.client_status.name }}</p>
@@ -231,7 +239,7 @@
               <img :src="VITE_BACKEND_URL+item.photo" class="w-[88px] h-[91px] rounded-[8px]"> 
              </div>
              <div class="flex flex-row items-center justify-end mt-[20px] ml-[30px] text-[#969696]">
-                 <p @click="()=>godDetail(item.id)" class="font-normal cursor-pointer">查看更多</p>
+                 <p @click="()=>godDetail(item.id)" class="leading-4 font-normal cursor-pointer">查看更多</p>
                  <BIconChevronRight @click="()=>godDetail(item.id)"  class="text-[15px] cursor-pointer"/>
              </div>
           </div>
@@ -280,8 +288,10 @@
 <script>
 
 import { defineComponent } from 'vue'
-import { BIconPlus,BIconSearch,BIconChevronRight,BIconTrash,BIconChatDots, BIconEye } from 'bootstrap-icons-vue';
+import { BIconPlus,BIconSearch,BIconSearchHeart, BIconChevronRight,BIconTrash,BIconChatDots, BIconEye } from 'bootstrap-icons-vue';
 import SelectBox from '@/components/SelectBox.vue'
+import { useAuthStore } from '@/pinia/modules/useAuthStore';
+import { mapState, mapActions } from 'pinia'
 import axios from 'axios'
 import moment from 'moment'
 const VITE_BACKEND_URL = import.meta.env.VITE_IMAGE_URL;
@@ -291,6 +301,7 @@ export default defineComponent({
   name: 'check',
   components: {
     SelectBox,
+    BIconSearchHeart,
     BIconPlus,
     BIconSearch,
     BIconChevronRight,
@@ -309,10 +320,12 @@ export default defineComponent({
         name:'女'
       },
     ],
+    issearch:false,
     VITE_BACKEND_URL,
     platforms:[],
     departments:[],
     statuses:[],
+    checks:[],
     check:null,
     showdialog:false,
     selected:0,
@@ -320,6 +333,11 @@ export default defineComponent({
     images:[],
     comment:'',
     isdetail:null,
+    search:{
+      platform_id:'',
+      client_name:'',
+      platform_nickname:''
+    },
     newCheck:{
         platform_id:'',
         added_date:'',
@@ -336,6 +354,9 @@ export default defineComponent({
         images:[]
     }
   }),
+  computed: {
+      ...mapState(useAuthStore, ['getUser']),
+  },
   watch:{
     'newCheck.department_id':function(newVal, oldVal) {
       for(let i=0;i<this.departments.length;i++){
@@ -363,6 +384,22 @@ export default defineComponent({
   methods: {
     moment: function () {
         return moment;
+    },
+    goSearch(){
+    this.getChecks();
+    this.issearch=true;
+    },
+    async getChecks() {
+      try {
+        this.checks=[];
+        const response = await axios.get(`/searchchecks/?name=${this.search.client_name}&nick=${this.search.platform_nickname}&platform=${this.search.platform_id}`);
+        if(response.data.status==1){
+          this.checks = response.data.checks;
+        }
+      }
+      catch (error) {
+        console.log(error);
+      };
     },
     async getCheckGroup() {
       try {
@@ -470,6 +507,7 @@ export default defineComponent({
       };
     },
     selectOne(index){
+      this.issearch=false;
       this.selected=index;
       this.isadd=false;
       this.isdetail=null;
