@@ -21,8 +21,8 @@
                 </span>
             </div>
         </div>
-        <button class="mt-[50px] rounded-fill w-[200px] h-[44px] relative flex justify-center items-center">
-            <img src="assets/images/button.png" @click="login"  class="absolute rounded-fill w-[200px] h-[44px]">
+        <button @click="login" class="mt-[50px] rounded-fill w-[200px] h-[44px] relative flex justify-center items-center">
+            <img src="assets/images/button.png"   class="absolute rounded-fill w-[200px] h-[44px]">
             <p class="text-[20px] z-10 font-semibold text-white">登 录</p>
         </button>
     </div>
@@ -35,6 +35,9 @@ import { BIconPersonFill,BIconLockFill ,BIconEyeSlash,BIconEye } from 'bootstrap
 import {useAuthStore} from '@/pinia/modules/useAuthStore';
 import { mapState,mapActions  } from 'pinia'
 import axios from 'axios'
+layer.config({
+  skin: 'login-class'
+})
 export default defineComponent({
   name: 'login',
   components: {
@@ -47,21 +50,56 @@ export default defineComponent({
     message:'',
     username:'',
     password:'',
-    showPassword:false,
-    signUp:{
-        name:'',
-        password:'',
-        resetPassword:'',
-        securitynumber:'',
-        realname:''
-    }
+    showPassword:true,
   }),
-
+  mounted(){
+    this.logout();
+  },
   computed:{
+    ...mapState(useAuthStore, ['getUser','getReturnUrl']),
   },
   methods:{
-    login(){
-        this.$router.push({ name: 'training' })
+    ...mapActions(useAuthStore, ['setToken','logout']),
+    async login(){
+        if(this.validation()){
+            try{
+                const response=await axios.post('/login', {
+                    name:this.username,
+                    password:this.password
+                });
+                if(response.data&&response.data.token){
+                    this.setToken(response.data.token);
+                    this.$router.push({ name: this.getReturnUrl })
+                }else{
+                    this.message='帐号或密码错误';
+                    this.showDialog();
+                }
+            }
+            catch(error) {
+                this.message='网络错误';
+                this.showDialog();
+            };
+        }
+        else{
+            this.showDialog();
+        }
+    },
+	validation(){
+        if(this.username==''||this.password==''){
+            this.message='请输入所有字段'
+            return false;
+        }
+        return true;
+    },
+	showDialog(){
+        layer.open({
+            type:1,
+            offset:'b',
+            title:false,
+            content: this.message,
+            closeBtn: 0,
+            shadeClose:1,
+        });
     },
   }
 })

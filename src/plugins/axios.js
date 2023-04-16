@@ -22,4 +22,9 @@ axios.interceptors.response.use(response =>response, error=>{
       auth.logout();
       router.push({ name: 'login' })
     }
+    if(status==400){
+      const auth = useAuthStore();
+      auth.logout();
+      router.push({ name: 'login' })
+    }
 })

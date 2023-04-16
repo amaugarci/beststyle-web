@@ -7,6 +7,8 @@ import Check from './modules/check'
 import Material from './modules/material'
 import Character from './modules/character'
 import User from './modules/user'
+import {useAuthStore} from '@/pinia/modules/useAuthStore';
+
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -30,23 +32,23 @@ const router = createRouter({
   },
 })
 router.beforeEach(async (to) => {
-  // const publicPages = ['/login'];
-  // const authRequired = !publicPages.includes(to.path);
-  // const auth = useAuthStore();
-  // if(auth.user==null&&auth.token){
-  //   auth.fetchUser();
-  // }
-  // if (authRequired && !auth.token) {
-  //     auth.returnUrl = to.name;
-  //     return '/login';
-  // }
-  // const rechager = ['/recharge','/withdrawal'];
-  // const bankrequired = rechager.includes(to.path);
-  // if(bankrequired&&(auth.user==null)){
-  //   return '/me';
-  // }else if(bankrequired&&(auth.user.bank==null)){
-  //   auth.returnUrl = to.name;
-  //   return '/bank';
-  // }
+  const publicPages = ['/login'];
+  const authRequired = !publicPages.includes(to.path);
+  const auth = useAuthStore();
+  if(auth.user==null&&auth.token){
+    auth.fetchUser();
+  }
+  if (authRequired && !auth.token) {
+      auth.returnUrl = to.name;
+      return '/login';
+  }
+  const rechager = ['/recharge','/withdrawal'];
+  const bankrequired = rechager.includes(to.path);
+  if(bankrequired&&(auth.user==null)){
+    return '/me';
+  }else if(bankrequired&&(auth.user.bank==null)){
+    auth.returnUrl = to.name;
+    return '/bank';
+  }
 });
 export default router
