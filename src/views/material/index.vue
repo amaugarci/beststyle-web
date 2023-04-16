@@ -41,7 +41,7 @@
             </p>
             <div class="flex gap-1 items-center text-black">
               <p  class="font-normal cursor-pointer">下载</p>
-              <img  src="assets/icons/download.svg" class="cursor-pointer">
+              <img  src="/assets/icons/download.svg" class="cursor-pointer">
             </div>
           </div>
          </div>
@@ -55,7 +55,7 @@
     <p class="font-normal my-[10px] text-white line-clamp-4" v-html="materials[material_id].description"></p>
     <div class="flex gap-1 items-center justify-end text-white">
       <p @click="downlodFile" class="font-normal cursor-pointer">下载</p>
-      <img @click="downlodFile" src="assets/icons/wdownload.svg"   class="cursor-pointer">
+      <img @click="downlodFile" src="/assets/icons/wdownload.svg"   class="cursor-pointer">
     </div>
   </div>
 </template>

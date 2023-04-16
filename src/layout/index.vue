@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img src="assets/bg/bg2.png"  class="w-full h-[48px]">
+    <img src="/assets/bg/bg2.png"  class="w-full h-[48px]">
     <div class="flex flex-row h-[39px] items-center justify-between px-[19px]">
       <div class="flex flex-row">
         <p class="text-[14px] font-semibold text-[#101010]">ID：</p>

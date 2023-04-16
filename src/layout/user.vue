@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="fixed w-full z-[9999] bg-white">
-      <img src="assets/bg/bg2.png"  class="w-full h-[48px]">
+      <img src="/assets/bg/bg2.png"  class="w-full h-[48px]">
       <div class="flex flex-row h-[39px] items-center px-[19px]" >
         <BIconChevronLeft @click="back()" class="cursor-pointer"/>  
         <p @click="back()" class="text-[14px] font-semibold text-[#101010] pl-[2px] cursor-pointer">返回主页</p>

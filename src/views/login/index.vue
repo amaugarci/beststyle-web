@@ -1,7 +1,7 @@
 <template>
     <div class=" flex flex-col items-center">
-        <img src="assets/bg/bg1.png"  class="w-full h-[198px]">
-        <img src="assets/images/mark.png"  class="absolute top-[151px]  w-[70px] h-[98px]">
+        <img src="/assets/bg/bg1.png"  class="w-full h-[198px]">
+        <img src="/assets/images/mark.png"  class="absolute top-[151px]  w-[70px] h-[98px]">
         <p class="text-[33px] font-semibold text-[#2D96F5] mt-[101px]">Sign In</p>
         <div class="w-full px-[49px]">
             <div class="relative text-[#BBBBBB] w-full mt-[40px]">
@@ -22,7 +22,7 @@
             </div>
         </div>
         <button @click="login" class="mt-[50px] rounded-fill w-[200px] h-[44px] relative flex justify-center items-center">
-            <img src="assets/images/button.png"   class="absolute rounded-fill w-[200px] h-[44px]">
+            <img src="/assets/images/button.png"   class="absolute rounded-fill w-[200px] h-[44px]">
             <p class="text-[20px] z-10 font-semibold text-white">登 录</p>
         </button>
     </div>

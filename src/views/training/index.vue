@@ -94,7 +94,7 @@
     </div>
     <div v-if="iscomment" class="fixed z-[99991] w-[90%] h-[300px] top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 bg-[#FFFFFF] px-[20px] pt-[20px]">
         <div class="flex items-center mb-[20px]">
-          <img src="assets/icons/blueplus.svg" class="icon mr-[12px]"/>
+          <img src="/assets/icons/blueplus.svg" class="icon mr-[12px]"/>
           <p class="font-black text-[#0B88F9]">添加评论</p>
         </div>
         <div class="relative w-full mb-[30px]">

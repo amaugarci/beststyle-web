@@ -29,7 +29,7 @@
       <div v-if="isdetail!=null&&check" >
         <div class="flex items-center py-[10px] gap-2 text-[14px]">
           <div class="flex items-center">
-            <img src="assets/icons/turn_round.svg" class="text-[15px] cursor-pointer" @click="goBackTwo()"/>
+            <img src="/assets/icons/turn_round.svg" class="text-[15px] cursor-pointer" @click="goBackTwo()"/>
             <p @click="goBackTwo()" class="font-normal">返回</p>
           </div>
         </div>
@@ -250,7 +250,7 @@
    </div>
    <div v-if="showdialog" class="fixed z-[99991] w-[90%] h-[400px] top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 bg-[#FFFFFF] px-[20px] pt-[20px]">
       <div class="flex items-center mb-[20px]">
-        <img src="assets/icons/blueplus.svg" class="icon mr-[12px]"/>
+        <img src="/assets/icons/blueplus.svg" class="icon mr-[12px]"/>
         <p class="font-black text-[#0B88F9]">添加</p>
       </div>
       <div class="relative w-full mb-[30px]">
