@@ -7,7 +7,7 @@ ls -al
 ls ./dist 
 
 if [ "${EVN}" = "pre" ];then
-    docker build -f ./deployments/Dockerfile -t pre-bourse-web:${VERSION}-${BUILD_ID} .
+    docker build -f ./deployments/Dockerfile -t pre-learn-web:${VERSION}-${BUILD_ID} .
 else
-    docker build -f ./deployments/Dockerfile -t bourse-web:${VERSION}-${BUILD_ID} .
+    docker build -f ./deployments/Dockerfile -t learn-web:${VERSION}-${BUILD_ID} .
 fi
