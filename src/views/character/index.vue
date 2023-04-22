@@ -18,7 +18,7 @@
       </div>
       <div class="w-full bg-white flex flex-col items-center px-[21px] pb-[20px]">
         <p class="font-black py-[17px]">{{ character.title }}</p>
-        <p class="font-normal w-full truncate" v-html="character.description"></p>
+        <p class="ql-editor font-normal w-full truncate" v-html="character.description" contenteditable="true"></p>
 
         <p class="w-full my-[30px] font-bold">评论</p>
         <div class="mb-[30px] w-full" v-for="(comment, index) in character.comment">
@@ -51,7 +51,7 @@
         <div class="h-[100px] w-full bg-white rounded-[9px] px-[14px] py-[13px]  relative" >
           <div class="w-[228px]">
             <p class="font-normal mb-[13px]">{{ item.title }}</p>
-            <p class="font-normal text-[12px] line-clamp-2" v-html="item.description"></p>
+            <p class="ql-editor font-normal text-[12px] line-clamp-2 max-h-[50px]" style="min-height: 50px;" v-html="item.description" contenteditable="true"></p>
           </div>
           <img :src="VITE_BACKEND_URL+item.photo" class="absolute w-[63px] h-[77px] top-[12px] right-[12px]" >
         </div>

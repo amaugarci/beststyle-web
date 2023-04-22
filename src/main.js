@@ -6,6 +6,10 @@ import {i18n} from '@/i18n'
 import axios from 'axios';
 import pinia from './pinia'
 import { layer } from 'vue3-layer';
+import { VueEditor, Quill } from 'vue3-editor'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
 import 'vue3-layer/dist/s3Layer.css';
 import '@/plugins';
 axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
