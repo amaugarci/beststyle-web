@@ -51,7 +51,7 @@
         <div class="h-[100px] w-full bg-white rounded-[9px] px-[14px] py-[13px]  relative" >
           <div class="w-[228px]">
             <p class="font-normal mb-[13px]">{{ item.title }}</p>
-            <p class="ql-editor font-normal text-[12px] line-clamp-2 max-h-[50px]" style="min-height: 50px; overflow:hidden;" v-html="item.description" contenteditable="true"></p>
+            <p class="ql-editor font-normal text-[12px] line-clamp-2 max-h-[50px]" style="min-height: 50px; overflow:hidden; padding-top: 2px;" v-html="item.description" contenteditable="true"></p>
           </div>
           <img :src="VITE_BACKEND_URL+item.photo" class="absolute w-[63px] h-[77px] top-[12px] right-[12px]" >
         </div>

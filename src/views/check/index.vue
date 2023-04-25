@@ -9,21 +9,12 @@
         <SelectBox placeholder="选择平台"  :groups="platforms" :group="search.platform_id" class="w-[100px] h-[31px] "  @onchange="(value)=>{search.platform_id=value}"/>
           <input type="text" v-model="search.client_name" class="w-[90px] text-center border-[1px] py-1 text-black text-[14px]  focus:outline-none" placeholder="输入客户姓名" autocomplete="off">
           <input type="text" v-model="search.platform_nickname" class="w-[90px] text-center border-[1px] py-1 text-black text-[14px]  focus:outline-none" placeholder="输入平台账号" autocomplete="off">
-          <div class="w-50px mr-[15px]" >
-            <BIconSearchHeart @click="goSearch"  class="text-[#007eff] text-[18px]" />
-          </div>
-      <!-- <div class="relative text-[#BBBBBB] w-[100px] rounded-full">
-          <input type="text" v-model="password"  class="rounded-full border-2 w-full py-2 text-black text-[14px] pl-10 focus:outline-none" placeholder="请输入关键字" autocomplete="off">
-          <span class="absolute inset-y-0 right-2 flex items-center pr-2">
-              <BIconSearch  class="text-[#B2B2B2] text-[18px]" />
-          </span>
-      </div> -->
-
-      <div class="flex items-center cursor-pointer" @click="addCheck">
-        <BIconPlus class="text-[28px]"/>
-        <p class="font-normal">添加</p>
-        <!-- 查重资料 -->
-      </div>
+          <button @click="goSearch" class="bg-gradient-to-r from-blue-700 to-blue-400 px-[10px] py-[3px] rounded-full text-white text-[13px]">
+            搜索
+          </button>
+          <button @click="addCheck" class="bg-gradient-to-r from-blue-700 to-blue-400 px-[10px] py-[3px] rounded-full text-white text-[13px]">
+            添加
+          </button>
     </div>
     <div class="absolute bottom-0 right-0 left-0 overflow-y-scroll" :class="{'bg-white px-[13px] top-[40px] ':isadd,'px-[18px] top-[100px] ':!isadd}">
       <div v-if="isdetail!=null&&check" >
