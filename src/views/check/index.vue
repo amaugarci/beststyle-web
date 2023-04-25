@@ -9,7 +9,7 @@
         <SelectBox placeholder="选择平台"  :groups="platforms" :group="search.platform_id" class="w-[100px] h-[31px] "  @onchange="(value)=>{search.platform_id=value}"/>
           <input type="text" v-model="search.client_name" class="w-[90px] text-center border-[1px] py-1 text-black text-[14px]  focus:outline-none" placeholder="输入客户姓名" autocomplete="off">
           <input type="text" v-model="search.platform_nickname" class="w-[90px] text-center border-[1px] py-1 text-black text-[14px]  focus:outline-none" placeholder="输入平台账号" autocomplete="off">
-          <div class="w-50px " >
+          <div class="w-50px mr-[15px]" >
             <BIconSearchHeart @click="goSearch"  class="text-[#007eff] text-[18px]" />
           </div>
       <!-- <div class="relative text-[#BBBBBB] w-[100px] rounded-full">
@@ -20,7 +20,7 @@
       </div> -->
 
       <div class="flex items-center cursor-pointer" @click="addCheck">
-        <BIconPlus class="text-[32px]"/>
+        <BIconPlus class="text-[28px]"/>
         <p class="font-normal">添加</p>
         <!-- 查重资料 -->
       </div>
@@ -137,11 +137,11 @@
         <div class="flex flex-row text-[14px] mb-[13px] justify-between">
             <div class="flex flex-row items-center">
               <p class="font-normal w-[60px] mr-[13px]  text-end">部门</p>
-              <SelectBox placeholder="选择部门"  :groups="departments" :group="newCheck.department_id" class="w-[100px] h-[31px] "  @onchange="(value)=>{newCheck.department_id=value}"/>
+              <p class="w-[100px] align-middle">{{ getUser.department_name }}</p>
             </div>
             <div class="flex flex-row items-center">
               <p class="font-normal w-[60px] mr-[13px] text-end">业务室/组</p>
-              <SelectBox placeholder="选择业务室"  :groups="groups" :group="newCheck.group_id" class="w-[100px] h-[31px] "  @onchange="(value)=>{newCheck.group_id=value}"/>
+              <p class="w-[100px] align-middle">{{ getUser.group_name }}</p>
             </div>
             <!-- <div class="flex flex-row items-center">
               <p class="font-normal w-[60px] mr-[13px] text-end">业务员</p>
@@ -151,7 +151,7 @@
         <div class="flex flex-row text-[14px] mb-[13px] justify-between">
             <div class="flex flex-row items-center">
               <p class="font-normal w-[60px] mr-[13px] text-end">业务员</p>
-              <input type="text" v-model="newCheck.sale_man" class="w-[100px] text-center border-[1px] py-1 text-black text-[14px]  focus:outline-none" placeholder="输入业务员" autocomplete="off">
+              <p class="w-[100px] align-middle">{{ getUser.name }}</p>
             </div>
             <div class="flex flex-row items-center">
               <p class="font-normal w-[60px] mr-[13px]  text-end">客户状态</p>
@@ -341,8 +341,6 @@ export default defineComponent({
     newCheck:{
         platform_id:'',
         added_date:'',
-        department_id:'',
-        group_id:'',
         client_status:'',
         client_name:'',
         client_sex:'',
@@ -350,28 +348,11 @@ export default defineComponent({
         photo:null,
         client_nickanme:'',
         comment:'',
-        sale_man:'',
         images:[]
     }
   }),
   computed: {
       ...mapState(useAuthStore, ['getUser']),
-  },
-  watch:{
-    'newCheck.department_id':function(newVal, oldVal) {
-      for(let i=0;i<this.departments.length;i++){
-        if(this.departments[i].id==this.newCheck.department_id){
-          this.groups=this.departments[i].group;
-          for(let i=0;i<this.departments.length;i++){
-            if(this.groups[i].id==this.newCheck.group_id){
-              return;
-            }
-          }
-          this.newCheck.group_id='';
-          return;
-        }
-      }
-    }
   },
   mounted() {
     this.getCheckGroup();
@@ -529,18 +510,6 @@ export default defineComponent({
           this.message='新增日期是必需的';
             return false;
         }
-        else if(this.newCheck.department_id==''){
-          this.message='部门是必需的';
-            return false;
-        }
-        else if(this.newCheck.group_id==''){
-          this.message='业务室/组是必需的';
-            return false;
-        }
-        else if(this.newCheck.sale_man==''){
-          this.message='业务员是必需的';
-            return false;
-        }
         else if(this.newCheck.client_status==''){
           this.message='客户状态员是必需的';
             return false;
@@ -584,8 +553,8 @@ export default defineComponent({
         const response=await axios.post('/createcheck', {
             platform_id:this.newCheck.platform_id,
             added_date:this.newCheck.added_date,
-            group_id:this.newCheck.group_id,
-            sale_man:this.newCheck.sale_man,
+            group_id:this.getUser.group_id,
+            sale_man:this.getUser.name,
             client_status_id:this.newCheck.client_status,
             client_name:this.newCheck.client_name,
             client_sex:this.newCheck.client_sex,
@@ -606,8 +575,6 @@ export default defineComponent({
           this.newCheck={
             platform_id:'',
             added_date:'',
-            department_id:'',
-            group_id:'',
             client_status:'',
             client_name:'',
             client_sex:'',
@@ -615,7 +582,6 @@ export default defineComponent({
             photo:null,
             client_nickanme:'',
             comment:'',
-            sale_man:'',
             images:[]
           }
         }

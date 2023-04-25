@@ -36,11 +36,11 @@
         <div class="flex flex-row text-[14px] mb-[13px] justify-between">
             <div class="flex flex-row items-center">
               <p class="font-normal w-[60px] mr-[13px]  text-end">部门</p>
-              <SelectBox placeholder="选择部门"  :groups="departments" :group="check.department_id" class="w-[100px] h-[31px] "  @onchange="(value)=>{check.department_id=value}"/>
+              <p class="w-[100px] align-middle">{{ getUser.department_name }}</p>
             </div>
             <div class="flex flex-row items-center">
               <p class="font-normal w-[60px] mr-[13px] text-end">业务室/组</p>
-              <SelectBox placeholder="选择业务室"  :groups="groups" :group="check.group_id" class="w-[100px] h-[31px] "  @onchange="(value)=>{check.group_id=value}"/>
+              <p class="w-[100px] align-middle">{{ getUser.group_name }}</p>
             </div>
             <!-- <div class="flex flex-row items-center">
               <p class="font-normal w-[60px] mr-[13px] text-end">业务员</p>
@@ -50,7 +50,7 @@
         <div class="flex flex-row text-[14px] mb-[13px] justify-between">
             <div class="flex flex-row items-center">
               <p class="font-normal w-[60px] mr-[13px] text-end">业务员</p>
-              <input type="text" v-model="check.sale_man" class="w-[100px] text-center border-[1px] py-1 text-black text-[14px]  focus:outline-none" placeholder="输入业务员" autocomplete="off">
+              <p class="w-[100px] align-middle">{{ getUser.name }}</p>
             </div>
             <div class="flex flex-row items-center">
               <p class="font-normal w-[60px] mr-[13px]  text-end">客户状态</p>
@@ -136,6 +136,8 @@
 import { defineComponent } from 'vue'
 import { BIconPlus,BIconXCircle } from 'bootstrap-icons-vue';
 import SelectBox from '@/components/SelectBox.vue'
+import { useAuthStore } from '@/pinia/modules/useAuthStore';
+import { mapState, mapActions } from 'pinia'
 import axios from 'axios'
 import moment from 'moment'
 const VITE_BACKEND_URL = import.meta.env.VITE_IMAGE_URL;
@@ -165,23 +167,8 @@ export default defineComponent({
     platforms:[],
     statuses:[],
   }),
-  watch:{
-    'check.department_id':function(newVal, oldVal) {
-      if(this.check!=null){
-        for(let i=0;i<this.departments.length;i++){
-          if(this.departments[i].id==this.check.department_id){
-            this.groups=this.departments[i].group;
-            for(let i=0;i<this.departments.length;i++){
-              if(this.groups[i].id==this.check.group_id){
-                return;
-              }
-            }
-            this.check.group_id='';
-            return;
-          }
-        }
-      }
-    }
+  computed: {
+      ...mapState(useAuthStore, ['getUser']),
   },
   mounted(){
     this.getChecks();
@@ -207,7 +194,6 @@ export default defineComponent({
     },
     edit(index){
       this.check=this.checks[index];
-      this.check.department_id=this.check.group.department_id;
     },
     showDeleteCheck(index){
       layer.config({
@@ -235,18 +221,6 @@ export default defineComponent({
         }
         else if(this.check.added_date==''){
           this.message='新增日期是必需的';
-            return false;
-        }
-        else if(this.check.department_id==''){
-          this.message='部门是必需的';
-            return false;
-        }
-        else if(this.check.group_id==''){
-          this.message='业务室/组是必需的';
-            return false;
-        }
-        else if(this.check.sale_man==''){
-          this.message='业务员是必需的';
             return false;
         }
         else if(this.check.client_status_id==''){
@@ -284,8 +258,8 @@ export default defineComponent({
         const response=await axios.post(`/editcheck/${this.check.id}`, {
             platform_id:this.check.platform_id,
             added_date:this.check.added_date,
-            group_id:this.check.group_id,
-            sale_man:this.check.sale_man,
+            group_id:this.getUser.group_id,
+            sale_man:this.getUser.name,
             client_status_id:this.check.client_status_id,
             client_name:this.check.client_name,
             client_sex:this.check.client_sex,
