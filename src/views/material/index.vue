@@ -54,8 +54,8 @@
     <div class="relative">
       <img :src='VITE_BACKEND_URL+materials[material_id].thumb' class="bg-[#FFFFFF] w-full" >
       <div class="flex gap-1 items-center justify-end text-white absolute bottom-2 right-2">
-        <p @click="downlodFile" class="font-normal cursor-pointer">下载</p>
-        <img @click="downlodFile" src="/assets/icons/wdownload.svg"   class="cursor-pointer">
+        <p @click="downlodFile" class="font-normal cursor-pointer text-[20px]">下载</p>
+        <img @click="downlodFile" src="/assets/icons/wdownload.svg"   class="cursor-pointer w-[25px] h-[25px]">
       </div>
     </div>
     <div class=" ql-editor w-full font-normal my-[10px] text-white line-clamp-4" v-html="materials[material_id].description" contenteditable="true"></div>
