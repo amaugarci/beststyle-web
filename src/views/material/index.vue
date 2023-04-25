@@ -32,7 +32,7 @@
       </div>
       <div class="top-[85px] absolute bottom-0 right-0 left-0 overflow-y-scroll grid grid-cols-2 gap-2 px-[9px] text-[14px]">
          <div v-for="(item,index) in materials" class="h-[303px] bg-[white] px-[6px] py-[5px]" @click="()=>{showDetail(index)}">
-          <img :src="VITE_BACKEND_URL+item.thumb" class="w-full h-[213px]" >
+          <div :style="{ 'background-image': `url(${VITE_BACKEND_URL}${item.thumb})`,'background-size': 'cover',  }" class="w-full h-[213px]"></div>
           <p class="font-normal my-[10px] line-clamp-2">{{item.title}}</p>
           <div class="flex justify-between items-center text-[12px] text-[#969696]">
             <p class="font-normal">{{ item.type==1?'图片':'视频' }}</p>
@@ -50,30 +50,31 @@
   </div>
   <div ref="dialog"  class="fixed  z-[99991] top-0 right-0 left-0 bottom-0 bg-[#010101] opacity-75" v-if="showdownload">
   </div>
-  <div v-if="showdownload" class="fixed z-[99991] w-[90%] top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2" style="max-height: 100%; overflow: scroll;">
+  <div v-if="showdownload" class="fixed my-[20px] z-[99991] w-[90%] top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2" style="max-height: 100%; overflow: scroll;">
     <div class="relative">
       <img :src='VITE_BACKEND_URL+materials[material_id].thumb' class="bg-[#FFFFFF] w-full" >
       <div class="flex gap-1 items-center justify-end text-white absolute bottom-2 right-2">
         <p @click="downlodFile" class="font-normal cursor-pointer text-[20px]">下载</p>
         <img @click="downlodFile" src="/assets/icons/wdownload.svg"   class="cursor-pointer w-[25px] h-[25px]">
       </div>
+      <BIconX class="absolute top-2 right-2 text-[40px] text-white" @click="()=>{showdownload=false}"/>
     </div>
     <div class=" ql-editor w-full font-normal my-[10px] text-white line-clamp-4" v-html="materials[material_id].description" contenteditable="true"></div>
-
   </div>
 </template>
 
 <script>
 
 import { defineComponent } from 'vue'
-import { BIconChevronLeft } from 'bootstrap-icons-vue';
+import { BIconChevronLeft,BIconX } from 'bootstrap-icons-vue';
 import axios from 'axios'
 import moment from 'moment'
 const VITE_BACKEND_URL = import.meta.env.VITE_IMAGE_URL;
 export default defineComponent({
   name: 'material',
   components: {
-    BIconChevronLeft
+    BIconChevronLeft,
+    BIconX
   },
   data: () => ({
     VITE_BACKEND_URL,
