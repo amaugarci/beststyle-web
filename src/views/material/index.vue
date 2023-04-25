@@ -50,13 +50,16 @@
   </div>
   <div ref="dialog"  class="fixed  z-[99991] top-0 right-0 left-0 bottom-0 bg-[#010101] opacity-75" v-if="showdownload">
   </div>
-  <div v-if="showdownload" class="fixed z-[99991] w-[90%] top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
-    <img :src='VITE_BACKEND_URL+materials[material_id].thumb' class="bg-[#FFFFFF] w-full" >
-    <div class=" ql-editor w-full font-normal my-[10px] text-white line-clamp-4" v-html="materials[material_id].description" contenteditable="true"></div>
-    <div class="flex gap-1 items-center justify-end text-white">
-      <p @click="downlodFile" class="font-normal cursor-pointer">下载</p>
-      <img @click="downlodFile" src="/assets/icons/wdownload.svg"   class="cursor-pointer">
+  <div v-if="showdownload" class="fixed z-[99991] w-[90%] top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2" style="max-height: 100%; overflow: scroll;">
+    <div class="relative">
+      <img :src='VITE_BACKEND_URL+materials[material_id].thumb' class="bg-[#FFFFFF] w-full" >
+      <div class="flex gap-1 items-center justify-end text-white absolute bottom-2 right-2">
+        <p @click="downlodFile" class="font-normal cursor-pointer">下载</p>
+        <img @click="downlodFile" src="/assets/icons/wdownload.svg"   class="cursor-pointer">
+      </div>
     </div>
+    <div class=" ql-editor w-full font-normal my-[10px] text-white line-clamp-4" v-html="materials[material_id].description" contenteditable="true"></div>
+
   </div>
 </template>
 
