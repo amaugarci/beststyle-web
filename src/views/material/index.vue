@@ -52,10 +52,13 @@
   </div>
   <div v-if="showdownload" class="fixed my-[20px] z-[99991] w-[90%] top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2" style="max-height: 100%; overflow: scroll;">
     <div class="relative">
-      <img :src='VITE_BACKEND_URL+materials[material_id].thumb' class="bg-[#FFFFFF] w-full" >
+      <img v-if="materials[material_id].type==1" :src='VITE_BACKEND_URL+materials[material_id].thumb' class="bg-[#FFFFFF] w-full" >
+      <video v-else class="bg-[#FFFFFF] w-full" controls>
+        <source :src="VITE_BACKEND_URL+materials[material_id].photo"/>
+      </video>
       <div class="flex gap-1 items-center justify-end text-white absolute bottom-2 right-2">
         <p @click="downlodFile" class="font-normal cursor-pointer text-[20px]">下载</p>
-        <img @click="downlodFile" src="/assets/icons/wdownload.svg"   class="cursor-pointer w-[25px] h-[25px]">
+        <img   @click="downlodFile" src="/assets/icons/wdownload.svg"   class="cursor-pointer w-[25px] h-[25px]">
       </div>
       <BIconX class="absolute top-2 right-2 text-[40px] text-white" @click="()=>{showdownload=false}"/>
     </div>
