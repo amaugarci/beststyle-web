@@ -193,7 +193,7 @@
             <input multiple  type="file" accept="image/*" style="display:none" ref="imageNewInputs" @change="uploadNewImages">
           </div>
         </div>
-        <button @click="saveCheck" class="absolute bottom-[36px] left-0 w-full py-[10px] bg-[#0B88F9] text-white font-black text-[16px]">
+        <button @click="saveCheck" class="w-full py-[10px] bg-[#0B88F9] text-white font-black text-[16px]">
           提&nbsp;&nbsp;&nbsp;&nbsp;交
         </button>
       </div>
