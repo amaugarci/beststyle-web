@@ -522,11 +522,11 @@ export default defineComponent({
             return false;
         }
         else if(this.newCheck.client_nickanme==''){
-          this.message='客户描述';
+          this.message='平台账号';
             return false;
         }
         else if(this.newCheck.comment==''){
-          this.message='平台账号';
+          this.message='客户描述';
             return false;
         }
         else if(this.newCheck.photo==null){
