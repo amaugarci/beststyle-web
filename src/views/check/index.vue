@@ -6,13 +6,13 @@
       </button>
     </div>
     <div v-if="!isadd" class="px-[5px] flex w-full justify-between items-center  bg-white h-[60px] text-[14px]">
-        <SelectBox placeholder="选择平台"  :groups="platforms" :group="search.platform_id" class="w-[100px] h-[31px] "  @onchange="(value)=>{search.platform_id=value}"/>
-          <input type="text" v-model="search.client_name" class="w-[90px] text-center border-[1px] py-1 text-black text-[14px]  focus:outline-none" placeholder="输入客户姓名" autocomplete="off">
-          <input type="text" v-model="search.platform_nickname" class="w-[90px] text-center border-[1px] py-1 text-black text-[14px]  focus:outline-none" placeholder="输入平台账号" autocomplete="off">
-          <button @click="goSearch" class="bg-gradient-to-r from-blue-700 to-blue-400 px-[10px] py-[3px] rounded-full text-white text-[13px]">
+        <!-- <SelectBox placeholder="选择平台"  :groups="platforms" :group="search.platform_id" class="w-[100px] h-[31px] "  @onchange="(value)=>{search.platform_id=value}"/> -->
+          <input type="text" v-model="search.client_name" class="w-[120px] text-center border-[1px] py-1 text-black text-[14px]  focus:outline-none" placeholder="输入客户姓名" autocomplete="off">
+          <input type="text" v-model="search.platform_nickname" class="w-[120px] text-center border-[1px] py-1 text-black text-[14px]  focus:outline-none" placeholder="输入平台账号" autocomplete="off">
+          <button @click="goSearch" class="bg-gradient-to-r from-blue-700 to-blue-400 px-[20px] py-[3px] rounded-full text-white text-[13px]">
             搜索
           </button>
-          <button @click="addCheck" class="bg-gradient-to-r from-blue-700 to-blue-400 px-[10px] py-[3px] rounded-full text-white text-[13px]">
+          <button @click="addCheck" class="bg-gradient-to-r from-blue-700 to-blue-400 px-[20px] py-[3px] rounded-full text-white text-[13px]">
             添加
           </button>
     </div>
@@ -51,11 +51,47 @@
               {{moment().utc(new Date(check.created_at)).local().format("yyyy-MM-DD") }}
             </p>
           </div>
-          <div class="flex justify-between items-center">
+          <div v-if="check.platforms[0]" class="flex justify-between items-center mr-[100px]">
+            <div class="flex flex-row mb-[7px]">
+              <p class="text-[14px] font-normal text-[#101010]">平台:</p>
+              <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ check.platforms[0].name }}</p>
+            </div>
             <div class="flex flex-row mb-[7px]">
               <p class="text-[14px] font-normal text-[#101010]">微信号：</p>
-              <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ check.platform_nickname }}</p>
+              <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ check.platforms[0].pivot.name }}</p>
             </div>
+          </div>
+          <div v-if="check.platforms[1]" class="flex justify-between items-center mr-[100px]">
+            <div class="flex flex-row mb-[7px]">
+              <p class="text-[14px] font-normal text-[#101010]">平台:</p>
+              <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ check.platforms[1].name }}</p>
+            </div>
+            <div class="flex flex-row mb-[7px]">
+              <p class="text-[14px] font-normal text-[#101010]">微信号：</p>
+              <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ check.platforms[1].pivot.name }}</p>
+            </div>
+          </div>
+          <div v-if="check.platforms[2]" class="flex justify-between items-center mr-[100px]">
+            <div class="flex flex-row mb-[7px]">
+              <p class="text-[14px] font-normal text-[#101010]">平台:</p>
+              <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ check.platforms[2].name }}</p>
+            </div>
+            <div class="flex flex-row mb-[7px]">
+              <p class="text-[14px] font-normal text-[#101010]">微信号：</p>
+              <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ check.platforms[2].pivot.name }}</p>
+            </div>
+          </div>
+          <div v-if="check.platforms[3]" class="flex justify-between items-center mr-[100px]">
+            <div class="flex flex-row mb-[7px]">
+              <p class="text-[14px] font-normal text-[#101010]">平台:</p>
+              <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ check.platforms[3].name }}</p>
+            </div>
+            <div class="flex flex-row mb-[7px]">
+              <p class="text-[14px] font-normal text-[#101010]">微信号：</p>
+              <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ check.platforms[3].pivot.name }}</p>
+            </div>
+          </div>
+          <div class="flex justify-end">
             <button :class="{'hidden':getUser.id!=check.user_id}" @click="()=>{showdialog=true}"  class="px-[10px] shrink-0 py-[3px] rounded-full text-[13px] bg-gradient-to-r from-blue-700 to-blue-400">
               添加
             </button>
@@ -101,20 +137,54 @@
         <div class=" flex justify-center">
           <p class="mt-[15px] font-bold mb-[25px] text-[14px]">编辑查重资料</p>
         </div>
-        <p class="font-black mr-[17px] top-[50px] right-[75px] absolute">头像：</p>
-        <div @click="selectImage" class="w-[85px] h-[100px] top-[10px] right-[10px] absolute">
-          <div v-if="newCheck.photo" class=" relative">
-            <img :src="VITE_BACKEND_URL+newCheck.photo" class="w-[85px] h-[100px]"/>
-          </div>
-          <div v-else class="flex items-center justify-center flex-shrink-0 bg-[#F0F0F0] w-[85px] h-[100px]">
-            <BIconPlus class="text-[30px]" />
-          </div>
-          <input type="file" accept="image/*" style="display:none" ref="imageInput" @change="uploadImage">
-        </div>
-        <div class="mt-[10px] flex flex-row items-center ">
+
+        <!-- <div class="mt-[10px] flex flex-row items-center ">
           <p class="font-normal w-[60px] mr-[13px]  text-end">平&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;台</p>
           <SelectBox placeholder="选择平台"  :groups="platforms" :group="newCheck.platform_id" class="w-[100px] h-[31px] "  @onchange="(value)=>{newCheck.platform_id=value}"/>
+        </div> -->
+
+        <div class="flex flex-row text-[14px] mb-[3px] justify-between">
+          <div class="mt-[10px] flex flex-row items-center ">
+            <p class="font-normal w-[60px] mr-[13px]  text-end">平&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;台</p>
+            <SelectBox placeholder="选择平台"  :groups="platforms" :group="newCheck.platforms[0].platform_id" class="w-[100px] h-[31px] "  @onchange="(value)=>{newCheck.platforms[0].platform_id=value}"/>
+          </div>
+          <div class="flex flex-row items-center">
+            <p class="font-normal w-[60px] mr-[13px] text-end">平台账号</p>
+            <input type="text" v-model="newCheck.platforms[0].client_nickanme" class="w-[100px] text-center border-[1px]  py-1 text-black text-[14px]  focus:outline-none" placeholder="输入年龄" autocomplete="off">
+          </div>
         </div>
+        <div class="flex flex-row text-[14px] mb-[3px] justify-between">
+          <div class="mt-[10px] flex flex-row items-center ">
+            <p class="font-normal w-[60px] mr-[13px]  text-end">平&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;台</p>
+            <SelectBox placeholder="选择平台"  :groups="platforms" :group="newCheck.platforms[1].platform_id" class="w-[100px] h-[31px] "  @onchange="(value)=>{newCheck.platforms[1].platform_id=value}"/>
+          </div>
+          <div class="flex flex-row items-center">
+            <p class="font-normal w-[60px] mr-[13px] text-end">平台账号</p>
+            <input type="text" v-model="newCheck.platforms[1].client_nickanme" class="w-[100px] text-center border-[1px]  py-1 text-black text-[14px]  focus:outline-none" placeholder="输入年龄" autocomplete="off">
+          </div>
+        </div>
+        <div class="flex flex-row text-[14px] mb-[3px] justify-between">
+          <div class="mt-[10px] flex flex-row items-center ">
+            <p class="font-normal w-[60px] mr-[13px]  text-end">平&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;台</p>
+            <SelectBox placeholder="选择平台"  :groups="platforms" :group="newCheck.platforms[2].platform_id" class="w-[100px] h-[31px] "  @onchange="(value)=>{newCheck.platforms[2].platform_id=value}"/>
+          </div>
+          <div class="flex flex-row items-center">
+            <p class="font-normal w-[60px] mr-[13px] text-end">平台账号</p>
+            <input type="text" v-model="newCheck.platforms[2].client_nickanme" class="w-[100px] text-center border-[1px]  py-1 text-black text-[14px]  focus:outline-none" placeholder="输入年龄" autocomplete="off">
+          </div>
+        </div>
+        <div class="flex flex-row text-[14px] mb-[13px] justify-between">
+          <div class="mt-[10px] flex flex-row items-center ">
+            <p class="font-normal w-[60px] mr-[13px]  text-end">平&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;台</p>
+            <SelectBox placeholder="选择平台"  :groups="platforms" :group="newCheck.platforms[3].platform_id" class="w-[100px] h-[31px] "  @onchange="(value)=>{newCheck.platforms[3].platform_id=value}"/>
+          </div>
+          <div class="flex flex-row items-center">
+            <p class="font-normal w-[60px] mr-[13px] text-end">平台账号</p>
+            <input type="text" v-model="newCheck.platforms[3].client_nickanme" class="w-[100px] text-center border-[1px]  py-1 text-black text-[14px]  focus:outline-none" placeholder="输入年龄" autocomplete="off">
+          </div>
+        </div>
+
+
         <div class="mt-[15px]  flex flex-row text-[14px] mb-[13px] justify-between">
             <div class="flex flex-row items-center">
               <p class="font-normal w-[60px] mr-[13px] text-end">客户姓名</p>
@@ -159,15 +229,15 @@
               <input type="number" v-model="newCheck.client_age" class="w-[100px] text-center border-[1px]  py-1 text-black text-[14px]  focus:outline-none" placeholder="输入年龄" autocomplete="off">
             </div>
         </div>
-        <div class="flex flex-row items-center text-[14px] mb-[13px]">
+        <!-- <div class="flex flex-row items-center text-[14px] mb-[13px]">
           <p class="font-normal w-[60px] mr-[13px] text-end">平台账号</p>
           <input type="text" v-model="newCheck.client_nickanme" class="grow text-center border-[1px]  py-1 text-black text-[14px]  focus:outline-none" placeholder="输入平台账号" autocomplete="off">
-        </div>
+        </div> -->
         <!-- <div class="flex flex-row items-center text-[14px] mb-[13px]">
           <p class="font-normal w-[60px] mr-[13px] text-end">职业描述</p>
           <input type="text" v-model="newCheck.job" class="grow  pl-[10px] border-[1px]  py-1 text-black text-[14px]  focus:outline-none" placeholder="" autocomplete="off">
         </div> -->
-        <div class="relative w-full mb-[30px]">
+        <div class="relative w-full mb-[13px]">
           <textarea
             v-model="newCheck.comment"
             class="peer h-full min-h-[100px] w-full resize-none rounded-[7px] border border-blue-gray-200 bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200"
@@ -177,6 +247,18 @@
           <label class="pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-blue-gray-500 ">
             客户描述
           </label>
+        </div>
+        <div class="flex flex-row items-start text-[14px] mb-[13px]">
+          <p class="font-black ml-[17px]">头像：</p>
+          <div @click="selectImage" class="ml-[15px] w-[85px] h-[100px]">
+            <div v-if="newCheck.photo" class=" relative">
+              <img :src="VITE_BACKEND_URL+newCheck.photo" class="w-[85px] h-[100px]"/>
+            </div>
+            <div v-else class="flex items-center justify-center flex-shrink-0 bg-[#F0F0F0] w-[85px] h-[100px]">
+              <BIconPlus class="text-[30px]" />
+            </div>
+            <input type="file" accept="image/*" style="display:none" ref="imageInput" @change="uploadImage">
+          </div>
         </div>
         <div class="flex flex-row items-start text-[14px] mb-[13px]">
           <p class="font-normal w-[60px] mr-[13px] flex-shrink-0 text-end">聊天记录</p>
@@ -204,7 +286,7 @@
           </div>
           <div class="flex flex-row mb-[7px]">
             <p class="text-[14px] font-normal text-[#101010]">昵称:</p>
-            <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.platform_nickname }}</p>
+            <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.pivot.name }}</p>
           </div>
           <div class="flex flex-row mb-[7px]">
             <p class="text-[14px] font-normal text-[#101010]">姓名:</p>
@@ -330,14 +412,30 @@ export default defineComponent({
       platform_nickname:''
     },
     newCheck:{
-        platform_id:'',
+        platforms:[
+          {
+            platform_id:'',
+            client_nickanme:'',
+          },
+          {
+            platform_id:'',
+            client_nickanme:'',
+          },
+          {
+            platform_id:'',
+            client_nickanme:'',
+          },
+          {
+            platform_id:'',
+            client_nickanme:'',
+          }
+        ],
         added_date:'',
         client_status:'',
         client_name:'',
         client_sex:'',
         client_age:'',
         photo:null,
-        client_nickanme:'',
         comment:'',
         images:[]
     }
@@ -364,7 +462,7 @@ export default defineComponent({
     async getChecks() {
       try {
         this.checks=[];
-        const response = await axios.get(`/searchchecks/?name=${this.search.client_name}&nick=${this.search.platform_nickname}&platform=${this.search.platform_id}`);
+        const response = await axios.get(`/searchchecks/?name=${this.search.client_name}&nick=${this.search.platform_nickname}&platform=${this.platforms[this.selected].id}`);
         if(response.data.status==1){
           this.checks = response.data.checks;
         }
@@ -493,11 +591,17 @@ export default defineComponent({
       // this.isadd=false;
     },
     createValidation(){
-        if(this.newCheck.platform_id==''){
-            this.message='平台是必需的';
-            return false;
+        for(let i=0;i<4;i++){
+          if(this.newCheck.platforms[i].platform_id==''){
+              this.message='平台是必需的';
+              return false;
+          }
+          else if(this.newCheck.platforms[i].client_nickanme==''){
+            this.message='平台账号';
+              return false;
+          }
         }
-        else if(this.newCheck.added_date==''){
+        if(this.newCheck.added_date==''){
           this.message='新增日期是必需的';
             return false;
         }
@@ -521,10 +625,6 @@ export default defineComponent({
           this.message='客户年龄';
             return false;
         }
-        else if(this.newCheck.client_nickanme==''){
-          this.message='平台账号';
-            return false;
-        }
         else if(this.newCheck.comment==''){
           this.message='客户描述';
             return false;
@@ -542,7 +642,7 @@ export default defineComponent({
       }
       try{
         const response=await axios.post('/createcheck', {
-            platform_id:this.newCheck.platform_id,
+            platforms:this.newCheck.platforms,
             added_date:this.newCheck.added_date,
             group_id:this.getUser.group_id,
             sale_man:this.getUser.name,
@@ -550,7 +650,6 @@ export default defineComponent({
             client_name:this.newCheck.client_name,
             client_sex:this.newCheck.client_sex,
             client_age:this.newCheck.client_age,
-            platform_nickname:this.newCheck.client_nickanme,
             photo:this.newCheck.photo,
             comment:this.newCheck.comment,
             images:this.newCheck.images

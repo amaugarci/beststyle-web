@@ -9,20 +9,54 @@
         <div class=" flex justify-center">
           <p class="mt-[15px] font-bold mb-[25px] text-[14px]">编辑查重资料</p>
         </div>
-        <p class="font-black mr-[17px] top-[50px] right-[75px] absolute">头像：</p>
-        <div @click="selectImage" class="w-[85px] h-[100px] top-[10px] right-[10px] absolute">
-          <div v-if="check.photo" class=" relative">
-            <img :src="VITE_BACKEND_URL+check.photo" class="w-[85px] h-[100px]"/>
-          </div>
-          <div v-else class="flex items-center justify-center flex-shrink-0 bg-[#F0F0F0] w-[85px] h-[100px]">
-            <BIconPlus class="text-[30px]" />
-          </div>
-          <input type="file" accept="image/*" style="display:none" ref="imageInput" @change="uploadImage">
-        </div>
-        <div class="mt-[10px] flex flex-row items-center ">
+
+        <!-- <div class="mt-[10px] flex flex-row items-center ">
           <p class="font-normal w-[60px] mr-[13px]  text-end">平&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;台</p>
           <SelectBox placeholder="选择平台"  :groups="platforms" :group="check.platform_id" class="w-[100px] h-[31px] "  @onchange="(value)=>{check.platform_id=value}"/>
+        </div> -->
+
+        <div class="flex flex-row text-[14px] mb-[3px] justify-between">
+          <div class="mt-[10px] flex flex-row items-center ">
+            <p class="font-normal w-[60px] mr-[13px]  text-end">平&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;台</p>
+            <SelectBox placeholder="选择平台"  :groups="platforms" :group="check.platforms[0].id" class="w-[100px] h-[31px] "  @onchange="(value)=>{check.platforms[0].id=value}"/>
+          </div>
+          <div class="flex flex-row items-center">
+            <p class="font-normal w-[60px] mr-[13px] text-end">平台账号</p>
+            <input type="text" v-model="check.platforms[0].pivot.name" class="w-[100px] text-center border-[1px]  py-1 text-black text-[14px]  focus:outline-none" placeholder="输入年龄" autocomplete="off">
+          </div>
         </div>
+        <div class="flex flex-row text-[14px] mb-[3px] justify-between">
+          <div class="mt-[10px] flex flex-row items-center ">
+            <p class="font-normal w-[60px] mr-[13px]  text-end">平&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;台</p>
+            <SelectBox placeholder="选择平台"  :groups="platforms" :group="check.platforms[1].id" class="w-[100px] h-[31px] "  @onchange="(value)=>{check.platforms[1].id=value}"/>
+          </div>
+          <div class="flex flex-row items-center">
+            <p class="font-normal w-[60px] mr-[13px] text-end">平台账号</p>
+            <input type="text" v-model="check.platforms[1].pivot.name" class="w-[100px] text-center border-[1px]  py-1 text-black text-[14px]  focus:outline-none" placeholder="输入年龄" autocomplete="off">
+          </div>
+        </div>
+        <div class="flex flex-row text-[14px] mb-[3px] justify-between">
+          <div class="mt-[10px] flex flex-row items-center ">
+            <p class="font-normal w-[60px] mr-[13px]  text-end">平&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;台</p>
+            <SelectBox placeholder="选择平台"  :groups="platforms" :group="check.platforms[2].id" class="w-[100px] h-[31px] "  @onchange="(value)=>{check.platforms[2].id=value}"/>
+          </div>
+          <div class="flex flex-row items-center">
+            <p class="font-normal w-[60px] mr-[13px] text-end">平台账号</p>
+            <input type="text" v-model="check.platforms[2].pivot.name" class="w-[100px] text-center border-[1px]  py-1 text-black text-[14px]  focus:outline-none" placeholder="输入年龄" autocomplete="off">
+          </div>
+        </div>
+        <div class="flex flex-row text-[14px] mb-[13px] justify-between">
+          <div class="mt-[10px] flex flex-row items-center ">
+            <p class="font-normal w-[60px] mr-[13px]  text-end">平&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;台</p>
+            <SelectBox placeholder="选择平台"  :groups="platforms" :group="check.platforms[3].id" class="w-[100px] h-[31px] "  @onchange="(value)=>{check.platforms[3].id=value}"/>
+          </div>
+          <div class="flex flex-row items-center">
+            <p class="font-normal w-[60px] mr-[13px] text-end">平台账号</p>
+            <input type="text" v-model="check.platforms[3].pivot.name" class="w-[100px] text-center border-[1px]  py-1 text-black text-[14px]  focus:outline-none" placeholder="输入年龄" autocomplete="off">
+          </div>
+        </div>
+
+
         <div class="mt-[15px]  flex flex-row text-[14px] mb-[13px] justify-between">
             <div class="flex flex-row items-center">
               <p class="font-normal w-[60px] mr-[13px] text-end">客户姓名</p>
@@ -67,10 +101,10 @@
               <input type="number" v-model="check.client_age" class="w-[100px] text-center border-[1px]  py-1 text-black text-[14px]  focus:outline-none" placeholder="输入年龄" autocomplete="off">
             </div>
         </div>
-        <div class="flex flex-row items-center text-[14px] mb-[13px]">
+        <!-- <div class="flex flex-row items-center text-[14px] mb-[13px]">
           <p class="font-normal w-[60px] mr-[13px] text-end">平台账号</p>
           <input type="text" v-model="check.platform_nickname" class="grow text-center border-[1px]  py-1 text-black text-[14px]  focus:outline-none" placeholder="输入平台账号" autocomplete="off">
-        </div>
+        </div> -->
         <!-- <div class="flex flex-row items-center text-[14px] mb-[13px]">
           <p class="font-normal w-[60px] mr-[13px] text-end">职业描述</p>
           <input type="text" v-model="check.job" class="grow  pl-[10px] border-[1px]  py-1 text-black text-[14px]  focus:outline-none" placeholder="" autocomplete="off">
@@ -86,6 +120,18 @@
             客户描述
           </label>
         </div> -->
+        <div class="flex flex-row items-start text-[14px] mb-[13px]">
+          <p class="font-black ml-[17px]">头像：</p>
+          <div @click="selectImage" class="w-[85px] h-[100px] ml-[15px]">
+            <div v-if="check.photo" class=" relative">
+              <img :src="VITE_BACKEND_URL+check.photo" class="w-[85px] h-[100px]"/>
+            </div>
+            <div v-else class="flex items-center justify-center flex-shrink-0 bg-[#F0F0F0] w-[85px] h-[100px]">
+              <BIconPlus class="text-[30px]" />
+            </div>
+            <input type="file" accept="image/*" style="display:none" ref="imageInput" @change="uploadImage">
+          </div>
+        </div>
         <button @click="saveCheck" class="absolute bottom-[36px] left-0 w-full py-[10px] bg-[#0B88F9] text-white font-black text-[16px]">
           提&nbsp;&nbsp;&nbsp;&nbsp;交
         </button>
@@ -194,6 +240,16 @@ export default defineComponent({
     },
     edit(index){
       this.check=this.checks[index];
+      while(this.check.platforms.length<4){
+        this.check.platforms.push(
+          {
+            id:'',
+            pivot:{
+              name:''
+            }
+          },
+        );
+      }
     },
     showDeleteCheck(index){
       layer.config({
@@ -215,11 +271,17 @@ export default defineComponent({
       this.checkEdit();
     },
     createValidation(){
-        if(this.check.platform_id==''){
-            this.message='平台是必需的';
-            return false;
+        for(let i=0;i<4;i++){
+          if(this.check.platforms[i].id==''){
+              this.message='平台是必需的';
+              return false;
+          }
+          else if(this.check.platforms[i].pivot.name==''){
+            this.message='平台账号';
+              return false;
+          }
         }
-        else if(this.check.added_date==''){
+        if(this.check.added_date==''){
           this.message='新增日期是必需的';
             return false;
         }
@@ -239,10 +301,6 @@ export default defineComponent({
           this.message='客户年龄';
             return false;
         }
-        else if(this.check.platform_nickname==''){
-          this.message='客户描述';
-            return false;
-        }
         else if(this.check.photo==null){
           this.message='头像';
             return false;
@@ -256,7 +314,7 @@ export default defineComponent({
       }
       try{
         const response=await axios.post(`/editcheck/${this.check.id}`, {
-            platform_id:this.check.platform_id,
+            platforms:this.check.platforms,
             added_date:this.check.added_date,
             group_id:this.getUser.group_id,
             sale_man:this.getUser.name,
@@ -264,7 +322,6 @@ export default defineComponent({
             client_name:this.check.client_name,
             client_sex:this.check.client_sex,
             client_age:this.check.client_age,
-            platform_nickname:this.check.platform_nickname,
             photo:this.check.photo,
         });
         if(response.status==422){
