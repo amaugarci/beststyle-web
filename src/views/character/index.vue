@@ -48,27 +48,28 @@
     <div v-else>
       <div v-if="detail" class="mx-[18px] absolute top-[90px] bottom-0 right-0 left-0 overflow-y-scroll">
         <div @click="()=>goSubDetail(item.id)" v-for="(item,index) in characters" class="mt-[13px] cursor-pointer">
-        <div class="h-[100px] w-full bg-white rounded-[9px] px-[14px] py-[13px]  relative" >
-          <div class="w-[228px]">
-            <p class="font-normal mb-[13px]">{{ item.title }}</p>
-            <p class="ql-editor font-normal text-[12px] line-clamp-2 max-h-[50px]" style="min-height: 50px; overflow:hidden; padding-top: 2px;" v-html="item.description" contenteditable="true"></p>
-          </div>
-          <img :src="VITE_BACKEND_URL+item.photo" class="absolute w-[63px] h-[77px] top-[12px] right-[12px]" >
-        </div>
-        <div class="flex justify-end gap-[30px] items-center pt-[13px] text-[12px] text-[#969696]">
-            <div class="flex gap-1 items-center cursor-pointer">
-              <BIconChatDots class="text-[12px]"/>
-              <p class="font-normal">评论</p>
+            <div class="h-[100px] w-full bg-white rounded-[9px] px-[14px] py-[13px]  relative" >
+              <div class="w-[228px]">
+                <p class="font-normal mb-[13px]">{{ item.title }}</p>
+                <p class="ql-editor font-normal text-[12px] line-clamp-2 max-h-[50px]" style="min-height: 50px; overflow:hidden; padding-top: 2px;" v-html="item.description" contenteditable="true"></p>
+              </div>
+              <img :src="VITE_BACKEND_URL+item.photo" class="absolute w-[63px] h-[77px] top-[12px] right-[12px]" >
             </div>
-            <div class="flex gap-1 items-center">
-              <BIconEye class="text-[15px]"/>
-              <p class="font-normal">{{ item.count }}</p>
+            <div class="flex justify-end gap-[30px] items-center pt-[13px] text-[12px] text-[#969696]">
+                <div class="flex gap-1 items-center cursor-pointer">
+                  <BIconChatDots class="text-[12px]"/>
+                  <p class="font-normal">评论</p>
+                </div>
+                <div class="flex gap-1 items-center">
+                  <BIconEye class="text-[15px]"/>
+                  <p class="font-normal">{{ item.count }}</p>
+                </div>
+                <p class="font-normal">
+                  {{moment().utc(new Date(item.created_at)).local().format("yyyy-MM-DD") }}
+                </p>
             </div>
-            <p class="font-normal">
-              {{moment().utc(new Date(item.created_at)).local().format("yyyy-MM-DD") }}
-            </p>
           </div>
-        </div>
+          <Pagination  v-if="totalPage" :index="index" :currentPage="currentPage" :totalItems="totalPage"  @onClick="changepage" @onchangePage="onchangePage"/>
       </div>
       <div v-else class="p-[13px] top-[40px] absolute bottom-0 right-0 left-0 overflow-y-scroll">
         <div  class="mt-[30px] flex flex-col items-start px-[20px] gap-3 overflow-y-scroll">
@@ -108,6 +109,7 @@
 import { defineComponent } from 'vue'
 import { BIconChevronLeft,BIconChatDots, BIconEye } from 'bootstrap-icons-vue';
 const VITE_BACKEND_URL = import.meta.env.VITE_IMAGE_URL;
+import Pagination from '@/components/Pagination.vue'
 import axios from 'axios'
 import moment from 'moment'
 
@@ -116,7 +118,8 @@ export default defineComponent({
   components: {
     BIconChevronLeft,
     BIconChatDots,
-    BIconEye
+    BIconEye,
+    Pagination
   },
   data: () => ({
     message:'',
@@ -129,6 +132,10 @@ export default defineComponent({
     detail:false,
     iscomment:false,
     comment:'',
+    group_id:null,
+    currentPage:1,
+    totalPage:null,
+    index:5,
   }),
   mounted(){
     this.getCharacterGroup();
@@ -156,9 +163,10 @@ export default defineComponent({
     async getCharacter(id) {
       try {
         this.character=null;
-        const response = await axios.get(`/character/${id}`);
+        const response = await axios.get(`/character/${id}?page=${this.currentPage}&count=${this.index}`);
         if(response.data.status==1){
-          this.character = response.data.character;
+          this.character = response.data.character.data;
+          this.totalPage=response.data.character.total;
         }
       }
       catch (error) {
@@ -177,6 +185,7 @@ export default defineComponent({
     },
     godetail(group_id){
       this.detail=true;
+      this.group_id=group_id;
       this.getCharacters(group_id);
     },
     goBack(){
@@ -222,6 +231,14 @@ export default defineComponent({
       }finally{
         this.comment='';
       };
+    },
+    changepage(value){
+      this.currentPage=value;
+      this.getTrainings(this.group_id);
+    },
+    onchangePage(value){
+        this.index=value;
+        this.changepage(1);
     },
     showDialog(){
         layer.config({

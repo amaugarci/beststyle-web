@@ -17,42 +17,42 @@
 
         <div class="flex flex-row text-[14px] mb-[3px] justify-between">
           <div class="mt-[10px] flex flex-row items-center ">
-            <p class="font-normal w-[60px] mr-[13px]  text-end">平&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;台</p>
+            <p class="font-normal w-[60px] mr-[13px]  text-end">平&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;台&nbsp;1</p>
             <SelectBox placeholder="选择平台"  :groups="platforms" :group="check.platforms[0].id" class="w-[100px] h-[31px] "  @onchange="(value)=>{check.platforms[0].id=value}"/>
           </div>
           <div class="flex flex-row items-center">
             <p class="font-normal w-[60px] mr-[13px] text-end">平台账号</p>
-            <input type="text" v-model="check.platforms[0].pivot.name" class="w-[100px] text-center border-[1px]  py-1 text-black text-[14px]  focus:outline-none" placeholder="输入年龄" autocomplete="off">
+            <input type="text" v-model="check.platforms[0].pivot.name" class="w-[100px] text-center border-[1px]  py-1 text-black text-[14px]  focus:outline-none" placeholder="输入平台1账号" autocomplete="off">
           </div>
         </div>
         <div class="flex flex-row text-[14px] mb-[3px] justify-between">
           <div class="mt-[10px] flex flex-row items-center ">
-            <p class="font-normal w-[60px] mr-[13px]  text-end">平&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;台</p>
+            <p class="font-normal w-[60px] mr-[13px]  text-end">平&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;台&nbsp;2</p>
             <SelectBox placeholder="选择平台"  :groups="platforms" :group="check.platforms[1].id" class="w-[100px] h-[31px] "  @onchange="(value)=>{check.platforms[1].id=value}"/>
           </div>
           <div class="flex flex-row items-center">
             <p class="font-normal w-[60px] mr-[13px] text-end">平台账号</p>
-            <input type="text" v-model="check.platforms[1].pivot.name" class="w-[100px] text-center border-[1px]  py-1 text-black text-[14px]  focus:outline-none" placeholder="输入年龄" autocomplete="off">
+            <input type="text" v-model="check.platforms[1].pivot.name" class="w-[100px] text-center border-[1px]  py-1 text-black text-[14px]  focus:outline-none" placeholder="输入平台2账号" autocomplete="off">
           </div>
         </div>
         <div class="flex flex-row text-[14px] mb-[3px] justify-between">
           <div class="mt-[10px] flex flex-row items-center ">
-            <p class="font-normal w-[60px] mr-[13px]  text-end">平&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;台</p>
+            <p class="font-normal w-[60px] mr-[13px]  text-end">平&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;台&nbsp;3</p>
             <SelectBox placeholder="选择平台"  :groups="platforms" :group="check.platforms[2].id" class="w-[100px] h-[31px] "  @onchange="(value)=>{check.platforms[2].id=value}"/>
           </div>
           <div class="flex flex-row items-center">
             <p class="font-normal w-[60px] mr-[13px] text-end">平台账号</p>
-            <input type="text" v-model="check.platforms[2].pivot.name" class="w-[100px] text-center border-[1px]  py-1 text-black text-[14px]  focus:outline-none" placeholder="输入年龄" autocomplete="off">
+            <input type="text" v-model="check.platforms[2].pivot.name" class="w-[100px] text-center border-[1px]  py-1 text-black text-[14px]  focus:outline-none" placeholder="输入平台3账号" autocomplete="off">
           </div>
         </div>
         <div class="flex flex-row text-[14px] mb-[13px] justify-between">
           <div class="mt-[10px] flex flex-row items-center ">
-            <p class="font-normal w-[60px] mr-[13px]  text-end">平&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;台</p>
+            <p class="font-normal w-[60px] mr-[13px]  text-end">平&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;台&nbsp;4</p>
             <SelectBox placeholder="选择平台"  :groups="platforms" :group="check.platforms[3].id" class="w-[100px] h-[31px] "  @onchange="(value)=>{check.platforms[3].id=value}"/>
           </div>
           <div class="flex flex-row items-center">
             <p class="font-normal w-[60px] mr-[13px] text-end">平台账号</p>
-            <input type="text" v-model="check.platforms[3].pivot.name" class="w-[100px] text-center border-[1px]  py-1 text-black text-[14px]  focus:outline-none" placeholder="输入年龄" autocomplete="off">
+            <input type="text" v-model="check.platforms[3].pivot.name" class="w-[100px] text-center border-[1px]  py-1 text-black text-[14px]  focus:outline-none" placeholder="输入平台4账号" autocomplete="off">
           </div>
         </div>
 
@@ -132,7 +132,7 @@
             <input type="file" accept="image/*" style="display:none" ref="imageInput" @change="uploadImage">
           </div>
         </div>
-        <button @click="saveCheck" class="absolute bottom-[36px] left-0 w-full py-[10px] bg-[#0B88F9] text-white font-black text-[16px]">
+        <button @click="saveCheck" class="w-full py-[10px] bg-[#0B88F9] text-white font-black text-[16px] mt-[100px] mb-[50px]">
           提&nbsp;&nbsp;&nbsp;&nbsp;交
         </button>
       </div>
@@ -271,17 +271,15 @@ export default defineComponent({
       this.checkEdit();
     },
     createValidation(){
-        for(let i=0;i<4;i++){
-          if(this.check.platforms[i].id==''){
-              this.message='平台是必需的';
-              return false;
-          }
-          else if(this.check.platforms[i].pivot.name==''){
-            this.message='平台账号';
-              return false;
-          }
+        if(this.check.platforms[0].id==''){
+            this.message='平台是必需的';
+            return false;
         }
-        if(this.check.added_date==''){
+        else if(this.check.platforms[0].pivot.name==''){
+          this.message='平台账号';
+            return false;
+        }
+        else if(this.check.added_date==''){
           this.message='新增日期是必需的';
             return false;
         }
@@ -312,9 +310,10 @@ export default defineComponent({
         this.showDialog();
         return;
       }
+      let filteredPlatforms = this.check.platforms.filter(platform => platform.id !== '' || platform.pivot.name !== '');
       try{
         const response=await axios.post(`/editcheck/${this.check.id}`, {
-            platforms:this.check.platforms,
+            platforms:filteredPlatforms,
             added_date:this.check.added_date,
             group_id:this.getUser.group_id,
             sale_man:this.getUser.name,

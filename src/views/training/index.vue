@@ -86,6 +86,7 @@
             </p>
           </div>
         </div>
+        <Pagination  v-if="totalPage" :index="index" :currentPage="currentPage" :totalItems="totalPage"  @onClick="changepage" @onchangePage="onchangePage"/>
       </div>
     </div>
 
@@ -120,6 +121,7 @@
 import { defineComponent } from 'vue'
 import { BIconChevronLeft,BIconChatDots, BIconEye } from 'bootstrap-icons-vue';
 const VITE_BACKEND_URL = import.meta.env.VITE_IMAGE_URL;
+import Pagination from '@/components/Pagination.vue'
 import axios from 'axios'
 import moment from 'moment'
 
@@ -128,7 +130,8 @@ export default defineComponent({
   components: {
     BIconChatDots,
     BIconChevronLeft,
-    BIconEye
+      BIconEye,
+      Pagination
   },
   data: () => ({
     comment:'',
@@ -138,8 +141,12 @@ export default defineComponent({
     trainings:[],
     selected:[0,0],
     detail:false,
+    group_id:null,
     iscomment:false,
     subdetail:false,
+    currentPage:1,
+    totalPage:null,
+    index:5,
   }),
   mounted() {
     this.getTrainingGroup();
@@ -167,10 +174,10 @@ export default defineComponent({
     },
     async getTrainings(group_id) {
       try {
-        this.trainings=[];
-        const response = await axios.get(`/trainings/${group_id}`);
+        const response = await axios.get(`/trainings/${group_id}?page=${this.currentPage}&count=${this.index}`);
         if(response.data.status==1){
-          this.trainings = response.data.trainings;
+          this.trainings = response.data.trainings.data;
+          this.totalPage=response.data.trainings.total;
         }
       }
       catch (error) {
@@ -199,6 +206,7 @@ export default defineComponent({
     },
     godetail(group_id){
       this.detail=true;
+      this.group_id=group_id;
       this.getTrainings(group_id);
     },
     goSubDetail(id){
@@ -254,6 +262,14 @@ export default defineComponent({
       }finally{
         this.comment='';
       };
+    },
+    changepage(value){
+      this.currentPage=value;
+      this.getTrainings(this.group_id);
+    },
+    onchangePage(value){
+        this.index=value;
+        this.changepage(1);
     },
     showDialog(){
         layer.config({

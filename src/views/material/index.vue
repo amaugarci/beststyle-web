@@ -45,6 +45,7 @@
             </div>
           </div>
          </div>
+         <Pagination  v-if="totalPage" :index="index" :currentPage="currentPage" :totalItems="totalPage"  @onClick="changepage" @onchangePage="onchangePage"/>
       </div>
     </div>
   </div>
@@ -70,6 +71,7 @@
 
 import { defineComponent } from 'vue'
 import { BIconChevronLeft,BIconX } from 'bootstrap-icons-vue';
+import Pagination from '@/components/Pagination.vue'
 import axios from 'axios'
 import moment from 'moment'
 const VITE_BACKEND_URL = import.meta.env.VITE_IMAGE_URL;
@@ -77,7 +79,8 @@ export default defineComponent({
   name: 'material',
   components: {
     BIconChevronLeft,
-    BIconX
+    BIconX,
+    Pagination
   },
   data: () => ({
     VITE_BACKEND_URL,
@@ -87,6 +90,10 @@ export default defineComponent({
     selected:[0,0],
     detail:false,
     materials:null,
+    currentPage:1,
+    totalPage:null,
+    index:2,
+    group_id:null,
   }),
   mounted() {
     this.getCheckMaterial();
@@ -131,18 +138,20 @@ export default defineComponent({
     },
     goBack(){
       this.materials=null;
-      this.detail=false;
+      this.detail=false;  
     },
     godetail(id){
+      this.group_id=id;
       this.getMaterials(id);
       this.detail=true;
     },
     async getMaterials(group_id) {
       try {
         this.trainings=[];
-        const response = await axios.get(`/materials/${group_id}`);
+        const response = await axios.get(`/materials/${group_id}?page=${this.currentPage}&count=${this.index}`);
         if(response.data.status==1){
-          this.materials = response.data.materials;
+          this.materials = response.data.materials.data;
+          this.totalPage=response.data.materials.total;
         }
       }
       catch (error) {
@@ -169,7 +178,15 @@ export default defineComponent({
         link.click();
         link.remove();
       });
-    }
+    },
+    changepage(value){
+      this.currentPage=value;
+      this.getMaterials(this.group_id);
+    },
+    onchangePage(value){
+        this.index=value;
+        this.changepage(1);
+    },
   }
 })
 </script>

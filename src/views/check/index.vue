@@ -1,14 +1,17 @@
 <template>
    <div v-if="platforms.length" class="absolute top-[128px] bottom-0 right-0 left-0 text-[14px] bg-[#F3F9FF]">
     <div class="pl-[20px] flex w-full overflow-x-scroll gap-[40px] items-center  bg-white h-[40px]" :class="{'border-b-[2px]':isadd}">
+      <button @click="()=>{selectAll()}" class="px-[5px] shrink-0 py-[3px] rounded-full text-[13px]" :class="{'text-[#0B88F9]':selected==-1}">
+        全部
+      </button>
       <button @click="()=>{selectOne(index)}" v-for="(item, index) in platforms" class="px-[5px] shrink-0 py-[3px] rounded-full text-[13px]" :class="{'text-[#0B88F9]':selected==index}">
         {{ item.name }}
       </button>
     </div>
     <div v-if="!isadd" class="px-[5px] flex w-full justify-between items-center  bg-white h-[60px] text-[14px]">
         <!-- <SelectBox placeholder="选择平台"  :groups="platforms" :group="search.platform_id" class="w-[100px] h-[31px] "  @onchange="(value)=>{search.platform_id=value}"/> -->
-          <input type="text" v-model="search.client_name" class="w-[120px] text-center border-[1px] py-1 text-black text-[14px]  focus:outline-none" placeholder="输入客户姓名" autocomplete="off">
-          <input type="text" v-model="search.platform_nickname" class="w-[120px] text-center border-[1px] py-1 text-black text-[14px]  focus:outline-none" placeholder="输入平台账号" autocomplete="off">
+          <input type="text" v-model="search.client_name" class="w-[100px] text-center border-[1px] py-1 text-black text-[14px]  focus:outline-none" placeholder="输入客户姓名" autocomplete="off">
+          <input type="text" v-model="search.platform_nickname" class="w-[100px] text-center border-[1px] py-1 text-black text-[14px]  focus:outline-none" placeholder="输入平台账号" autocomplete="off">
           <button @click="goSearch" class="bg-gradient-to-r from-blue-700 to-blue-400 px-[20px] py-[3px] rounded-full text-white text-[13px]">
             搜索
           </button>
@@ -91,6 +94,12 @@
               <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ check.platforms[3].pivot.name }}</p>
             </div>
           </div>
+          <div class="flex flex-row mb-[7px] gap-2">
+            <p class="text-[14px] font-normal text-[#101010]">发布人:</p>
+            <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ getUser.department_name }},</p>
+            <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ getUser.group_name }},</p>
+            <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ getUser.realname }}</p>
+          </div>
           <div class="flex justify-end">
             <button :class="{'hidden':getUser.id!=check.user_id}" @click="()=>{showdialog=true}"  class="px-[10px] shrink-0 py-[3px] rounded-full text-[13px] bg-gradient-to-r from-blue-700 to-blue-400">
               添加
@@ -145,42 +154,42 @@
 
         <div class="flex flex-row text-[14px] mb-[3px] justify-between">
           <div class="mt-[10px] flex flex-row items-center ">
-            <p class="font-normal w-[60px] mr-[13px]  text-end">平&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;台</p>
+            <p class="font-normal w-[60px] mr-[13px]  text-end">平&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;台&nbsp;1</p>
             <SelectBox placeholder="选择平台"  :groups="platforms" :group="newCheck.platforms[0].platform_id" class="w-[100px] h-[31px] "  @onchange="(value)=>{newCheck.platforms[0].platform_id=value}"/>
           </div>
           <div class="flex flex-row items-center">
             <p class="font-normal w-[60px] mr-[13px] text-end">平台账号</p>
-            <input type="text" v-model="newCheck.platforms[0].client_nickanme" class="w-[100px] text-center border-[1px]  py-1 text-black text-[14px]  focus:outline-none" placeholder="输入年龄" autocomplete="off">
+            <input type="text" v-model="newCheck.platforms[0].client_nickanme" class="w-[100px] text-center border-[1px]  py-1 text-black text-[14px]  focus:outline-none" placeholder="输入平台1账号" autocomplete="off">
           </div>
         </div>
         <div class="flex flex-row text-[14px] mb-[3px] justify-between">
           <div class="mt-[10px] flex flex-row items-center ">
-            <p class="font-normal w-[60px] mr-[13px]  text-end">平&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;台</p>
+            <p class="font-normal w-[60px] mr-[13px]  text-end">平&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;台&nbsp;2</p>
             <SelectBox placeholder="选择平台"  :groups="platforms" :group="newCheck.platforms[1].platform_id" class="w-[100px] h-[31px] "  @onchange="(value)=>{newCheck.platforms[1].platform_id=value}"/>
           </div>
           <div class="flex flex-row items-center">
             <p class="font-normal w-[60px] mr-[13px] text-end">平台账号</p>
-            <input type="text" v-model="newCheck.platforms[1].client_nickanme" class="w-[100px] text-center border-[1px]  py-1 text-black text-[14px]  focus:outline-none" placeholder="输入年龄" autocomplete="off">
+            <input type="text" v-model="newCheck.platforms[1].client_nickanme" class="w-[100px] text-center border-[1px]  py-1 text-black text-[14px]  focus:outline-none" placeholder="输入平台2账号" autocomplete="off">
           </div>
         </div>
         <div class="flex flex-row text-[14px] mb-[3px] justify-between">
           <div class="mt-[10px] flex flex-row items-center ">
-            <p class="font-normal w-[60px] mr-[13px]  text-end">平&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;台</p>
+            <p class="font-normal w-[60px] mr-[13px]  text-end">平&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;台&nbsp;3</p>
             <SelectBox placeholder="选择平台"  :groups="platforms" :group="newCheck.platforms[2].platform_id" class="w-[100px] h-[31px] "  @onchange="(value)=>{newCheck.platforms[2].platform_id=value}"/>
           </div>
           <div class="flex flex-row items-center">
             <p class="font-normal w-[60px] mr-[13px] text-end">平台账号</p>
-            <input type="text" v-model="newCheck.platforms[2].client_nickanme" class="w-[100px] text-center border-[1px]  py-1 text-black text-[14px]  focus:outline-none" placeholder="输入年龄" autocomplete="off">
+            <input type="text" v-model="newCheck.platforms[2].client_nickanme" class="w-[100px] text-center border-[1px]  py-1 text-black text-[14px]  focus:outline-none" placeholder="输入平台3账号" autocomplete="off">
           </div>
         </div>
         <div class="flex flex-row text-[14px] mb-[13px] justify-between">
           <div class="mt-[10px] flex flex-row items-center ">
-            <p class="font-normal w-[60px] mr-[13px]  text-end">平&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;台</p>
+            <p class="font-normal w-[60px] mr-[13px]  text-end">平&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;台&nbsp;4</p>
             <SelectBox placeholder="选择平台"  :groups="platforms" :group="newCheck.platforms[3].platform_id" class="w-[100px] h-[31px] "  @onchange="(value)=>{newCheck.platforms[3].platform_id=value}"/>
           </div>
           <div class="flex flex-row items-center">
             <p class="font-normal w-[60px] mr-[13px] text-end">平台账号</p>
-            <input type="text" v-model="newCheck.platforms[3].client_nickanme" class="w-[100px] text-center border-[1px]  py-1 text-black text-[14px]  focus:outline-none" placeholder="输入年龄" autocomplete="off">
+            <input type="text" v-model="newCheck.platforms[3].client_nickanme" class="w-[100px] text-center border-[1px]  py-1 text-black text-[14px]  focus:outline-none" placeholder="输入平台4账号" autocomplete="off">
           </div>
         </div>
 
@@ -279,14 +288,56 @@
           提&nbsp;&nbsp;&nbsp;&nbsp;交
         </button>
       </div>
-      <div v-else-if="platforms[selected]&&platforms[selected].check" v-for="(item, index) in issearch?checks:platforms[selected].check" :key="item.id" class="w-full relative bg-white px-[16px] py-[6px] mt-[15px]">
+      <template v-else-if="isAll" >
+        <div  v-for="(item, index) in allChecks" :key="item.id+'.'"    class="w-full relative bg-white px-[16px] py-[6px] mt-[15px]">
+           <div class="flex flex-row mb-[7px]">
+              <p class="text-[14px]  text-[#101010]">客户状态:</p>
+              <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.client_status.name }}</p>
+            </div>
+            <div v-if="item.platforms.length>0" class="flex flex-row mb-[7px]">
+              <p class="text-[14px] font-normal text-[#101010]">昵称:</p>
+              <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.platforms[0].pivot.name }}</p>
+            </div>
+            <div class="flex flex-row mb-[7px]">
+              <p class="text-[14px] font-normal text-[#101010]">姓名:</p>
+              <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.client_name }}</p>
+            </div>
+            <div class="flex flex-row mb-[7px]">
+              <p class="text-[14px] font-normal text-[#101010]">年龄:</p>
+              <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.client_age }}</p>
+            </div>
+            <!-- <div class="flex flex-row mb-[7px]">
+              <p class="text-[14px] font-normal text-[#101010]">职业描述:</p>
+              <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.job }}</p>
+            </div> -->
+            <div class="flex flex-row mb-[7px]">
+              <p class="text-[14px] font-normal text-[#101010]">添加日期:</p>
+              <p class="text-[14px] font-normal text-[#101010] ml-[2px]">
+                {{moment().utc(new Date(item.created_at)).local().format("yyyy-MM-DD") }}  
+              </p>
+            </div>
+            <div class="absolute top-[17px] right-[14px]">
+              <div class="flex flex-row">
+                <p class="mt-[16px] mr-[2px] text-[14px] font-normal text-[#101010]">头像:</p>
+                <img :src="VITE_BACKEND_URL+item.photo" class="w-[88px] h-[91px] rounded-[8px]"> 
+              </div>
+              <div class="flex flex-row items-center justify-end mt-[20px] ml-[30px] text-[#969696]">
+                  <p @click="()=>godDetail(item.id)" class="leading-4 font-normal cursor-pointer">查看更多</p>
+                  <BIconChevronRight @click="()=>godDetail(item.id)"  class="text-[15px] cursor-pointer"/>
+              </div>
+            </div>
+        </div>
+        <Pagination  v-if="totalPages" :index="index" :currentPage="currentPage" :totalItems="totalPages"  @onClick="changepage" @onchangePage="onchangePage"/>
+      </template>
+      <template v-else-if="platforms[selected]">    
+        <div   v-for="(item, index) in checks" :key="item.id"  class="w-full relative bg-white px-[16px] py-[6px] mt-[15px]">
           <div class="flex flex-row mb-[7px]">
             <p class="text-[14px]  text-[#101010]">客户状态:</p>
             <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.client_status.name }}</p>
           </div>
           <div class="flex flex-row mb-[7px]">
             <p class="text-[14px] font-normal text-[#101010]">昵称:</p>
-            <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.pivot.name }}</p>
+            <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.platforms[0].pivot.name }}</p>
           </div>
           <div class="flex flex-row mb-[7px]">
             <p class="text-[14px] font-normal text-[#101010]">姓名:</p>
@@ -307,16 +358,18 @@
             </p>
           </div>
           <div class="absolute top-[17px] right-[14px]">
-             <div class="flex flex-row">
+            <div class="flex flex-row">
               <p class="mt-[16px] mr-[2px] text-[14px] font-normal text-[#101010]">头像:</p>
               <img :src="VITE_BACKEND_URL+item.photo" class="w-[88px] h-[91px] rounded-[8px]"> 
-             </div>
-             <div class="flex flex-row items-center justify-end mt-[20px] ml-[30px] text-[#969696]">
-                 <p @click="()=>godDetail(item.id)" class="leading-4 font-normal cursor-pointer">查看更多</p>
-                 <BIconChevronRight @click="()=>godDetail(item.id)"  class="text-[15px] cursor-pointer"/>
-             </div>
+            </div>
+            <div class="flex flex-row items-center justify-end mt-[20px] ml-[30px] text-[#969696]">
+                <p @click="()=>godDetail(item.id)" class="leading-4 font-normal cursor-pointer">查看更多</p>
+                <BIconChevronRight @click="()=>godDetail(item.id)"  class="text-[15px] cursor-pointer"/>
+            </div>
           </div>
-       </div>
+        </div>
+        <Pagination  v-if="totalPage" :index="index" :currentPage="currentPage" :totalItems="totalPage"  @onClick="changepages" @onchangePage="onchangePages"/>
+      </template>
     </div>
    </div>
    <div ref="dialog"  class="fixed first-line: z-[99991] top-0 right-0 left-0 bottom-0 bg-[#010101] opacity-75" v-if="showdialog">
@@ -365,6 +418,7 @@ import { BIconPlus,BIconSearch,BIconSearchHeart, BIconChevronRight,BIconTrash,BI
 import SelectBox from '@/components/SelectBox.vue'
 import { useAuthStore } from '@/pinia/modules/useAuthStore';
 import { mapState, mapActions } from 'pinia'
+import Pagination from '@/components/Pagination.vue'
 import axios from 'axios'
 import moment from 'moment'
 const VITE_BACKEND_URL = import.meta.env.VITE_IMAGE_URL;
@@ -380,7 +434,8 @@ export default defineComponent({
     BIconChevronRight,
     BIconTrash,
     BIconChatDots,
-    BIconEye
+    BIconEye,
+    Pagination
   },
   data: () => ({
     sexes:[
@@ -393,7 +448,9 @@ export default defineComponent({
         name:'女'
       },
     ],
+    allChecks:[],
     issearch:false,
+    isAll:true,
     VITE_BACKEND_URL,
     platforms:[],
     departments:[],
@@ -401,7 +458,7 @@ export default defineComponent({
     checks:[],
     check:null,
     showdialog:false,
-    selected:0,
+    selected:-1,
     isadd:false,
     images:[],
     comment:'',
@@ -438,7 +495,11 @@ export default defineComponent({
         photo:null,
         comment:'',
         images:[]
-    }
+    },
+    currentPage:1,
+    totalPage:null,
+    totalPages:null,
+    index:5,
   }),
   computed: {
       ...mapState(useAuthStore, ['getUser']),
@@ -461,10 +522,11 @@ export default defineComponent({
     },
     async getChecks() {
       try {
-        this.checks=[];
-        const response = await axios.get(`/searchchecks/?name=${this.search.client_name}&nick=${this.search.platform_nickname}&platform=${this.platforms[this.selected].id}`);
+        // this.checks=[];
+        const response = await axios.get(`/searchchecks/?page=${this.currentPage}&count=${this.index}&name=${this.search.client_name}&nick=${this.search.platform_nickname}&platform=${this.platforms[this.selected].id}`);
         if(response.data.status==1){
-          this.checks = response.data.checks;
+          this.checks = response.data.checks.data;
+          this.totalPage=response.data.checks.total;
         }
       }
       catch (error) {
@@ -474,11 +536,13 @@ export default defineComponent({
     async getCheckGroup() {
       try {
         this.traininggroups=[];
-        const response = await axios.get(`/checklist`);
+        const response = await axios.get(`/checklist?page=${this.currentPage}&count=${this.index}`);
         if(response.data.status==1){
           this.departments = response.data.departments;
           this.platforms = response.data.platforms;
           this.statuses = response.data.statuses;
+          this.allChecks= response.data.check.data;
+          this.totalPages=response.data.check.total;
         }
       }
       catch (error) {
@@ -577,8 +641,19 @@ export default defineComponent({
       };
     },
     selectOne(index){
+      this.isAll=false;
       this.issearch=false;
       this.selected=index;
+      this.isadd=false;
+      this.isdetail=null;
+      this.currentPage=1;
+      this.getChecks();
+    },
+    
+    selectAll(){
+      this.isAll=true;
+      this.issearch=false;
+      this.selected=-1;
       this.isadd=false;
       this.isdetail=null;
     },
@@ -591,17 +666,15 @@ export default defineComponent({
       // this.isadd=false;
     },
     createValidation(){
-        for(let i=0;i<4;i++){
-          if(this.newCheck.platforms[i].platform_id==''){
-              this.message='平台是必需的';
-              return false;
-          }
-          else if(this.newCheck.platforms[i].client_nickanme==''){
-            this.message='平台账号';
-              return false;
-          }
+        if(this.newCheck.platforms[0].platform_id==''){
+            this.message='平台是必需的';
+            return false;
         }
-        if(this.newCheck.added_date==''){
+        else if(this.newCheck.platforms[0].client_nickanme==''){
+          this.message='平台账号';
+            return false;
+        }
+        else if(this.newCheck.added_date==''){
           this.message='新增日期是必需的';
             return false;
         }
@@ -640,9 +713,10 @@ export default defineComponent({
         this.showDialog();
         return;
       }
+      let filteredPlatforms = this.newCheck.platforms.filter(platform => platform.platform_id !== '' || platform.client_nickanme  !== '');
       try{
         const response=await axios.post('/createcheck', {
-            platforms:this.newCheck.platforms,
+            platforms:filteredPlatforms,
             added_date:this.newCheck.added_date,
             group_id:this.getUser.group_id,
             sale_man:this.getUser.name,
@@ -663,14 +737,30 @@ export default defineComponent({
           this.isadd=false;
           this.getCheckGroup();
           this.newCheck={
-            platform_id:'',
+              platforms:[
+            {
+              platform_id:'',
+              client_nickanme:'',
+            },
+            {
+              platform_id:'',
+              client_nickanme:'',
+            },
+            {
+              platform_id:'',
+              client_nickanme:'',
+            },
+            {
+              platform_id:'',
+              client_nickanme:'',
+            }
+          ],
             added_date:'',
             client_status:'',
             client_name:'',
             client_sex:'',
             client_age:'',
             photo:null,
-            client_nickanme:'',
             comment:'',
             images:[]
           }
@@ -700,7 +790,7 @@ export default defineComponent({
             images:this.images,
         });
         if(response.status==422){
-            this.message='请输评论';
+            this.message='输评论';
             this.showDialog();
         }
         else if(response.status==200&&response.data.status==1){
@@ -709,7 +799,7 @@ export default defineComponent({
           this.showSucss();
         }
         else{
-            this.message='请输评论';
+            this.message='输评论';
             this.showDialog();
         }
       }catch(error) {
@@ -718,6 +808,22 @@ export default defineComponent({
       }finally{
         this.comment='';
       };
+    },
+    changepage(value){
+      this.currentPage=value;
+      this.getCheckGroup();
+    },
+    changepages(value){
+      this.currentPage=value;
+      this.getChecks();
+    },
+    onchangePages(value){
+        this.index=value;
+        this.changepages(1);
+    },
+    onchangePage(value){
+        this.index=value;
+        this.changepage(1);
     },
     showDialog(){
         layer.config({

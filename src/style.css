@@ -11,6 +11,14 @@ body *::-webkit-scrollbar{
   display: none;
 }
 
+.pagination-bg {
+  background-color:#F2F2F2
+}
+.pagination-active-bg {
+  background-color: #3894FF
+}
+
+
 option{
   color: #000;
 }

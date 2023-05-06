@@ -6,6 +6,8 @@ import {i18n} from '@/i18n'
 import axios from 'axios';
 import pinia from './pinia'
 import { layer } from 'vue3-layer';
+import VueAwesomePaginate from "vue-awesome-paginate";
+import "vue-awesome-paginate/dist/style.css";
 import { VueEditor, Quill } from 'vue3-editor'
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
@@ -18,5 +20,6 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 const app = createApp(App)
 app.use(router)
    .use(i18n)
+   .use(VueAwesomePaginate)
    .use(pinia)
    .mount('#app')
