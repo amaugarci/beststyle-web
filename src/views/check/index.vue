@@ -56,7 +56,7 @@
           </div>
           <div v-if="check.platforms[0]" class="flex justify-between items-center mr-[100px]">
             <div class="flex flex-row mb-[7px]">
-              <p class="text-[14px] font-normal text-[#101010]">平台:</p>
+              <p class="text-[14px] font-normal text-[#101010]">平台1:</p>
               <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ check.platforms[0].name }}</p>
             </div>
             <div class="flex flex-row mb-[7px]">
@@ -66,7 +66,7 @@
           </div>
           <div v-if="check.platforms[1]" class="flex justify-between items-center mr-[100px]">
             <div class="flex flex-row mb-[7px]">
-              <p class="text-[14px] font-normal text-[#101010]">平台:</p>
+              <p class="text-[14px] font-normal text-[#101010]">平台2:</p>
               <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ check.platforms[1].name }}</p>
             </div>
             <div class="flex flex-row mb-[7px]">
@@ -76,7 +76,7 @@
           </div>
           <div v-if="check.platforms[2]" class="flex justify-between items-center mr-[100px]">
             <div class="flex flex-row mb-[7px]">
-              <p class="text-[14px] font-normal text-[#101010]">平台:</p>
+              <p class="text-[14px] font-normal text-[#101010]">平台3:</p>
               <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ check.platforms[2].name }}</p>
             </div>
             <div class="flex flex-row mb-[7px]">
@@ -86,7 +86,7 @@
           </div>
           <div v-if="check.platforms[3]" class="flex justify-between items-center mr-[100px]">
             <div class="flex flex-row mb-[7px]">
-              <p class="text-[14px] font-normal text-[#101010]">平台:</p>
+              <p class="text-[14px] font-normal text-[#101010]">平台4:</p>
               <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ check.platforms[3].name }}</p>
             </div>
             <div class="flex flex-row mb-[7px]">
@@ -294,10 +294,50 @@
               <p class="text-[14px]  text-[#101010]">客户状态:</p>
               <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.client_status.name }}</p>
             </div>
-            <div v-if="item.platforms.length>0" class="flex flex-row mb-[7px]">
-              <p class="text-[14px] font-normal text-[#101010]">昵称:</p>
+            <div v-if="item.platforms[0]" class="flex justify-between items-center mr-[150px]">
+            <div class="flex flex-row mb-[7px]">
+              <p class="text-[14px] font-normal text-[#101010]">平台1:</p>
+              <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.platforms[0].name }}</p>
+            </div>
+            <div class="flex flex-row mb-[7px]">
+              <p class="text-[14px] font-normal text-[#101010]">微信号：</p>
               <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.platforms[0].pivot.name }}</p>
             </div>
+          </div>
+          <div v-if="item.platforms[1]" class="flex justify-between items-center mr-[150px]">
+            <div class="flex flex-row mb-[7px]">
+              <p class="text-[14px] font-normal text-[#101010]">平台2:</p>
+              <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.platforms[1].name }}</p>
+            </div>
+            <div class="flex flex-row mb-[7px]">
+              <p class="text-[14px] font-normal text-[#101010]">微信号：</p>
+              <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.platforms[1].pivot.name }}</p>
+            </div>
+          </div>
+          <div v-if="item.platforms[2]" class="flex justify-between items-center mr-[150px]">
+            <div class="flex flex-row mb-[7px]">
+              <p class="text-[14px] font-normal text-[#101010]">平台3:</p>
+              <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.platforms[2].name }}</p>
+            </div>
+            <div class="flex flex-row mb-[7px]">
+              <p class="text-[14px] font-normal text-[#101010]">微信号：</p>
+              <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.platforms[2].pivot.name }}</p>
+            </div>
+          </div>
+          <div v-if="item.platforms[3]" class="flex justify-between items-center mr-[150px]">
+            <div class="flex flex-row mb-[7px]">
+              <p class="text-[14px] font-normal text-[#101010]">平台4:</p>
+              <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.platforms[3].name }}</p>
+            </div>
+            <div class="flex flex-row mb-[7px]">
+              <p class="text-[14px] font-normal text-[#101010]">微信号：</p>
+              <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.platforms[3].pivot.name }}</p>
+            </div>
+          </div>
+            <!-- <div v-if="item.platforms.length>0" class="flex flex-row mb-[7px]">
+              <p class="text-[14px] font-normal text-[#101010]">昵称:</p>
+              <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.platforms[0].pivot.name }}</p>
+            </div> -->
             <div class="flex flex-row mb-[7px]">
               <p class="text-[14px] font-normal text-[#101010]">姓名:</p>
               <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.client_name }}</p>
@@ -335,10 +375,50 @@
             <p class="text-[14px]  text-[#101010]">客户状态:</p>
             <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.client_status.name }}</p>
           </div>
-          <div class="flex flex-row mb-[7px]">
+          <div v-if="item.platforms[0]" class="flex justify-between items-center mr-[150px]">
+            <div class="flex flex-row mb-[7px]">
+              <p class="text-[14px] font-normal text-[#101010]">平台1:</p>
+              <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.platforms[0].name }}</p>
+            </div>
+            <div class="flex flex-row mb-[7px]">
+              <p class="text-[14px] font-normal text-[#101010]">微信号：</p>
+              <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.platforms[0].pivot.name }}</p>
+            </div>
+          </div>
+          <div v-if="item.platforms[1]" class="flex justify-between items-center mr-[150px]">
+            <div class="flex flex-row mb-[7px]">
+              <p class="text-[14px] font-normal text-[#101010]">平台2:</p>
+              <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.platforms[1].name }}</p>
+            </div>
+            <div class="flex flex-row mb-[7px]">
+              <p class="text-[14px] font-normal text-[#101010]">微信号：</p>
+              <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.platforms[1].pivot.name }}</p>
+            </div>
+          </div>
+          <div v-if="item.platforms[2]" class="flex justify-between items-center mr-[150px]">
+            <div class="flex flex-row mb-[7px]">
+              <p class="text-[14px] font-normal text-[#101010]">平台3:</p>
+              <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.platforms[2].name }}</p>
+            </div>
+            <div class="flex flex-row mb-[7px]">
+              <p class="text-[14px] font-normal text-[#101010]">微信号：</p>
+              <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.platforms[2].pivot.name }}</p>
+            </div>
+          </div>
+          <div v-if="item.platforms[3]" class="flex justify-between items-center mr-[150px]">
+            <div class="flex flex-row mb-[7px]">
+              <p class="text-[14px] font-normal text-[#101010]">平台4:</p>
+              <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.platforms[3].name }}</p>
+            </div>
+            <div class="flex flex-row mb-[7px]">
+              <p class="text-[14px] font-normal text-[#101010]">微信号：</p>
+              <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.platforms[3].pivot.name }}</p>
+            </div>
+          </div>
+          <!-- <div class="flex flex-row mb-[7px]">
             <p class="text-[14px] font-normal text-[#101010]">昵称:</p>
             <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.platforms[0].pivot.name }}</p>
-          </div>
+          </div> -->
           <div class="flex flex-row mb-[7px]">
             <p class="text-[14px] font-normal text-[#101010]">姓名:</p>
             <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.client_name }}</p>
