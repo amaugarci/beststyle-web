@@ -163,10 +163,9 @@ export default defineComponent({
     async getCharacter(id) {
       try {
         this.character=null;
-        const response = await axios.get(`/character/${id}?page=${this.currentPage}&count=${this.index}`);
+        const response = await axios.get(`/character/${id}`);
         if(response.data.status==1){
-          this.character = response.data.character.data;
-          this.totalPage=response.data.character.total;
+          this.character = response.data.character;
         }
       }
       catch (error) {
@@ -195,9 +194,10 @@ export default defineComponent({
     async getCharacters(group_id) {
       try {
         this.trainings=[];
-        const response = await axios.get(`/characters/${group_id}`);
+        const response = await axios.get(`/characters/${group_id}?page=${this.currentPage}&count=${this.index}`);
         if(response.data.status==1){
-          this.characters = response.data.characters;
+          this.characters = response.data.characters.data;
+          this.totalPage=response.data.characters.total;
         }
       }
       catch (error) {
@@ -234,7 +234,7 @@ export default defineComponent({
     },
     changepage(value){
       this.currentPage=value;
-      this.getTrainings(this.group_id);
+      this.getCharacters(this.group_id);
     },
     onchangePage(value){
         this.index=value;
