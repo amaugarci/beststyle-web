@@ -603,7 +603,7 @@ export default defineComponent({
     async getChecks() {
       try {
         // this.checks=[];
-        const response = await axios.get(`/searchchecks/?page=${this.currentPage}&count=${this.index}&name=${this.search.client_name}&nick=${this.search.platform_nickname}&platform=${this.platforms[this.selected].id}`);
+        const response = await axios.get(`/searchchecks/?page=${this.currentPage}&count=${this.index}&name=${this.search.client_name}&nick=${this.search.platform_nickname}&platform=${this.selected==-1?this.selected: this.platforms[this.selected].id}`);
         if(response.data.status==1){
           this.checks = response.data.checks.data;
           this.totalPage=response.data.checks.total;
