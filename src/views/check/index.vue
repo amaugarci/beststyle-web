@@ -289,12 +289,12 @@
         </button>
       </div>
       <template v-else-if="isAll" >
-        <div  v-for="(item, index) in allChecks" :key="item.id+'.'"    class="w-full relative bg-white px-[16px] py-[6px] mt-[15px]">
+        <div  v-for="(item, index) in checks" :key="item.id+'.'"    class="w-full relative bg-white px-[16px] py-[6px] mt-[15px]">
            <div class="flex flex-row mb-[7px]">
               <p class="text-[14px]  text-[#101010]">客户状态:</p>
               <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.client_status.name }}</p>
             </div>
-            <div v-if="item.platforms[0]" class="flex justify-between items-center mr-[150px]">
+            <div v-if="item.platforms[0]" class="flex justify-between items-center mr-[100px]">
             <div class="flex flex-row mb-[7px]">
               <p class="text-[14px] font-normal text-[#101010]">平台1:</p>
               <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.platforms[0].name }}</p>
@@ -304,7 +304,7 @@
               <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.platforms[0].pivot.name }}</p>
             </div>
           </div>
-          <div v-if="item.platforms[1]" class="flex justify-between items-center mr-[150px]">
+          <div v-if="item.platforms[1]" class="flex justify-between items-center mr-[100px]">
             <div class="flex flex-row mb-[7px]">
               <p class="text-[14px] font-normal text-[#101010]">平台2:</p>
               <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.platforms[1].name }}</p>
@@ -314,7 +314,7 @@
               <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.platforms[1].pivot.name }}</p>
             </div>
           </div>
-          <div v-if="item.platforms[2]" class="flex justify-between items-center mr-[150px]">
+          <div v-if="item.platforms[2]" class="flex justify-between items-center mr-[100px]">
             <div class="flex flex-row mb-[7px]">
               <p class="text-[14px] font-normal text-[#101010]">平台3:</p>
               <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.platforms[2].name }}</p>
@@ -324,7 +324,7 @@
               <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.platforms[2].pivot.name }}</p>
             </div>
           </div>
-          <div v-if="item.platforms[3]" class="flex justify-between items-center mr-[150px]">
+          <div v-if="item.platforms[3]" class="flex justify-between items-center mr-[100px]">
             <div class="flex flex-row mb-[7px]">
               <p class="text-[14px] font-normal text-[#101010]">平台4:</p>
               <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.platforms[3].name }}</p>
@@ -358,7 +358,7 @@
             </div>
             <div class="absolute top-[17px] right-[14px]">
               <div class="flex flex-row">
-                <p class="mt-[16px] mr-[2px] text-[14px] font-normal text-[#101010]">头像:</p>
+                <p class="mt-[1px] mr-[2px] text-[14px] font-normal text-[#101010]">头像:</p>
                 <img :src="VITE_BACKEND_URL+item.photo" class="w-[88px] h-[91px] rounded-[8px]"> 
               </div>
               <div class="flex flex-row items-center justify-end mt-[20px] ml-[30px] text-[#969696]">
@@ -375,7 +375,7 @@
             <p class="text-[14px]  text-[#101010]">客户状态:</p>
             <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.client_status.name }}</p>
           </div>
-          <div v-if="item.platforms[0]" class="flex justify-between items-center mr-[150px]">
+          <div v-if="item.platforms[0]" class="flex justify-between items-center mr-[100px]">
             <div class="flex flex-row mb-[7px]">
               <p class="text-[14px] font-normal text-[#101010]">平台1:</p>
               <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.platforms[0].name }}</p>
@@ -385,7 +385,7 @@
               <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.platforms[0].pivot.name }}</p>
             </div>
           </div>
-          <div v-if="item.platforms[1]" class="flex justify-between items-center mr-[150px]">
+          <div v-if="item.platforms[1]" class="flex justify-between items-center mr-[100px]">
             <div class="flex flex-row mb-[7px]">
               <p class="text-[14px] font-normal text-[#101010]">平台2:</p>
               <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.platforms[1].name }}</p>
@@ -395,7 +395,7 @@
               <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.platforms[1].pivot.name }}</p>
             </div>
           </div>
-          <div v-if="item.platforms[2]" class="flex justify-between items-center mr-[150px]">
+          <div v-if="item.platforms[2]" class="flex justify-between items-center mr-[100px]">
             <div class="flex flex-row mb-[7px]">
               <p class="text-[14px] font-normal text-[#101010]">平台3:</p>
               <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.platforms[2].name }}</p>
@@ -405,7 +405,7 @@
               <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.platforms[2].pivot.name }}</p>
             </div>
           </div>
-          <div v-if="item.platforms[3]" class="flex justify-between items-center mr-[150px]">
+          <div v-if="item.platforms[3]" class="flex justify-between items-center mr-[100px]">
             <div class="flex flex-row mb-[7px]">
               <p class="text-[14px] font-normal text-[#101010]">平台4:</p>
               <p class="text-[14px] font-normal text-[#101010] ml-[2px]">{{ item.platforms[3].name }}</p>
@@ -439,7 +439,7 @@
           </div>
           <div class="absolute top-[17px] right-[14px]">
             <div class="flex flex-row">
-              <p class="mt-[16px] mr-[2px] text-[14px] font-normal text-[#101010]">头像:</p>
+              <p class="mt-[1px] mr-[2px] text-[14px] font-normal text-[#101010]">头像:</p>
               <img :src="VITE_BACKEND_URL+item.photo" class="w-[88px] h-[91px] rounded-[8px]"> 
             </div>
             <div class="flex flex-row items-center justify-end mt-[20px] ml-[30px] text-[#969696]">
@@ -528,7 +528,6 @@ export default defineComponent({
         name:'女'
       },
     ],
-    allChecks:[],
     issearch:false,
     isAll:true,
     VITE_BACKEND_URL,
@@ -621,7 +620,7 @@ export default defineComponent({
           this.departments = response.data.departments;
           this.platforms = response.data.platforms;
           this.statuses = response.data.statuses;
-          this.allChecks= response.data.check.data;
+          this.checks= response.data.check.data;
           this.totalPages=response.data.check.total;
         }
       }
@@ -736,6 +735,8 @@ export default defineComponent({
       this.selected=-1;
       this.isadd=false;
       this.isdetail=null;
+      this.currentPage=1;
+      this.getChecks();
     },
     addCheck(){
       this.check=null;
@@ -815,7 +816,7 @@ export default defineComponent({
         else if(response.status==200&&response.data.status==1){
           this.showSucss();
           this.isadd=false;
-          this.getCheckGroup();
+          this.getChecks();
           this.newCheck={
               platforms:[
             {
@@ -891,7 +892,7 @@ export default defineComponent({
     },
     changepage(value){
       this.currentPage=value;
-      this.getCheckGroup();
+      this.getChecks();
     },
     changepages(value){
       this.currentPage=value;
