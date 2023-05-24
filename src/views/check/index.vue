@@ -845,6 +845,9 @@ export default defineComponent({
             comment:'',
             images:[]
           }
+        }else if(response.status==200&&response.data.status==2){
+          this.message='平台ID已经存在';
+          this.showDialog();
         }
       }catch(error) {
           this.message='网络错误';
