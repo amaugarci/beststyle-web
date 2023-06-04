@@ -8,6 +8,7 @@ pipeline {
             steps {
                 // 
                 //git branch: "${bbranch}",credentialsId: '007', url: 'git@github.com:Ares90125/beststyle-web.git'
+                git branch
                 echo "${bbranch}";
                 echo Branch;
                 // def check_groovy_file="./Jenkinsfile2";
